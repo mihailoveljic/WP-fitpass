@@ -1,24 +1,30 @@
 package beans.models;
 
-public class WorkingHours {
-	private double id;
+import java.io.Serializable;
+
+public class WorkingHours implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7032291776794838389L;
+	private long id;
 	private int fromThe;
 	private int toThe;
 	
 	public WorkingHours() {}
 
-	public WorkingHours(double id, int fromThe, int toThe) {
+	public WorkingHours(long id, int fromThe, int toThe) {
 		super();
 		this.id = id;
 		this.fromThe = fromThe;
 		this.toThe = toThe;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

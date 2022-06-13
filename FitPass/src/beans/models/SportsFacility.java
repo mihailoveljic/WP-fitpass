@@ -3,12 +3,17 @@ package beans.models;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class SportsFacility {
-	private double id;
+public class SportsFacility implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6725392041839697593L;
+	private long id;
 	private String name;
 	private SportsFacilityType sportsFacilityType;
 	private ArrayList<ContentOfTheFacility> contentsOfTheFacility;
@@ -20,7 +25,7 @@ public class SportsFacility {
 	
 	public SportsFacility() {}
 
-	public SportsFacility(double id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
+	public SportsFacility(long id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
 			boolean openStatus, Location location, double averageRating,
 			WorkingHours workingHours) throws IOException {
 		super();
@@ -35,11 +40,11 @@ public class SportsFacility {
 		this.id = id;
 	}
 	
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {

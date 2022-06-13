@@ -1,6 +1,12 @@
 package beans.models;
 
-public class Coach extends User {
+import java.io.Serializable;
+
+public class Coach extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4143166464460969899L;
 	private TrainingHistory trainingHistory;
 	
 	public Coach() {}

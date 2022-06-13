@@ -1,13 +1,18 @@
 package beans.models;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import beans.enums.Gender;
 import beans.enums.Role;
 
-public abstract class User {
-	private double id;
-	private String korisnickoIme;
+public abstract class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5786200437024664103L;
+	private long id;
+	private String username;
 	private String password;
 	private String name;
 	private String surname;
@@ -17,11 +22,11 @@ public abstract class User {
 	
 	public User() {}
 
-	public User(double id, String korisnickoIme, String password, String name, String surname, Gender gender, Date dateOfBirth,
+	public User(long id, String korisnickoIme, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			Role role) {
 		super();
 		this.id = id;
-		this.korisnickoIme = korisnickoIme;
+		this.username = korisnickoIme;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
@@ -30,20 +35,20 @@ public abstract class User {
 		this.role = role;
 	}
 	
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	
-	public String getKorisnickoIme() {
-		return korisnickoIme;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setKorisnickoIme(String korisnickoIme) {
-		this.korisnickoIme = korisnickoIme;
+	public void setUsername(String korisnickoIme) {
+		this.username = korisnickoIme;
 	}
 
 	public String getPassword() {

@@ -1,9 +1,14 @@
 package beans.models;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Membership {
-	private double id;
+public class Membership implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8271414579636648057L;
+	private long id;
 	private double membershipNumber;
 	private MembershipType membershipType;
 	private Date paymentDate;
@@ -15,7 +20,7 @@ public class Membership {
 	
 	public Membership() {}
 
-	public Membership(double id, double membershipNumber, MembershipType membershipType, Date paymentDate,
+	public Membership(long id, double membershipNumber, MembershipType membershipType, Date paymentDate,
 			Date expirationDate, double price, Buyer buyer, boolean active, int numberOfDailyTraining) {
 		super();
 		this.id = id;
@@ -29,11 +34,11 @@ public class Membership {
 		this.numberOfDailyTraining = numberOfDailyTraining;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

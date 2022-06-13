@@ -1,22 +1,28 @@
 package beans.models;
 
-public class ContentOfTheFacility {
-	private double id;
+import java.io.Serializable;
+
+public class ContentOfTheFacility implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2505414174882518761L;
+	private long id;
 	private String name;
 	
 	public ContentOfTheFacility() {}
 
-	public ContentOfTheFacility(double id, String name) {
+	public ContentOfTheFacility(long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

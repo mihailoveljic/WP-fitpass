@@ -1,9 +1,14 @@
 package beans.models;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class TrainingHistory {
-	private double id;
+public class TrainingHistory implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 347514008638487485L;
+	private long id;
 	private Date dateTime;
 	private Training training;
 	private Buyer buyer;
@@ -11,7 +16,7 @@ public class TrainingHistory {
 	
 	public TrainingHistory() {}
 
-	public TrainingHistory(double id, Date dateTime, Training training, Buyer buyer, Coach coach) {
+	public TrainingHistory(long id, Date dateTime, Training training, Buyer buyer, Coach coach) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
@@ -20,11 +25,11 @@ public class TrainingHistory {
 		this.coach = coach;
 	}
 	
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

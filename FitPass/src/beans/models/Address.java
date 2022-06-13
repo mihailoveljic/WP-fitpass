@@ -1,7 +1,13 @@
 package beans.models;
 
-public class Address {
-	private double id;
+import java.io.Serializable;
+
+public class Address implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6430069054174416845L;
+	private long id;
 	private String street;
 	private String number;
 	private String city;
@@ -9,7 +15,7 @@ public class Address {
 	
 	public Address() {}
 
-	public Address(double id, String street, String number, String city, int zipCode) {
+	public Address(long id, String street, String number, String city, int zipCode) {
 		super();
 		this.id = id;
 		this.street = street;
@@ -18,11 +24,11 @@ public class Address {
 		this.zipCode = zipCode;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

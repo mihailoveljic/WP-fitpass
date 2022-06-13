@@ -1,14 +1,20 @@
 package beans.models;
 
-public class Location {
-	private double id;
+import java.io.Serializable;
+
+public class Location implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4873937993433999709L;
+	private long id;
 	private double latitude;
 	private double longitude;
 	private Address address;
 	
 	public Location() {}
 
-	public Location(double id, double latitude, double longitude, Address address) {
+	public Location(long id, double latitude, double longitude, Address address) {
 		super();
 		this.id = id;
 		this.latitude = latitude;
@@ -16,11 +22,11 @@ public class Location {
 		this.address = address;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

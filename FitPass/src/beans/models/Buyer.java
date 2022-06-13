@@ -1,8 +1,14 @@
 package beans.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Buyer extends User {
+public class Buyer extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5479223749777028107L;
+	
 	private Membership membership;
 	private ArrayList<SportsFacility> visitedSportsFacilities;
 	private int numberOfCollectedPoints;

@@ -1,8 +1,13 @@
 package beans.models;
 
+import java.io.Serializable;
 
-public class Guestbook {
-	private double id;
+public class Guestbook implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 480360508148381061L;
+	private long id;
 	private Buyer buyer;
 	private SportsFacility sportsFacility;
 	private String comment;
@@ -10,7 +15,7 @@ public class Guestbook {
 	
 	public Guestbook() {}
 
-	public Guestbook(double id, Buyer buyer, SportsFacility sportsFacility, String comment, int rating) {
+	public Guestbook(long id, Buyer buyer, SportsFacility sportsFacility, String comment, int rating) {
 		super();
 		this.id = id;
 		this.buyer = buyer;
@@ -19,11 +24,11 @@ public class Guestbook {
 		this.rating = rating;
 	}
 
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

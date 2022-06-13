@@ -3,11 +3,16 @@ package beans.models;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
-public class Training {
-	private double id;
+public class Training implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7998463339413836605L;
+	private long id;
 	private String name;
 	private TrainingType trainingType;
 	private SportsFacility sportsFacility;
@@ -18,7 +23,7 @@ public class Training {
 	
 	public Training() {}
 
-	public Training(double id, String name, TrainingType trainingType, SportsFacility sportsFacility, int duration, Coach coach,
+	public Training(long id, String name, TrainingType trainingType, SportsFacility sportsFacility, int duration, Coach coach,
 			String description) throws IOException {
 		super();
 		this.id = id;
@@ -31,11 +36,11 @@ public class Training {
 		this.image = ImageIO.read(new File(name + ".png2"));
 	}
 	
-	public double getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(double id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getName() {

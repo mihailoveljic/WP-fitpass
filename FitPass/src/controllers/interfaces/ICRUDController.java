@@ -28,7 +28,7 @@ public interface ICRUDController<T> {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public T create();
+	public T create(T t);
 	
 	@PUT
 	@Path("/")

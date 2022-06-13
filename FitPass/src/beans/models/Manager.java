@@ -1,6 +1,12 @@
 package beans.models;
 
-public class Manager extends User {
+import java.io.Serializable;
+
+public class Manager extends User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6450422194171631483L;
 	private SportsFacility sportsFacility;
 	
 	public Manager (){}

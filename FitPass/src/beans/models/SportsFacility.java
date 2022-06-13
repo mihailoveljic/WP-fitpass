@@ -3,6 +3,7 @@ package beans.models;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -10,7 +11,7 @@ public class SportsFacility {
 	private double id;
 	private String name;
 	private SportsFacilityType sportsFacilityType;
-	private ContentOfTheFacility contentOfTheFacility;
+	private ArrayList<ContentOfTheFacility> contentsOfTheFacility;
 	private boolean openStatus;
 	private Location location;
 	private BufferedImage image;
@@ -19,13 +20,13 @@ public class SportsFacility {
 	
 	public SportsFacility() {}
 
-	public SportsFacility(double id ,String name, SportsFacilityType sportsFacilityType, ContentOfTheFacility contentOfTheFacility,
+	public SportsFacility(double id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
 			boolean openStatus, Location location, double averageRating,
 			WorkingHours workingHours) throws IOException {
 		super();
 		this.name = name;
 		this.sportsFacilityType = sportsFacilityType;
-		this.contentOfTheFacility = contentOfTheFacility;
+		this.contentsOfTheFacility = contentsOfTheFacility;
 		this.openStatus = openStatus;
 		this.location = location;
 		this.image = ImageIO.read(new File(name + ".png"));
@@ -57,12 +58,12 @@ public class SportsFacility {
 		this.sportsFacilityType = sportsFacilityType;
 	}
 
-	public ContentOfTheFacility getContentOfTheFacility() {
-		return contentOfTheFacility;
+	public ArrayList<ContentOfTheFacility> getContentsOfTheFacility() {
+		return contentsOfTheFacility;
 	}
 
-	public void setContentOfTheFacility(ContentOfTheFacility contentOfTheFacility) {
-		this.contentOfTheFacility = contentOfTheFacility;
+	public void setContentsOfTheFacility(ArrayList<ContentOfTheFacility> contentsOfTheFacility) {
+		this.contentsOfTheFacility = contentsOfTheFacility;
 	}
 
 	public boolean isOpenStatus() {

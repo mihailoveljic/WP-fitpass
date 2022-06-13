@@ -1,17 +1,16 @@
 package beans.models;
 
-import beans.enums.Rating;
 
 public class Guestbook {
 	private double id;
 	private Buyer buyer;
 	private SportsFacility sportsFacility;
 	private String comment;
-	private Rating rating;
+	private int rating;
 	
 	public Guestbook() {}
 
-	public Guestbook(double id, Buyer buyer, SportsFacility sportsFacility, String comment, Rating rating) {
+	public Guestbook(double id, Buyer buyer, SportsFacility sportsFacility, String comment, int rating) {
 		super();
 		this.id = id;
 		this.buyer = buyer;
@@ -52,11 +51,11 @@ public class Guestbook {
 		this.comment = comment;
 	}
 
-	public Rating getRating() {
+	public int getRating() {
 		return rating;
 	}
 
-	public void setRating(Rating rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
 	}
 }

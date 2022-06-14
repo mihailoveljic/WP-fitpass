@@ -1,9 +1,9 @@
 package repositories.interfaces;
 
-import java.util.HashMap;
+import java.util.Map;
 
 
 public interface IRepository<T> {
-	public HashMap<Long, T> load();
-	public boolean save(HashMap<Long, T> hashMap);
+	public Map<String, T> load();
+	public boolean save(Map<String, T> map);
 }

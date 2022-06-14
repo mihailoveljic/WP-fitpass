@@ -1,13 +1,13 @@
 package repositories.implementations;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import beans.models.Buyer;
 import repositories.interfaces.IRepository;
 
@@ -21,56 +21,40 @@ public class BuyerRepository implements IRepository<Buyer> {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public HashMap<Long, Buyer> load() {
+	public Map<String, Buyer> load() {
 		
-		HashMap<Long, Buyer> buyers = new HashMap<Long, Buyer>();
+		HashMap<String, Buyer> map = new HashMap<String, Buyer>();
 		
 		try {
-			
-		    FileInputStream fis = new FileInputStream(contextPath + File.separator + "buyers.txt");
-		    ObjectInputStream ois = new ObjectInputStream(fis);
-		    buyers = (HashMap<Long, Buyer>) ois.readObject();
-		    ois.close();
-		    		    
-		}
-		catch (FileNotFoundException e) {
-		    e.printStackTrace();
-		}
-		catch (IOException e) {
-		    e.printStackTrace();
-		}
-		catch (ClassNotFoundException e) {
-		    e.printStackTrace();
+		    // create object mapper instance
+		    ObjectMapper mapper = new ObjectMapper();
+
+		    // convert JSON file to map
+		    List<Buyer> buyers = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\buyers.json").toFile(), Buyer[].class));
+		    for(Buyer b : buyers){
+		    	map.put(String.valueOf(b.getId()), b);
+		    }
+		} catch (Exception ex) {
+		    ex.printStackTrace();
 		}
 
-	    return buyers;
+	    return map;
 	}
 		
 
 	@Override
-	public boolean save(HashMap<Long, Buyer> hashMap) {
-	
-		HashMap<Long, Buyer> buyers = new HashMap<Long, Buyer>();
-
+	public boolean save(Map<String, Buyer> map) {
 		try {
+		    // create object mapper instance
+		    ObjectMapper mapper = new ObjectMapper();
+		    
+		    // convert map to JSON file
+		    mapper.writeValue(Paths.get(contextPath + "data\\buyers.json").toFile(), map.values());
 
-			buyers = hashMap;
-	
-			FileOutputStream fos = new FileOutputStream(contextPath + File.separator + "buyers.txt");
-		    ObjectOutputStream oos = new ObjectOutputStream(fos);
-		    oos.writeObject(buyers);
-		    oos.close();
-		    return true;
+		} catch (Exception ex) {
+		    ex.printStackTrace();
 		}
-		catch (FileNotFoundException e) {
-		    e.printStackTrace();
-		}
-		catch (IOException e) {
-		    e.printStackTrace();
-		}
-		return false;
+		return true;
 	}
-
 }

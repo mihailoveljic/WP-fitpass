@@ -24,7 +24,6 @@ import repositories.interfaces.IRepository;
 import services.implementations.BuyerService;
 import services.interfaces.ICRUDService;
 
-@SuppressWarnings("unchecked")
 @Path("/buyers")
 public class BuyerController implements ICRUDController<Buyer> {
 
@@ -40,13 +39,13 @@ public class BuyerController implements ICRUDController<Buyer> {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("buyerService") == null) {
+		if (ctx.getAttribute("BuyerService") == null) {
 	    	String contextPath = ctx.getRealPath("");
 	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
 	    	
 	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
 	    	
-			ctx.setAttribute("buyerService", new BuyerService(buyerDAO));
+			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
 		}
 	}
 	
@@ -57,7 +56,8 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Override
 	public Collection<Buyer> getAll(){
 		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
-		return buyerService.getAll();
+		Collection<Buyer> col = buyerService.getAll();
+		return col;
 	}
 	
 	@GET
@@ -94,5 +94,4 @@ public class BuyerController implements ICRUDController<Buyer> {
 	public boolean delete(@PathParam("id") long id) {
 		return false;
 	}
-
 }

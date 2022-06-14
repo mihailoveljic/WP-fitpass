@@ -1,2 +1,5 @@
-/services/
+/beans/
 /controllers/
+/daos/
+/repositories/
+/services/

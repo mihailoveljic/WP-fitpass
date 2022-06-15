@@ -7,8 +7,8 @@ import beans.models.Manager;
 
 public interface IRegisterService {
 
-	public boolean registerBuyer(Buyer buyer);
-	public boolean registerCoach(Coach coach);
-	public boolean registerManager(Manager manager);
-	public boolean registerAdministrator(Administrator administrator);
+	public Buyer registerBuyer(Buyer buyer, ICRUDService<Buyer> service);
+	public Coach registerCoach(Coach coach, ICRUDService<Coach> service);
+	public Manager registerManager(Manager manager, ICRUDService<Manager> service);
+	public Administrator registerAdministrator(Administrator administrator, ICRUDService<Administrator> service);
 }

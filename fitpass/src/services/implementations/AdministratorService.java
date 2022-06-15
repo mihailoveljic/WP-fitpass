@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import beans.models.Administrator;
 import daos.interfaces.IDAO;
-import services.interfaces.ICRUDService;
+import services.interfaces.IAdministratorService;
 
-public class AdministratorService implements ICRUDService<Administrator> {
+public class AdministratorService implements IAdministratorService {
 
 	private IDAO<Administrator> administratorDAO;
 	
@@ -40,6 +40,17 @@ public class AdministratorService implements ICRUDService<Administrator> {
 	@Override
 	public boolean delete(long id) {
 		return administratorDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public Administrator getByUsername(String username) {
+		Collection<Administrator> administrators = administratorDAO.getAll();
+		for(Administrator a : administrators) {
+			if(a.getUsername().compareTo(username) == 0) {
+				return a;
+			}
+		}
+		return null;
 	}
 
 }

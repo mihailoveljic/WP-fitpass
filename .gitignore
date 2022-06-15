@@ -11,7 +11,6 @@ tmp/
 *.swp
 *~.nib
 local.properties
-.settings/
 .loadpath
 .recommenders
 
@@ -82,7 +81,6 @@ local.properties
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear

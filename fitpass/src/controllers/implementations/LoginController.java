@@ -1,5 +1,7 @@
 package controllers.implementations;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +28,7 @@ import services.implementations.LoginService;
 import services.interfaces.ICRUDService;
 import services.interfaces.ILoginService;
 
+@Path("/LoginController")
 public class LoginController implements ILoginController {
 	
 	@Context
@@ -75,8 +78,12 @@ public class LoginController implements ILoginController {
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
 		retVal = (User) request.getSession().getAttribute("user");
 		if (retVal == null) {
-
-			User user = LoginService.login(userLoginDTO, buyerService.getAll());
+			Collection<Buyer> buyers = buyerService.getAll();
+			Collection<User> users = new ArrayList<User>();
+			for(Buyer b: buyers) {
+				users.add(b);
+			}
+			User user = loginService.login(userLoginDTO, users);
 			request.getSession().setAttribute("user", user);
 			retVal = user;
 		}

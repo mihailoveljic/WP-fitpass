@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import beans.models.Manager;
 import daos.interfaces.IDAO;
-import services.interfaces.ICRUDService;
+import services.interfaces.IManagerService;
 
-public class ManagerService implements ICRUDService<Manager> {
+public class ManagerService implements IManagerService {
 
 	private IDAO<Manager> managerDAO;
 	
@@ -40,6 +40,17 @@ public class ManagerService implements ICRUDService<Manager> {
 	@Override
 	public boolean delete(long id) {
 		return managerDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public Manager getByUsername(String username) {
+		Collection<Manager> managers = managerDAO.getAll();
+		for(Manager m : managers) {
+			if(m.getUsername().compareTo(username) == 0) {
+				return m;
+			}
+		}
+		return null;
 	}
 
 }

@@ -24,6 +24,7 @@ import repositories.implementations.BuyerRepository;
 import repositories.interfaces.IRepository;
 import services.implementations.BuyerService;
 import services.implementations.LoginService;
+import services.interfaces.IBuyerService;
 import services.interfaces.ICRUDService;
 import services.interfaces.ILoginService;
 
@@ -73,7 +74,7 @@ public class LoginController implements ILoginController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public User login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO) {
 		User retVal = null;
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
 		retVal = (User)request.getSession().getAttribute("user");
 		if (retVal == null) {

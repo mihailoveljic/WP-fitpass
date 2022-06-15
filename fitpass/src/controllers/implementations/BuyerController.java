@@ -56,8 +56,7 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Override
 	public Collection<Buyer> getAll(){
 		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
-		Collection<Buyer> col = buyerService.getAll();
-		return col;
+		return buyerService.getAll();
 	}
 	
 	@GET
@@ -65,7 +64,8 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Buyer get(@PathParam("id") long id) {
-		return null;
+		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		return buyerService.get(id);
 	}
 	
 	@POST
@@ -84,7 +84,8 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(Buyer buyer) {
-		return false;
+		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		return buyerService.update(buyer);
 	}
 	
 	@DELETE
@@ -92,6 +93,7 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		return false;
+		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		return buyerService.delete(id);
 	}
 }

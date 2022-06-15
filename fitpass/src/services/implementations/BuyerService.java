@@ -24,7 +24,7 @@ public class BuyerService implements ICRUDService<Buyer> {
 
 	@Override
 	public Buyer get(long id) {
-		return null;
+		return buyerDAO.get(String.valueOf(id));
 	}
 
 	@Override
@@ -33,13 +33,13 @@ public class BuyerService implements ICRUDService<Buyer> {
 	}
 
 	@Override
-	public boolean update(Buyer t) {
-		return false;
+	public boolean update(Buyer buyer) {
+		return buyerDAO.update(buyer);
 	}
 
 	@Override
 	public boolean delete(long id) {
-		return false;
+		return buyerDAO.delete(String.valueOf(id));
 	}
 
 }

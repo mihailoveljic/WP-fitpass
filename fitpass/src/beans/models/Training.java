@@ -19,12 +19,12 @@ public class Training implements Serializable {
 	private int duration;
 	private Coach coach;
 	private String description;
-	private BufferedImage image;
+	private String image;
 	
 	public Training() {}
 
-	public Training(long id, String name, TrainingType trainingType, SportsFacility sportsFacility, int duration, Coach coach,
-			String description) throws IOException {
+	public Training(long id, String name, TrainingType trainingType, SportsFacility sportsFacility, int duration, Coach coach, String image,
+			String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -33,7 +33,7 @@ public class Training implements Serializable {
 		this.duration = duration;
 		this.coach = coach;
 		this.description = description;
-		this.image = ImageIO.read(new File(name + ".png2"));
+		this.image = image;
 	}
 	
 	public long getId() {
@@ -91,8 +91,11 @@ public class Training implements Serializable {
 		this.description = description;
 	}
 
-	public BufferedImage getImage() {
+	public String getImage() {
 		return image;
+	}
+	public void setImage(String image) {
+		this.image=image;
 	}
 	
 }

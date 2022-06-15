@@ -19,22 +19,22 @@ public class SportsFacility implements Serializable {
 	private ArrayList<ContentOfTheFacility> contentsOfTheFacility;
 	private boolean openStatus;
 	private Location location;
-	private BufferedImage image;
+	private String image;
 	private double averageRating;
 	private WorkingHours workingHours;
 	
 	public SportsFacility() {}
 
 	public SportsFacility(long id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
-			boolean openStatus, Location location, double averageRating,
-			WorkingHours workingHours) throws IOException {
+			boolean openStatus, Location location, String image, double averageRating,
+			WorkingHours workingHours) {
 		super();
 		this.name = name;
 		this.sportsFacilityType = sportsFacilityType;
 		this.contentsOfTheFacility = contentsOfTheFacility;
 		this.openStatus = openStatus;
 		this.location = location;
-		this.image = ImageIO.read(new File(name + ".png"));
+		this.image = image;
 		this.averageRating = averageRating;
 		this.workingHours = workingHours;
 		this.id = id;
@@ -87,8 +87,11 @@ public class SportsFacility implements Serializable {
 		this.location = location;
 	}
 
-	public BufferedImage getImage() {
+	public String getImage() {
 		return image;
+	}
+	public void setImage(String image) {
+		this.image=image;
 	}
 
 	public double getAverageRating() {

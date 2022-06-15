@@ -8,31 +8,31 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import beans.models.Buyer;
+import beans.models.Administrator;
 import repositories.interfaces.IRepository;
 
-public class BuyerRepository implements IRepository<Buyer> {
+public class AdministratorRepository implements IRepository<Administrator> {
 	
 	private String contextPath;
 	
-	public BuyerRepository(String contextPath) {
+	public AdministratorRepository(String contextPath) {
 		super();
 		this.contextPath = contextPath;
 	}
 
 
 	@Override
-	public Map<String, Buyer> load() {
+	public Map<String, Administrator> load() {
 		
-		HashMap<String, Buyer> map = new HashMap<String, Buyer>();
+		HashMap<String, Administrator> map = new HashMap<String, Administrator>();
 		
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 
-		    List<Buyer> list = Arrays.asList(mapper.readValue(
-		    		Paths.get(contextPath + "data\\buyers.json").toFile(), Buyer[].class));
+		    List<Administrator> list = Arrays.asList(mapper.readValue(
+		    		Paths.get(contextPath + "data\\administrators.json").toFile(), Administrator[].class));
 		    
-		    for(Buyer element : list){
+		    for(Administrator element : list){
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
@@ -41,14 +41,13 @@ public class BuyerRepository implements IRepository<Buyer> {
 
 	    return map;
 	}
-		
 
 	@Override
-	public boolean save(Map<String, Buyer> map) {
+	public boolean save(Map<String, Administrator> map) {
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 		    
-		    mapper.writeValue(Paths.get(contextPath + "data\\buyers.json").toFile(), map.values());
+		    mapper.writeValue(Paths.get(contextPath + "data\\administrators.json").toFile(), map.values());
 
 		} catch (Exception ex) {
 		    ex.printStackTrace();

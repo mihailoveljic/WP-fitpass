@@ -76,7 +76,7 @@ public class LoginController implements ILoginController {
 		User retVal = null;
 		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
-		retVal = (User) request.getSession().getAttribute("user");
+		retVal = (User)request.getSession().getAttribute("user");
 		if (retVal == null) {
 			Collection<Buyer> buyers = buyerService.getAll();
 			Collection<User> users = new ArrayList<User>();

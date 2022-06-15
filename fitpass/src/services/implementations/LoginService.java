@@ -12,8 +12,15 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public User login(UserLoginDTO userLoginDTO, Collection<User> users) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = null;
+		for (User u : users) {
+			if(u.getUsername().compareTo(userLoginDTO.getUsername()) == 0 && u.getPassword().compareTo(userLoginDTO.getPassword())== 0)
+			{
+				user = u;
+				return user;
+			}
+		}
+		return user;
 	}
 
 	@Override

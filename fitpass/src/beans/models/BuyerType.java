@@ -21,7 +21,7 @@ public class BuyerType implements Serializable {
 		this.discount = discount;
 		this.requiredPointsForUpgrade = collectedPoints;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -53,5 +53,7 @@ public class BuyerType implements Serializable {
 	public void setRequiredPointsForUpgrade(double requiredPointsForUpgrade) {
 		this.requiredPointsForUpgrade = requiredPointsForUpgrade;
 	}
+	
+	
 		
 }

@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Membership implements Serializable {
 	/**
@@ -10,26 +10,26 @@ public class Membership implements Serializable {
 	private static final long serialVersionUID = 8271414579636648057L;
 	private long id;
 	private double membershipNumber;
-	private MembershipType membershipType;
-	private Date paymentDate;
-	private Date expirationDate;
+	private long membershipTypeId;
+	private LocalDate paymentDate;
+	private LocalDate expirationDate;
 	private double price;
-	private Buyer buyer;
+	private long buyerId;
 	private boolean active;
 	private int numberOfDailyTraining;
 	
 	public Membership() {}
 
-	public Membership(long id, double membershipNumber, MembershipType membershipType, Date paymentDate,
-			Date expirationDate, double price, Buyer buyer, boolean active, int numberOfDailyTraining) {
+	public Membership(long id, double membershipNumber, long membershipTypeId, LocalDate paymentDate,
+			LocalDate expirationDate, double price, long buyerId, boolean active, int numberOfDailyTraining) {
 		super();
 		this.id = id;
 		this.membershipNumber = membershipNumber;
-		this.membershipType = membershipType;
+		this.membershipTypeId = membershipTypeId;
 		this.paymentDate = paymentDate;
 		this.expirationDate = expirationDate;
 		this.price = price;
-		this.buyer = buyer;
+		this.buyerId = buyerId;
 		this.active = active;
 		this.numberOfDailyTraining = numberOfDailyTraining;
 	}
@@ -50,27 +50,27 @@ public class Membership implements Serializable {
 		this.membershipNumber = membershipNumber;
 	}
 
-	public MembershipType getMembershipType() {
-		return membershipType;
+	public long getMembershipTypeId() {
+		return membershipTypeId;
 	}
 
-	public void setMembershipType(MembershipType membershipType) {
-		this.membershipType = membershipType;
+	public void setMembershipTypeId(long membershipTypeId) {
+		this.membershipTypeId = membershipTypeId;
 	}
 
-	public Date getPaymentDate() {
+	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(Date paymentDate) {
+	public void setPaymentDate(LocalDate paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
-	public Date getExpirationDate() {
+	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date expirationDate) {
+	public void setExpirationDate(LocalDate expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
@@ -82,12 +82,12 @@ public class Membership implements Serializable {
 		this.price = price;
 	}
 
-	public Buyer getBuyer() {
-		return buyer;
+	public long getBuyerId() {
+		return buyerId;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
 	}
 
 	public boolean isActive() {
@@ -105,7 +105,6 @@ public class Membership implements Serializable {
 	public void setNumberOfDailyTraining(int numberOfDailyTraining) {
 		this.numberOfDailyTraining = numberOfDailyTraining;
 	}
-	
-	
-	
+
+		
 }

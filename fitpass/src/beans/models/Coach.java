@@ -1,28 +1,26 @@
 package beans.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 
 public class Coach extends User implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4143166464460969899L;
-	private TrainingHistory trainingHistory;
+	private ArrayList<TrainingHistory> trainingHistory;
 	
 	public Coach() {}
 
-	public Coach(TrainingHistory trainingHistory) {
-		super();
-		this.trainingHistory = trainingHistory;
-	}
-
-	public TrainingHistory getTrainingHistory() {
+	public ArrayList<TrainingHistory> getTrainingHistory() {
 		return trainingHistory;
 	}
 
-	public void setTrainingHistory(TrainingHistory trainingHistory) {
+	public void setTrainingHistory(ArrayList<TrainingHistory> trainingHistory) {
 		this.trainingHistory = trainingHistory;
 	}
+
 	
 	
 }

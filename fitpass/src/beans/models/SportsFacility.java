@@ -11,8 +11,8 @@ public class SportsFacility implements Serializable {
 	private static final long serialVersionUID = 6725392041839697593L;
 	private long id;
 	private String name;
-	private SportsFacilityType sportsFacilityType;
-	private ArrayList<ContentOfTheFacility> contentsOfTheFacility;
+	private long sportsFacilityTypeId;
+	private ArrayList<Long> contentsOfTheFacilityIds;
 	private boolean openStatus;
 	private Location location;
 	private String image;
@@ -21,13 +21,13 @@ public class SportsFacility implements Serializable {
 	
 	public SportsFacility() {}
 
-	public SportsFacility(long id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
+	public SportsFacility(long id ,String name, long sportsFacilityTypeId, ArrayList<Long> contentsOfTheFacilityIds,
 			boolean openStatus, Location location, String image, double averageRating,
 			WorkingHours workingHours) {
 		super();
 		this.name = name;
-		this.sportsFacilityType = sportsFacilityType;
-		this.contentsOfTheFacility = contentsOfTheFacility;
+		this.sportsFacilityTypeId = sportsFacilityTypeId;
+		this.contentsOfTheFacilityIds = contentsOfTheFacilityIds;
 		this.openStatus = openStatus;
 		this.location = location;
 		this.image = image;
@@ -35,7 +35,7 @@ public class SportsFacility implements Serializable {
 		this.workingHours = workingHours;
 		this.id = id;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -43,6 +43,7 @@ public class SportsFacility implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -51,20 +52,20 @@ public class SportsFacility implements Serializable {
 		this.name = name;
 	}
 
-	public SportsFacilityType getSportsFacilityType() {
-		return sportsFacilityType;
+	public long getSportsFacilityTypeId() {
+		return sportsFacilityTypeId;
 	}
 
-	public void setSportsFacilityType(SportsFacilityType sportsFacilityType) {
-		this.sportsFacilityType = sportsFacilityType;
+	public void setSportsFacilityTypeId(long sportsFacilityTypeId) {
+		this.sportsFacilityTypeId = sportsFacilityTypeId;
 	}
 
-	public ArrayList<ContentOfTheFacility> getContentsOfTheFacility() {
-		return contentsOfTheFacility;
+	public ArrayList<Long> getContentsOfTheFacilityIds() {
+		return contentsOfTheFacilityIds;
 	}
 
-	public void setContentsOfTheFacility(ArrayList<ContentOfTheFacility> contentsOfTheFacility) {
-		this.contentsOfTheFacility = contentsOfTheFacility;
+	public void setContentsOfTheFacilityIds(ArrayList<Long> contentsOfTheFacilityIds) {
+		this.contentsOfTheFacilityIds = contentsOfTheFacilityIds;
 	}
 
 	public boolean isOpenStatus() {
@@ -86,8 +87,9 @@ public class SportsFacility implements Serializable {
 	public String getImage() {
 		return image;
 	}
+
 	public void setImage(String image) {
-		this.image=image;
+		this.image = image;
 	}
 
 	public double getAverageRating() {
@@ -105,6 +107,7 @@ public class SportsFacility implements Serializable {
 	public void setWorkingHours(WorkingHours workingHours) {
 		this.workingHours = workingHours;
 	}
+	
 	
 	
 	

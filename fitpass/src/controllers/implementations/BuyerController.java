@@ -1,5 +1,10 @@
 package controllers.implementations;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +20,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.enums.Gender;
+import beans.enums.Role;
 import beans.models.Buyer;
+import beans.models.BuyerType;
+import beans.models.Membership;
+import beans.models.MembershipType;
+import beans.models.SportsFacility;
 import controllers.interfaces.ICRUDController;
 import daos.implementations.BuyerDAO;
 import daos.interfaces.IDAO;
@@ -62,7 +73,22 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Override
 	public Buyer get(@PathParam("id") long id) {
 		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
-		return buyerService.get(id);
+		//return buyerService.get(id);
+		Buyer b = new Buyer();
+		b.setBuyerTypeId(1);
+		b.setDateOfBirth(LocalDate.of(2022, 5, 5));
+		b.setGender(Gender.MALE);
+		b.setId(1);
+		b.setMembershipId(1);
+		b.setName("Milos");
+		b.setNumberOfCollectedPoints(50);
+		b.setPassword("zelja");
+		b.setRole(Role.KUPAC);
+		b.setSurname("Zeljko");
+		b.setUsername("zelja");
+		b.setVisitedSportsFacilitiesIds(new ArrayList<Long>());
+		return b;
+		
 	}
 	
 	@POST

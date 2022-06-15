@@ -63,6 +63,7 @@ public class Address implements Serializable {
 	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
 	}
+
 	
 	
 }

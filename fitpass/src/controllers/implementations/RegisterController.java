@@ -35,48 +35,48 @@ public class RegisterController implements IRegisterController {
 	public void init() {
 		// Ovaj objekat se instancira više puta u toku rada aplikacije
 		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("BuyerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
-	    	
-	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
-	    	
-			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
-		}
-		if (ctx.getAttribute("CoachService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Coach> coachRepository = new CoachRepository(contextPath);
-	    	
-	    	IDAO<Coach> coachDAO = new CoachDAO(buyerRepository);
-	    	
-			ctx.setAttribute("CoachService", new CoachService(coachDAO));
-		}
-		if (ctx.getAttribute("ManagerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Manager> managerRepository = new ManagerRepository(contextPath);
-	    	
-	    	IDAO<Manager> managerDAO = new ManagerDAO(managerRepository);
-	    	
-			ctx.setAttribute("ManagerService", new BuyerService(buyerDAO));
-		}
-		if (ctx.getAttribute("AdministratorService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Administrator> administratorRepository = new AdministratorRepository(contextPath);
-	    	
-	    	IDAO<Administrator> administratorDAO = new AdministratorDAO(administratorRepository);
-	    	
-			ctx.setAttribute("AdministratorService", new BuyerService(buyerDAO));
-		}
-		if (ctx.getAttribute("LoginService") == null) {
-			ctx.setAttribute("LoginService", new LoginService());
-		}
-		if (ctx.getAttribute("RegisterService") == null) {
-			ctx.setAttribute("RegisterService", new RegisterService(ctx.getAttribute("BuyerService"),
-					ctx.getAttribute("CoachService"),
-					ctx.getAttribute("BuyerService"),
-					ctx.getAttribute("ManagerService"),
-					ctx.getAttribute("AdministratorService")));
-		}
+//		if (ctx.getAttribute("BuyerService") == null) {
+//	    	String contextPath = ctx.getRealPath("");
+//	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
+//	    	
+//	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
+//	    	
+//			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
+//		}
+//		if (ctx.getAttribute("CoachService") == null) {
+//	    	String contextPath = ctx.getRealPath("");
+//	    	IRepository<Coach> coachRepository = new CoachRepository(contextPath);
+//	    	
+//	    	IDAO<Coach> coachDAO = new CoachDAO(buyerRepository);
+//	    	
+//			ctx.setAttribute("CoachService", new CoachService(coachDAO));
+//		}
+//		if (ctx.getAttribute("ManagerService") == null) {
+//	    	String contextPath = ctx.getRealPath("");
+//	    	IRepository<Manager> managerRepository = new ManagerRepository(contextPath);
+//	    	
+//	    	IDAO<Manager> managerDAO = new ManagerDAO(managerRepository);
+//	    	
+//			ctx.setAttribute("ManagerService", new BuyerService(buyerDAO));
+//		}
+//		if (ctx.getAttribute("AdministratorService") == null) {
+//	    	String contextPath = ctx.getRealPath("");
+//	    	IRepository<Administrator> administratorRepository = new AdministratorRepository(contextPath);
+//	    	
+//	    	IDAO<Administrator> administratorDAO = new AdministratorDAO(administratorRepository);
+//	    	
+//			ctx.setAttribute("AdministratorService", new BuyerService(buyerDAO));
+//		}
+//		if (ctx.getAttribute("LoginService") == null) {
+//			ctx.setAttribute("LoginService", new LoginService());
+//		}
+//		if (ctx.getAttribute("RegisterService") == null) {
+//			ctx.setAttribute("RegisterService", new RegisterService(ctx.getAttribute("BuyerService"),
+//					ctx.getAttribute("CoachService"),
+//					ctx.getAttribute("BuyerService"),
+//					ctx.getAttribute("ManagerService"),
+//					ctx.getAttribute("AdministratorService")));
+//		}
 	}
 
 	@POST

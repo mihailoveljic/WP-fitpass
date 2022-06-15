@@ -9,36 +9,36 @@ public class Buyer extends User implements Serializable {
 	 */
 	private static final long serialVersionUID = 5479223749777028107L;
 	
-	private Membership membership;
-	private ArrayList<SportsFacility> visitedSportsFacilities;
+	private long membershipId;
+	private ArrayList<Long> visitedSportsFacilitiesIds;
 	private int numberOfCollectedPoints;
-	private BuyerType buyerType;
+	private long buyerTypeId;
 	
 	public Buyer() {}
 
-	public Buyer(Membership membership, ArrayList<SportsFacility> visitedSportsFacilities, int numberOfCollectedPoints,
-			BuyerType buyerType) {
+	public Buyer(long membershipId, ArrayList<Long> visitedSportsFacilitiesIds, int numberOfCollectedPoints,
+			long buyerTypeId) {
 		super();
-		this.membership = membership;
-		this.visitedSportsFacilities = visitedSportsFacilities;
+		this.membershipId = membershipId;
+		this.visitedSportsFacilitiesIds = visitedSportsFacilitiesIds;
 		this.numberOfCollectedPoints = numberOfCollectedPoints;
-		this.buyerType = buyerType;
+		this.buyerTypeId = buyerTypeId;
 	}
 
-	public Membership getMembership() {
-		return membership;
+	public long getMembershipId() {
+		return membershipId;
 	}
 
-	public void setMembership(Membership membership) {
-		this.membership = membership;
+	public void setMembershipId(long membershipId) {
+		this.membershipId = membershipId;
 	}
 
-	public ArrayList<SportsFacility> getVisitedSportsFacilities() {
-		return visitedSportsFacilities;
+	public ArrayList<Long> getVisitedSportsFacilitiesIds() {
+		return visitedSportsFacilitiesIds;
 	}
 
-	public void setVisitedSportsFacilities(ArrayList<SportsFacility> visitedSportsFacilities) {
-		this.visitedSportsFacilities = visitedSportsFacilities;
+	public void setVisitedSportsFacilitiesIds(ArrayList<Long> visitedSportsFacilitiesIds) {
+		this.visitedSportsFacilitiesIds = visitedSportsFacilitiesIds;
 	}
 
 	public int getNumberOfCollectedPoints() {
@@ -49,11 +49,12 @@ public class Buyer extends User implements Serializable {
 		this.numberOfCollectedPoints = numberOfCollectedPoints;
 	}
 
-	public BuyerType getBuyerType() {
-		return buyerType;
+	public long getBuyerTypeId() {
+		return buyerTypeId;
 	}
 
-	public void setBuyerType(BuyerType buyerType) {
-		this.buyerType = buyerType;
+	public void setBuyerTypeId(long buyerTypeId) {
+		this.buyerTypeId = buyerTypeId;
 	}
+
 }

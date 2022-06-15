@@ -8,18 +8,18 @@ public class Guestbook implements Serializable {
 	 */
 	private static final long serialVersionUID = 480360508148381061L;
 	private long id;
-	private Buyer buyer;
-	private SportsFacility sportsFacility;
+	private long buyerId;
+	private long sportsFacilityId;
 	private String comment;
 	private int rating;
 	
 	public Guestbook() {}
 
-	public Guestbook(long id, Buyer buyer, SportsFacility sportsFacility, String comment, int rating) {
+	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating) {
 		super();
 		this.id = id;
-		this.buyer = buyer;
-		this.sportsFacility = sportsFacility;
+		this.buyerId = buyerId;
+		this.sportsFacilityId = sportsFacilityId;
 		this.comment = comment;
 		this.rating = rating;
 	}
@@ -32,20 +32,20 @@ public class Guestbook implements Serializable {
 		this.id = id;
 	}
 
-	public Buyer getBuyer() {
-		return buyer;
+	public long getBuyerId() {
+		return buyerId;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
 	}
 
-	public SportsFacility getSportsFacility() {
-		return sportsFacility;
+	public long getSportsFacilityId() {
+		return sportsFacilityId;
 	}
 
-	public void setSportsFacility(SportsFacility sportsFacility) {
-		this.sportsFacility = sportsFacility;
+	public void setSportsFacilityId(long sportsFacilityId) {
+		this.sportsFacilityId = sportsFacilityId;
 	}
 
 	public String getComment() {
@@ -63,4 +63,6 @@ public class Guestbook implements Serializable {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	
 }

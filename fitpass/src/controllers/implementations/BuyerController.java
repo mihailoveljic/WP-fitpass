@@ -1,7 +1,5 @@
 package controllers.implementations;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -17,16 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.enums.Gender;
-import beans.enums.Role;
 import beans.models.Buyer;
 import controllers.interfaces.ICRUDController;
-import daos.implementations.BuyerDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.BuyerRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.BuyerService;
-import services.interfaces.ICRUDService;
+import services.implementations.ContextInitService;
+import services.interfaces.IBuyerService;
 
 @Path("/buyers")
 public class BuyerController implements ICRUDController<Buyer> {
@@ -37,26 +29,17 @@ public class BuyerController implements ICRUDController<Buyer> {
 	
 	public BuyerController() {}
 
-
 	@PostConstruct
 	public void init() {
-		if (ctx.getAttribute("BuyerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
-	    	
-	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
-	    	
-			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
-		}
+		ContextInitService.initBuyerService(ctx);
 	}
-	
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Buyer> getAll(){
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		return buyerService.getAll();
 	}
 	
@@ -65,23 +48,8 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Buyer get(@PathParam("id") long id) {
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
-		//return buyerService.get(id);
-		Buyer b = new Buyer();
-		b.setBuyerTypeId(1);
-		b.setDateOfBirth(LocalDate.of(2022, 5, 5));
-		b.setGender(Gender.MALE);
-		b.setId(1);
-		b.setMembershipId(1);
-		b.setName("Milos");
-		b.setNumberOfCollectedPoints(50);
-		b.setPassword("zelja");
-		b.setRole(Role.KUPAC);
-		b.setSurname("Zeljko");
-		b.setUsername("zelja");
-		b.setVisitedSportsFacilitiesIds(new ArrayList<Long>());
-		return b;
-		
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		return buyerService.get(id);
 	}
 	
 	@POST
@@ -90,7 +58,7 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Buyer create(Buyer buyer) {
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		return buyerService.create(buyer);
 	}
 	
@@ -100,7 +68,7 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(Buyer buyer) {
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		return buyerService.update(buyer);
 	}
 	
@@ -109,7 +77,7 @@ public class BuyerController implements ICRUDController<Buyer> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ICRUDService<Buyer> buyerService = (ICRUDService<Buyer>) ctx.getAttribute("BuyerService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		return buyerService.delete(id);
 	}
 }

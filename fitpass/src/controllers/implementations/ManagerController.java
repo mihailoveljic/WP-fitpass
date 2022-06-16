@@ -17,12 +17,8 @@ import javax.ws.rs.core.MediaType;
 
 import beans.models.Manager;
 import controllers.interfaces.ICRUDController;
-import daos.implementations.ManagerDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.ManagerRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.ManagerService;
-import services.interfaces.ICRUDService;
+import services.implementations.ContextInitService;
+import services.interfaces.IManagerService;
 
 @Path("/managers")
 public class ManagerController implements ICRUDController<Manager> {
@@ -33,20 +29,9 @@ public class ManagerController implements ICRUDController<Manager> {
 	
 	public ManagerController() {}
 
-
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira više puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("ManagerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Manager> managerRepository = new ManagerRepository(contextPath);
-	    	
-	    	IDAO<Manager> managerDAO = new ManagerDAO(managerRepository);
-	    	
-			ctx.setAttribute("ManagerService", new ManagerService(managerDAO));
-		}
+		ContextInitService.initManagerService(ctx);
 	}
 	
 	
@@ -55,7 +40,7 @@ public class ManagerController implements ICRUDController<Manager> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Manager> getAll(){
-		ICRUDService<Manager> managerService = (ICRUDService<Manager>) ctx.getAttribute("ManagerService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.getAll();
 	}
 	
@@ -64,7 +49,7 @@ public class ManagerController implements ICRUDController<Manager> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Manager get(@PathParam("id") long id) {
-		ICRUDService<Manager> managerService = (ICRUDService<Manager>) ctx.getAttribute("ManagerService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.get(id);
 	}
 	
@@ -74,7 +59,7 @@ public class ManagerController implements ICRUDController<Manager> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Manager create(Manager manager) {
-		ICRUDService<Manager> managerService = (ICRUDService<Manager>) ctx.getAttribute("ManagerService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.create(manager);
 	}
 	
@@ -84,7 +69,7 @@ public class ManagerController implements ICRUDController<Manager> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(Manager manager) {
-		ICRUDService<Manager> managerService = (ICRUDService<Manager>) ctx.getAttribute("ManagerService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.update(manager);
 	}
 	
@@ -93,7 +78,7 @@ public class ManagerController implements ICRUDController<Manager> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ICRUDService<Manager> managerService = (ICRUDService<Manager>) ctx.getAttribute("ManagerService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.delete(id);
 	}
 }

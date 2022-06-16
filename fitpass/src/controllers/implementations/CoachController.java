@@ -17,12 +17,8 @@ import javax.ws.rs.core.MediaType;
 
 import beans.models.Coach;
 import controllers.interfaces.ICRUDController;
-import daos.implementations.CoachDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.CoachRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.CoachService;
-import services.interfaces.ICRUDService;
+import services.implementations.ContextInitService;
+import services.interfaces.ICoachService;
 
 @Path("/coaches")
 public class CoachController implements ICRUDController<Coach> {
@@ -36,14 +32,7 @@ public class CoachController implements ICRUDController<Coach> {
 
 	@PostConstruct
 	public void init() {
-		if (ctx.getAttribute("CoachService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Coach> coachRepository = new CoachRepository(contextPath);
-	    	
-	    	IDAO<Coach> coachDAO = new CoachDAO(coachRepository);
-	    	
-			ctx.setAttribute("CoachService", new CoachService(coachDAO));
-		}
+		ContextInitService.initCoachService(ctx);
 	}
 	
 	
@@ -52,7 +41,7 @@ public class CoachController implements ICRUDController<Coach> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Coach> getAll(){
-		ICRUDService<Coach> coachService = (ICRUDService<Coach>) ctx.getAttribute("CoachService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		return coachService.getAll();
 	}
 	
@@ -61,7 +50,7 @@ public class CoachController implements ICRUDController<Coach> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Coach get(@PathParam("id") long id) {
-		ICRUDService<Coach> coachService = (ICRUDService<Coach>) ctx.getAttribute("CoachService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		return coachService.get(id);
 	}
 	
@@ -71,7 +60,7 @@ public class CoachController implements ICRUDController<Coach> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Coach create(Coach coach) {
-		ICRUDService<Coach> coachService = (ICRUDService<Coach>) ctx.getAttribute("CoachService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		return coachService.create(coach);
 	}
 	
@@ -81,7 +70,7 @@ public class CoachController implements ICRUDController<Coach> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(Coach coach) {
-		ICRUDService<Coach> coachService = (ICRUDService<Coach>) ctx.getAttribute("CoachService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		return coachService.update(coach);
 	}
 	
@@ -90,7 +79,7 @@ public class CoachController implements ICRUDController<Coach> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ICRUDService<Coach> coachService = (ICRUDService<Coach>) ctx.getAttribute("CoachService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		return coachService.delete(id);
 	}
 }

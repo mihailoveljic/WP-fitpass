@@ -11,27 +11,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.dtos.UserRegistrationDTO;
-import beans.models.Administrator;
 import beans.models.Buyer;
 import beans.models.Coach;
 import beans.models.Manager;
 import controllers.interfaces.IRegisterController;
-import daos.implementations.AdministratorDAO;
-import daos.implementations.BuyerDAO;
-import daos.implementations.CoachDAO;
-import daos.implementations.ManagerDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.AdministratorRepository;
-import repositories.implementations.BuyerRepository;
-import repositories.implementations.CoachRepository;
-import repositories.implementations.ManagerRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.AdministratorService;
-import services.implementations.BuyerService;
-import services.implementations.CoachService;
-import services.implementations.LoginService;
-import services.implementations.ManagerService;
-import services.implementations.RegisterService;
+import services.implementations.ContextInitService;
 import services.interfaces.IAdministratorService;
 import services.interfaces.IBuyerService;
 import services.interfaces.ICoachService;
@@ -45,51 +29,14 @@ public class RegisterController implements IRegisterController {
 	
 	public RegisterController() {}
 
-
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira vi�e puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
-
-		if (ctx.getAttribute("BuyerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
-	    	
-	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
-	    	
-			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
-		}
-		if (ctx.getAttribute("CoachService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Coach> coachRepository = new CoachRepository(contextPath);
-	    	
-	    	IDAO<Coach> coachDAO = new CoachDAO(coachRepository);
-	    	
-			ctx.setAttribute("CoachService", new CoachService(coachDAO));
-		}
-		if (ctx.getAttribute("ManagerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Manager> managerRepository = new ManagerRepository(contextPath);
-	    	
-	    	IDAO<Manager> managerDAO = new ManagerDAO(managerRepository);
-	    	
-			ctx.setAttribute("ManagerService", new ManagerService(managerDAO));
-		}
-		if (ctx.getAttribute("AdministratorService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Administrator> administratorRepository = new AdministratorRepository(contextPath);
-	    	
-	    	IDAO<Administrator> administratorDAO = new AdministratorDAO(administratorRepository);
-	    	
-			ctx.setAttribute("AdministratorService", new AdministratorService(administratorDAO));
-		}
-		if (ctx.getAttribute("LoginService") == null) {
-			ctx.setAttribute("LoginService", new LoginService());
-		}
-		if (ctx.getAttribute("RegisterService") == null) {
-			ctx.setAttribute("RegisterService", new RegisterService());
-		}
+		ContextInitService.initBuyerService(ctx);
+		ContextInitService.initCoachService(ctx);
+		ContextInitService.initManagerService(ctx);
+		ContextInitService.initAdministratorService(ctx);
+		ContextInitService.initLoginService(ctx);
+		ContextInitService.initRegisterService(ctx);
 	}
 
 	@POST
@@ -97,17 +44,18 @@ public class RegisterController implements IRegisterController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
-		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
+		
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
-		if(buyerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(coachService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(managerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(administratorService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		Buyer buyer2 = registerService.registerBuyer(userRegistrationDTO, buyerService);
-		if(buyer2 == null) {
+		
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		
+		Buyer buyer = registerService.registerBuyer(userRegistrationDTO, buyerService);
+		
+		if(buyer == null) {
 			return false;
 		} else return true;
 	}
@@ -117,7 +65,20 @@ public class RegisterController implements IRegisterController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
-		return false;
+		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
+		
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		
+		Coach coach = registerService.registerCoach(userRegistrationDTO, coachService);
+		
+		if(coach == null) {
+			return false;
+		} else return true;
 	}
 	
 	
@@ -126,19 +87,29 @@ public class RegisterController implements IRegisterController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
-		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
+		
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
-		if(buyerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(coachService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(managerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		if(administratorService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
-		Manager manager2 = registerService.registerManager(userRegistrationDTO, managerService);
-		if(manager2 == null) {
+		
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		
+		Manager manager = registerService.registerManager(userRegistrationDTO, managerService);
+		if(manager == null) {
 			return false;
 		} else return true;
+	}
+
+	private boolean IsUsernameTaken(UserRegistrationDTO userRegistrationDTO, IBuyerService buyerService,
+			ICoachService coachService, IManagerService managerService, IAdministratorService administratorService) {
+		
+		if(buyerService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
+		if(coachService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
+		if(managerService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
+		if(administratorService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
+		return false;
 	}
 
 }

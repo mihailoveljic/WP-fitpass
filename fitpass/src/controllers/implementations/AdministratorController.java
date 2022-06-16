@@ -22,7 +22,7 @@ import daos.interfaces.IDAO;
 import repositories.implementations.AdministratorRepository;
 import repositories.interfaces.IRepository;
 import services.implementations.AdministratorService;
-import services.interfaces.ICRUDService;
+import services.interfaces.IAdministratorService;
 
 @Path("/administrators")
 public class AdministratorController implements ICRUDController<Administrator> {
@@ -50,7 +50,7 @@ public class AdministratorController implements ICRUDController<Administrator> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<Administrator> getAll(){
-		ICRUDService<Administrator> administratorService = (ICRUDService<Administrator>) ctx.getAttribute("AdministratorService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.getAll();
 	}
 	
@@ -59,7 +59,7 @@ public class AdministratorController implements ICRUDController<Administrator> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Administrator get(@PathParam("id") long id) {
-		ICRUDService<Administrator> administratorService = (ICRUDService<Administrator>) ctx.getAttribute("AdministratorService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.get(id);
 	}
 	
@@ -69,7 +69,7 @@ public class AdministratorController implements ICRUDController<Administrator> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Administrator create(Administrator administrator) {
-		ICRUDService<Administrator> administratorService = (ICRUDService<Administrator>) ctx.getAttribute("AdministratorService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.create(administrator);
 	}
 	
@@ -79,7 +79,7 @@ public class AdministratorController implements ICRUDController<Administrator> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(Administrator administrator) {
-		ICRUDService<Administrator> administratorService = (ICRUDService<Administrator>) ctx.getAttribute("AdministratorService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.update(administrator);
 	}
 	
@@ -88,7 +88,7 @@ public class AdministratorController implements ICRUDController<Administrator> {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ICRUDService<Administrator> administratorService = (ICRUDService<Administrator>) ctx.getAttribute("AdministratorService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.delete(id);
 	}
 }

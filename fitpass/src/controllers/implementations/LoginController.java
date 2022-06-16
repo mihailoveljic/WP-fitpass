@@ -18,14 +18,8 @@ import beans.models.Buyer;
 import beans.models.User;
 import beans.dtos.UserLoginDTO;
 import controllers.interfaces.ILoginController;
-import daos.implementations.BuyerDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.BuyerRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.BuyerService;
-import services.implementations.LoginService;
+import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
-import services.interfaces.ICRUDService;
 import services.interfaces.ILoginService;
 
 @Path("/LoginController")
@@ -36,26 +30,12 @@ public class LoginController implements ILoginController {
 	
 	public LoginController() {}
 
-
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira više puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("BuyerService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<Buyer> buyerRepository = new BuyerRepository(contextPath);
-	    	
-	    	IDAO<Buyer> buyerDAO = new BuyerDAO(buyerRepository);
-	    	
-			ctx.setAttribute("BuyerService", new BuyerService(buyerDAO));
-		}
-		if (ctx.getAttribute("LoginService") == null) {
-			ctx.setAttribute("LoginService", new LoginService());
-		}
+		ContextInitService.initBuyerService(ctx);
+		ContextInitService.initLoginService(ctx);
 	}
 	
-
 	@Override
 	@GET
 	@Path("/logout")
@@ -65,7 +45,6 @@ public class LoginController implements ILoginController {
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
 		return loginService.logout(request);
 	}
-	
 	
 	@Override
 	@POST

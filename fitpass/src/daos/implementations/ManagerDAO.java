@@ -31,7 +31,7 @@ public class ManagerDAO implements IDAO<Manager> {
 
 	@Override
 	public Manager create(Manager manager) {
-		long maxId = -1;
+		long maxId = 0;
 		for (String id : managers.keySet()) {
 			long idNum = Long.parseLong(id);
 			if (idNum > maxId) {

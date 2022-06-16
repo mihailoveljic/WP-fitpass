@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.UserRegistrationDTO;
 import beans.models.Administrator;
 import beans.models.Buyer;
 import beans.models.Coach;
@@ -95,17 +96,17 @@ public class RegisterController implements IRegisterController {
 	@Path("/registerBuyer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerBuyer(@Context HttpServletRequest request, Buyer buyer) {
+	public boolean registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
-		if(buyerService.getByUsername(buyer.getUsername())!=null) return false;
-		if(coachService.getByUsername(buyer.getUsername())!=null) return false;
-		if(managerService.getByUsername(buyer.getUsername())!=null) return false;
-		if(administratorService.getByUsername(buyer.getUsername())!=null) return false;
-		Buyer buyer2 = registerService.registerBuyer(buyer, buyerService);
+		if(buyerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(coachService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(managerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(administratorService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		Buyer buyer2 = registerService.registerBuyer(userRegistrationDTO, buyerService);
 		if(buyer2 == null) {
 			return false;
 		} else return true;
@@ -115,7 +116,7 @@ public class RegisterController implements IRegisterController {
 	@Path("/registerCoach")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerCoach(@Context HttpServletRequest request, Coach coach) {
+	public boolean registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		return false;
 	}
 	
@@ -124,16 +125,20 @@ public class RegisterController implements IRegisterController {
 	@Path("/registerManager")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerManager(@Context HttpServletRequest request, Manager manager) {
-		return false;
-	}
-	
-	@POST
-	@Path("/registerAdministrator")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerAdministrator(@Context HttpServletRequest request, Administrator administrator) {
-		return false;
+	public boolean registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		if(buyerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(coachService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(managerService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		if(administratorService.getByUsername(userRegistrationDTO.getUsername())!=null) return false;
+		Manager manager2 = registerService.registerManager(userRegistrationDTO, managerService);
+		if(manager2 == null) {
+			return false;
+		} else return true;
 	}
 
 }

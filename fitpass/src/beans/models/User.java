@@ -1,7 +1,6 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
 import beans.enums.Gender;

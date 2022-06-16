@@ -31,7 +31,7 @@ public class CoachDAO implements IDAO<Coach> {
 
 	@Override
 	public Coach create(Coach coach) {
-		long maxId = -1;
+		long maxId = 0;
 		for (String id : coaches.keySet()) {
 			long idNum = Long.parseLong(id);
 			if (idNum > maxId) {

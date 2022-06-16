@@ -1,83 +1,92 @@
 package services.implementations;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import beans.dtos.UserRegistrationDTO;
 import beans.enums.Role;
-import beans.models.Administrator;
 import beans.models.Buyer;
 import beans.models.Coach;
 import beans.models.Manager;
-import beans.models.SportsFacility;
 import beans.models.TrainingHistory;
-import beans.models.User;
 import services.interfaces.ICRUDService;
 import services.interfaces.IRegisterService;
 
 public class RegisterService implements IRegisterService {
 	
 	public RegisterService() {}
-	private boolean validateUserFields(User user) {
-		if(user.getUsername().compareTo("") == 0) return false;
-		if(user.getPassword().compareTo("") == 0) return false;
-		if(user.getName().compareTo("") == 0) return false;
-		if(user.getSurname().compareTo("") == 0) return false;
-		if(user.getGender()==null) return false;
-		if(user.getDateOfBirth() == null) return false;
+	private boolean validateUserFields(UserRegistrationDTO userRegistrationDTO) {
+		if(userRegistrationDTO.getUsername()==null || userRegistrationDTO.getUsername().compareTo("") == 0) return false;
+		if(userRegistrationDTO.getPassword()==null || userRegistrationDTO.getPassword().compareTo("") == 0) return false;
+		if(userRegistrationDTO.getName()==null || userRegistrationDTO.getName().compareTo("") == 0) return false;
+		if(userRegistrationDTO.getSurname()==null || userRegistrationDTO.getSurname().compareTo("") == 0) return false;
+		if(userRegistrationDTO.getGender()==null) return false;
+		if(userRegistrationDTO.getDateOfBirth() == null) return false;
 		return true;
 	}
 
 	@Override
-	public Buyer registerBuyer(Buyer buyer, ICRUDService<Buyer> service) {
-		if(!validateUserFields(buyer)) return null;
-		if(!validateBuyerFields(buyer)) return null;
+	public Buyer registerBuyer(UserRegistrationDTO userRegistrationDTO, ICRUDService<Buyer> service) {
+		if(!validateUserFields(userRegistrationDTO)) return null;
+		Buyer buyer = new Buyer();
+		buyer.setBuyerTypeId(1);
+		try {
+			buyer.setDateOfBirth(LocalDate.of(
+					userRegistrationDTO.getDateOfBirth().getYear(),
+					userRegistrationDTO.getDateOfBirth().getMonth(),
+					userRegistrationDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return null;}
+		
+		buyer.setGender(userRegistrationDTO.getGender());
+		buyer.setMembershipId(-1);
+		buyer.setName(userRegistrationDTO.getName());
+		buyer.setNumberOfCollectedPoints(0);
+		buyer.setPassword(userRegistrationDTO.getPassword());
+		buyer.setRole(Role.KUPAC);
+		buyer.setSurname(userRegistrationDTO.getSurname());
+		buyer.setUsername(userRegistrationDTO.getUsername());
+		buyer.setVisitedSportsFacilitiesIds(new ArrayList<Long>());
 		return service.create(buyer);
 	}
 
-	private boolean validateBuyerFields(Buyer buyer) {
-		if(buyer.getRole() != Role.KUPAC) return false;
-		if(buyer.getMembershipId() == null) return false;
-		if(buyer.getVisitedSportsFacilities() == null) {
-			ArrayList<SportsFacility> visitedSportsFacilities = new ArrayList<>();
-			buyer.setVisitedSportsFacilities(visitedSportsFacilities);
-		}
-		if(buyer.getBuyerType()==null) return false;
-		return true;
-	}
 	@Override
-	public Coach registerCoach(Coach coach, ICRUDService<Coach> service) {
-		if(!validateUserFields(coach)) return null;
-		if(!validateCoachFields(coach)) return null;
+	public Coach registerCoach(UserRegistrationDTO userRegistrationDTO, ICRUDService<Coach> service) {
+		if(!validateUserFields(userRegistrationDTO)) return null;
+		Coach coach = new Coach();
+		try {
+			coach.setDateOfBirth(LocalDate.of(
+					userRegistrationDTO.getDateOfBirth().getYear(),
+					userRegistrationDTO.getDateOfBirth().getMonth(),
+					userRegistrationDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return null;}
+		coach.setGender(userRegistrationDTO.getGender());
+		coach.setName(userRegistrationDTO.getName());
+		coach.setPassword(userRegistrationDTO.getPassword());
+		coach.setRole(Role.TRENER);
+		coach.setSurname(userRegistrationDTO.getSurname());
+		coach.setUsername(userRegistrationDTO.getUsername());
+		coach.setTrainingHistory(new ArrayList<TrainingHistory>());
 		return service.create(coach);
 	}
 
-	private boolean validateCoachFields(Coach coach) {
-		if(coach.getRole() != Role.TRENER) return false;
-		/*if(coach.getTrainingHistory() == null) {
-			coach.setTrainingHistory(new ArrayList<TrainingHistory>());
-		}*/
-		return true;
-	}
 	@Override
-	public Manager registerManager(Manager manager, ICRUDService<Manager> service) {
-		if(!validateUserFields(manager)) return null;
-		if(!validateManagerFields(manager)) return null;
+	public Manager registerManager(UserRegistrationDTO userRegistrationDTO, ICRUDService<Manager> service) {
+		if(!validateUserFields(userRegistrationDTO)) return null;
+		Manager manager = new Manager();
+		try {
+			manager.setDateOfBirth(LocalDate.of(
+					userRegistrationDTO.getDateOfBirth().getYear(),
+					userRegistrationDTO.getDateOfBirth().getMonth(),
+					userRegistrationDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return null;}
+		manager.setGender(userRegistrationDTO.getGender());
+		manager.setName(userRegistrationDTO.getName());
+		manager.setPassword(userRegistrationDTO.getPassword());
+		manager.setRole(Role.TRENER);
+		manager.setSurname(userRegistrationDTO.getSurname());
+		manager.setUsername(userRegistrationDTO.getUsername());
+		manager.setSportsFacilityId(-1);
 		return service.create(manager);
-	}
-
-	private boolean validateManagerFields(Manager manager) {
-		if(manager.getRole() != Role.MENADZER) return false;
-		if(manager.getSportsFacility()==null) return false;
-		return true;
-	}
-	@Override
-	public Administrator registerAdministrator(Administrator administrator, ICRUDService<Administrator> service) {
-		if(!validateUserFields(administrator)) return null;
-		if(!validateAdministratorFields(administrator)) return null;
-		return service.create(administrator);
-	}
-	private boolean validateAdministratorFields(Administrator administrator) {
-		if(administrator.getRole() != Role.ADMINISTRATOR) return false;
-		return true;
 	}
 
 }

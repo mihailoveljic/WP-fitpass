@@ -3,7 +3,7 @@ package beans.dtos;
 
 import beans.enums.Gender;
 
-public class BuyerRegistrationDTO {
+public class UserRegistrationDTO {
 	
 	private String username;
 	private String password;
@@ -12,7 +12,7 @@ public class BuyerRegistrationDTO {
 	private Gender gender;
 	private DateDTO dateOfBirth;
 	
-	public BuyerRegistrationDTO() { }
+	public UserRegistrationDTO() { }
 
 	public String getUsername() {
 		return username;

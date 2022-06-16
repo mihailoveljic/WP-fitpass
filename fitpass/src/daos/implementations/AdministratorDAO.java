@@ -31,7 +31,7 @@ public class AdministratorDAO implements IDAO<Administrator> {
 
 	@Override
 	public Administrator create(Administrator administrator) {
-		long maxId = -1;
+		long maxId = 0;
 		for (String id : administrators.keySet()) {
 			long idNum = Long.parseLong(id);
 			if (idNum > maxId) {

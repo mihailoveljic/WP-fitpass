@@ -1,9 +1,6 @@
 package controllers.implementations;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,10 +20,6 @@ import javax.ws.rs.core.MediaType;
 import beans.enums.Gender;
 import beans.enums.Role;
 import beans.models.Buyer;
-import beans.models.BuyerType;
-import beans.models.Membership;
-import beans.models.MembershipType;
-import beans.models.SportsFacility;
 import controllers.interfaces.ICRUDController;
 import daos.implementations.BuyerDAO;
 import daos.interfaces.IDAO;

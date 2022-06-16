@@ -108,8 +108,4 @@ public class SportsFacility implements Serializable {
 		this.workingHours = workingHours;
 	}
 	
-	
-	
-	
-	
 }

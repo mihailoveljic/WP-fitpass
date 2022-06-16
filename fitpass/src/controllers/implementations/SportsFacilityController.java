@@ -73,7 +73,7 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public SportsFacility create(SportsFacility sportsFacility) {
-		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("sportsFacilityService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.create(sportsFacility);
 	}
 	
@@ -83,7 +83,7 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(SportsFacility sportsFacility) {
-		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("sportsFacilityService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.update(sportsFacility);
 	}
 	
@@ -92,7 +92,7 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("sportsFacilityService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.delete(id);
 	}
 	

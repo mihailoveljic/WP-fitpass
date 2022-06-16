@@ -17,11 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.models.SportsFacility;
 import controllers.interfaces.ICRUDController;
-import daos.implementations.SportsFacilityDAO;
-import daos.interfaces.IDAO;
-import repositories.implementations.SportsFacilityRepository;
-import repositories.interfaces.IRepository;
-import services.implementations.SportsFacilityService;
+import services.implementations.ContextInitService;
 import services.interfaces.ISportsFacilityService;
 
 @Path("/sportsFacilities")
@@ -34,18 +30,8 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 
 
 	@PostConstruct
-	// ctx polje je null u konstruktoru, mora se pozvati nakon konstruktora (@PostConstruct anotacija)
 	public void init() {
-		// Ovaj objekat se instancira više puta u toku rada aplikacije
-		// Inicijalizacija treba da se obavi samo jednom
-		if (ctx.getAttribute("SportsFacilityService") == null) {
-	    	String contextPath = ctx.getRealPath("");
-	    	IRepository<SportsFacility> sportsFacilityRepository = new SportsFacilityRepository(contextPath);
-	    	
-	    	IDAO<SportsFacility> sportsFacilityDAO = new SportsFacilityDAO(sportsFacilityRepository);
-	    	
-			ctx.setAttribute("SportsFacilityService", new SportsFacilityService(sportsFacilityDAO));
-		}
+		ContextInitService.initSportsFacilityService(ctx);
 	}
 	
 	

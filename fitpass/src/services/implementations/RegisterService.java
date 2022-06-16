@@ -35,7 +35,7 @@ public class RegisterService implements IRegisterService {
 
 	private boolean validateBuyerFields(Buyer buyer) {
 		if(buyer.getRole() != Role.KUPAC) return false;
-		if(buyer.getMembership() == null) return false;
+		if(buyer.getMembershipId() == null) return false;
 		if(buyer.getVisitedSportsFacilities() == null) {
 			ArrayList<SportsFacility> visitedSportsFacilities = new ArrayList<>();
 			buyer.setVisitedSportsFacilities(visitedSportsFacilities);

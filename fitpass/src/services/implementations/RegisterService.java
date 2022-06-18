@@ -1,7 +1,7 @@
 package services.implementations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 import beans.dtos.UserRegistrationDTO;
 import beans.enums.Role;
@@ -25,13 +25,14 @@ public class RegisterService implements IRegisterService {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Buyer registerBuyer(UserRegistrationDTO userRegistrationDTO, ICRUDService<Buyer> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
 		Buyer buyer = new Buyer();
 		buyer.setBuyerTypeId(1);
 		try {
-			buyer.setDateOfBirth(LocalDate.of(
+			buyer.setDateOfBirth(new Date(
 					userRegistrationDTO.getDateOfBirth().getYear(),
 					userRegistrationDTO.getDateOfBirth().getMonth(),
 					userRegistrationDTO.getDateOfBirth().getDay()));
@@ -49,12 +50,13 @@ public class RegisterService implements IRegisterService {
 		return service.create(buyer);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Coach registerCoach(UserRegistrationDTO userRegistrationDTO, ICRUDService<Coach> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
 		Coach coach = new Coach();
 		try {
-			coach.setDateOfBirth(LocalDate.of(
+			coach.setDateOfBirth(new Date(
 					userRegistrationDTO.getDateOfBirth().getYear(),
 					userRegistrationDTO.getDateOfBirth().getMonth(),
 					userRegistrationDTO.getDateOfBirth().getDay()));
@@ -69,12 +71,13 @@ public class RegisterService implements IRegisterService {
 		return service.create(coach);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Manager registerManager(UserRegistrationDTO userRegistrationDTO, ICRUDService<Manager> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
 		Manager manager = new Manager();
 		try {
-			manager.setDateOfBirth(LocalDate.of(
+			manager.setDateOfBirth(new Date(
 					userRegistrationDTO.getDateOfBirth().getYear(),
 					userRegistrationDTO.getDateOfBirth().getMonth(),
 					userRegistrationDTO.getDateOfBirth().getDay()));

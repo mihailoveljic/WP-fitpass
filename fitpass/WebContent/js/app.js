@@ -31,32 +31,83 @@ var app = new Vue({
 	        username: "",
 	        password: "",
 		},
-		user: null,
+		userRegistrationDTO: {
+			username: "",
+			password:"",
+			name:"",
+			surname:"",
+			gender: null,
+			dateOfBirth : {
+				year: null,
+				month: null,
+				day: null
+			}
+		},
+		userToken: null
 	},
 	created(){
-		this.user = JSON.parse(sessionStorage.getItem('user'));
-		if(this.user != null) this.mode = this.user.role;
+		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));
+		if(this.userToken != null) this.mode = this.userToken.role;
 	},
 	watch: {
 		menu(val) {
 			val && setTimeout(() => (this.activePicker = 'YEAR'))
 		},
 	},
+	computed:{
+		isGuest(){
+			return this.mode == "GUEST";
+		},
+	},
 	methods: {
 		save(date) {
-			this.$refs.menu.save(date)
+			this.$refs.menu.save(date);
 		},
-		async login(){
-			if(this.user != null) return;
-			await axios.post('rest/LoginController/login', this.userLoginDTO)
-              .then(response => (this.user = response.data))
+		login(){
+			if(this.userToken != null) return;
+			axios.post('rest/LoginController/login', this.userLoginDTO)
+              .then(response => {
+				this.userToken = response.data
+              	if(this.userToken == null) return;
+	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
+	            this.mode= this.userToken.role;
+	            this.loginDialog = false;
+              }
+              )
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-             if(this.user == null) return;
-             sessionStorage.setItem('user', JSON.stringify(this.user));
-             this.mode= this.user.role;
-             this.loginDialog = false;
+		},
+		logout(){
+			axios.get('rest/LoginController/logout')
+              .then(response => (this.checkForLogout(response.data)))
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+		},
+		checkForLogout(isLoggedout){
+			if(!isLoggedout) return;
+             sessionStorage.removeItem('userToken');
+             this.userToken = null;
+             this.mode = "GUEST";
+		},
+		register(){
+			let temp = this.date.split('-');
+			this.userRegistrationDTO.dateOfBirth.year = temp[0];
+			this.userRegistrationDTO.dateOfBirth.month = temp[1];
+			this.userRegistrationDTO.dateOfBirth.day = temp[2];
+			axios.post('rest/RegisterController/registerBuyer', this.userRegistrationDTO)
+              .then(response => {
+				this.userToken = response.data
+              	if(this.userToken == null) return;
+	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
+	            this.mode= this.userToken.role;
+	            this.registerDialog = false;
+              }
+              )
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
 		}
-	},
+	}
 });

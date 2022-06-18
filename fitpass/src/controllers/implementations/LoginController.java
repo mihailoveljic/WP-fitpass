@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import beans.models.Buyer;
 import beans.models.User;
 import beans.dtos.UserLoginDTO;
+import beans.dtos.UserToken;
 import controllers.interfaces.ILoginController;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
@@ -51,11 +52,11 @@ public class LoginController implements ILoginController {
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public User login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO) {
-		User retVal = null;
+	public UserToken login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO) {
+		UserToken retVal = null;
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
-		retVal = (User)request.getSession().getAttribute("user");
+		retVal = (UserToken)request.getSession().getAttribute("userToken");
 		if (retVal == null) {
 			Collection<Buyer> buyers = buyerService.getAll();
 			Collection<User> users = new ArrayList<User>();
@@ -63,8 +64,12 @@ public class LoginController implements ILoginController {
 				users.add(b);
 			}
 			User user = loginService.login(userLoginDTO, users);
-			request.getSession().setAttribute("user", user);
-			retVal = user;
+			UserToken userToken = new UserToken();
+			userToken.setId(user.getId());
+			userToken.setUsername(user.getUsername());
+			userToken.setRole(user.getRole());
+			request.getSession().setAttribute("userToken", userToken);
+			retVal = userToken;
 		}
 		return retVal;
 	}

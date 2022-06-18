@@ -11,7 +11,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.dtos.UserLoginDTO;
-import beans.models.User;
+import beans.dtos.UserToken;;
 
 public interface ILoginController {
 
@@ -24,5 +24,5 @@ public interface ILoginController {
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public User login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO);
+	public UserToken  login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO);
 }

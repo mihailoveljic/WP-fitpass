@@ -37,15 +37,15 @@
 
 			</v-navigation-drawer>
 
-			<v-app-bar app color="white" flat class="justify-space-between appBar">
+			<v-app-bar app color="white" flat class="justify-space-between" height="78">
 
 				<a href="#/">
-					<img class="logo" src="img/logo.png" alt="">
+					<img class="ma-4" src="img/logo.png" alt="" height=48>
 				</a>
 				<v-tabs class="justify-center d-none d-lg-flex" color="indigo darken-1">
 
-					<v-tab v-for="link in appBarLinks" :key="link">
-						{{ link }}
+					<v-tab v-for="link in appBarLinks" :key="link" :to="link.link">
+						{{ link.name }}
 					</v-tab>
 				</v-tabs>
 				<template>

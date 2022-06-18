@@ -1,5 +1,8 @@
 package controllers.implementations;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -10,15 +13,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.UserLoginDTO;
 import beans.dtos.UserRegistrationDTO;
+import beans.dtos.UserToken;
 import beans.models.Buyer;
 import beans.models.Coach;
 import beans.models.Manager;
+import beans.models.User;
 import controllers.interfaces.IRegisterController;
 import services.implementations.ContextInitService;
 import services.interfaces.IAdministratorService;
 import services.interfaces.IBuyerService;
 import services.interfaces.ICoachService;
+import services.interfaces.ILoginService;
 import services.interfaces.IManagerService;
 import services.interfaces.IRegisterService;
 
@@ -43,28 +50,45 @@ public class RegisterController implements IRegisterController {
 	@Path("/registerBuyer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
+	public UserToken registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		ILoginService loginService = (ILoginService)ctx.getAttribute("LoginService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
 		
 		Buyer buyer = registerService.registerBuyer(userRegistrationDTO, buyerService);
 		
 		if(buyer == null) {
-			return false;
-		} else return true;
+			return null;
+		} else {
+			UserLoginDTO userLoginDTO = new UserLoginDTO();
+			userLoginDTO.setUsername(buyer.getUsername());
+			userLoginDTO.setPassword(buyer.getPassword());
+			Collection<Buyer> buyers = buyerService.getAll();
+			Collection<User> users = new ArrayList<User>();
+			for(Buyer b: buyers) {
+				users.add(b);
+			}
+			User user = loginService.login(userLoginDTO, users);
+			UserToken userToken = new UserToken();
+			userToken.setId(user.getId());
+			userToken.setUsername(user.getUsername());
+			userToken.setRole(user.getRole());
+			request.getSession().setAttribute("userToken", userToken);
+			return userToken;
+		}
 	}
 	
 	@POST
 	@Path("/registerCoach")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
+	public UserToken registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
@@ -72,13 +96,13 @@ public class RegisterController implements IRegisterController {
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
 		
 		Coach coach = registerService.registerCoach(userRegistrationDTO, coachService);
 		
 		if(coach == null) {
-			return false;
-		} else return true;
+			return null;
+		} else return null;
 	}
 	
 	
@@ -86,7 +110,7 @@ public class RegisterController implements IRegisterController {
 	@Path("/registerManager")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
+	public UserToken registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
@@ -94,12 +118,12 @@ public class RegisterController implements IRegisterController {
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return false;
+		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
 		
 		Manager manager = registerService.registerManager(userRegistrationDTO, managerService);
 		if(manager == null) {
-			return false;
-		} else return true;
+			return null;
+		} else return null;
 	}
 
 	private boolean IsUsernameTaken(UserRegistrationDTO userRegistrationDTO, IBuyerService buyerService,

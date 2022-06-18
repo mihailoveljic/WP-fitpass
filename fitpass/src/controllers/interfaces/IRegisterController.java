@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.dtos.UserRegistrationDTO;
+import beans.dtos.UserToken;
 
 public interface IRegisterController {
 
@@ -16,17 +17,17 @@ public interface IRegisterController {
 	@Path("/registerBuyer")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
+	public UserToken registerBuyer(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
 	
 	@POST
 	@Path("/registerCoach")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
+	public UserToken registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
 	
 	@POST
 	@Path("/registerManager")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
+	public UserToken registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO);
 }

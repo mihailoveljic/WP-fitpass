@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 import beans.enums.Gender;
 import beans.enums.Role;
@@ -17,12 +17,12 @@ public abstract class User implements Serializable {
 	private String name;
 	private String surname;
 	private Gender gender;
-	private LocalDate dateOfBirth; 
+	private Date dateOfBirth; 
 	private Role role;
 	
 	public User() {}
 
-	public User(long id, String korisnickoIme, String password, String name, String surname, Gender gender, LocalDate dateOfBirth,
+	public User(long id, String korisnickoIme, String password, String name, String surname, Gender gender, Date dateOfBirth,
 			Role role) {
 		super();
 		this.id = id;
@@ -83,11 +83,11 @@ public abstract class User implements Serializable {
 		this.gender = gender;
 	}
 
-	public LocalDate getDateOfBirth() {
+	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
+	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
 

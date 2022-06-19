@@ -3,7 +3,7 @@
         "id": 1,
         "name": "Fitnes centar Flex",
         "sportsFacilityTypeId": 1,
-        "contentsOfTheFacilityIds": [
+        "facilityContentIds": [
             1,
             2
         ],
@@ -32,7 +32,7 @@
         "id": 2,
         "name": "Fitnes Club Total Gym",
         "sportsFacilityTypeId": 1,
-        "contentsOfTheFacilityIds": [
+        "facilityContentIds": [
             3,
             2
         ],
@@ -61,7 +61,7 @@
         "id": 3,
         "name": "Spens Sportski Centar Vojvodina",
         "sportsFacilityTypeId": 2,
-        "contentsOfTheFacilityIds": [
+        "facilityContentIds": [
             1,
             3,
             2

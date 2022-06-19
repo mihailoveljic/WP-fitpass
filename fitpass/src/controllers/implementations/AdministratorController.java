@@ -25,7 +25,7 @@ import services.implementations.AdministratorService;
 import services.interfaces.IAdministratorService;
 
 @Path("/administrators")
-public class AdministratorController implements ICRUDController<Administrator> {
+public class AdministratorController implements ICRUDController<Administrator, Administrator> {
 
 
 	@Context

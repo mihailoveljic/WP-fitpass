@@ -21,7 +21,7 @@ import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
 
 @Path("/buyers")
-public class BuyerController implements ICRUDController<Buyer> {
+public class BuyerController implements ICRUDController<Buyer, Buyer> {
 
 
 	@Context

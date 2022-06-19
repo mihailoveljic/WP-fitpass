@@ -21,7 +21,7 @@ import services.implementations.ContextInitService;
 import services.interfaces.IManagerService;
 
 @Path("/managers")
-public class ManagerController implements ICRUDController<Manager> {
+public class ManagerController implements ICRUDController<Manager, Manager> {
 
 
 	@Context

@@ -41,6 +41,4 @@ private IDAO<SportsFacility> sportsFacilityDAO;
 	public boolean delete(long id) {
 		return sportsFacilityDAO.delete(String.valueOf(id));
 	}
-
-
 }

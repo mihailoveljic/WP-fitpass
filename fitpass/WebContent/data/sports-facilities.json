@@ -9,11 +9,9 @@
         ],
         "openStatus": true,
         "location": {
-            "id": 1,
             "latitude": 45.2483289,
             "longitude": 19.8444608,
             "address": {
-                "id": 1,
                 "street": "Sutjeska",
                 "number": "2",
                 "city": "Novi Sad",
@@ -23,9 +21,8 @@
         "image": "teretana1.jpg",
         "averageRating": 4.6,
         "workingHours": {
-            "id": 1,
-            "fromThe": 8,
-            "toThe": 21
+            "fromThe": "08:00",
+            "toThe": "21:00"
         }
     },
     {
@@ -38,11 +35,9 @@
         ],
         "openStatus": true,
         "location": {
-            "id": 2,
             "latitude": 45.2473467,
             "longitude": 19.846036,
             "address": {
-                "id": 2,
                 "street": "Sutjeska",
                 "number": "2",
                 "city": "Novi Sad",
@@ -50,11 +45,10 @@
             }
         },
         "image": "teretana2.jpg",
-        "averageRating": 4.3,
+        "averageRating": 3.3,
         "workingHours": {
-            "id": 2,
-            "fromThe": 9,
-            "toThe": 21
+            "fromThe": "09:00",
+            "toThe": "21:00"
         }
     },
     {
@@ -68,11 +62,9 @@
         ],
         "openStatus": true,
         "location": {
-            "id": 3,
             "latitude": 45.2471466,
             "longitude": 19.8458578,
             "address": {
-                "id": 3,
                 "street": "Sutjeska",
                 "number": "2",
                 "city": "Novi Sad",
@@ -80,11 +72,10 @@
             }
         },
         "image": "spens.jpg",
-        "averageRating": 4.1,
+        "averageRating": 4.0,
         "workingHours": {
-            "id": 3,
-            "fromThe": 7,
-            "toThe": 22
+            "fromThe": "07:00",
+            "toThe": "22:00"
         }
     }
 ]

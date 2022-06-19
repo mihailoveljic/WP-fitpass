@@ -7,40 +7,30 @@ public class WorkingHours implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7032291776794838389L;
-	private long id;
-	private int fromThe;
-	private int toThe;
+	private String fromThe;
+	private String toThe;
 	
 	public WorkingHours() {}
 
-	public WorkingHours(long id, int fromThe, int toThe) {
+	public WorkingHours(long id, String fromThe, String toThe) {
 		super();
-		this.id = id;
 		this.fromThe = fromThe;
 		this.toThe = toThe;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public int getFromThe() {
+	public String getFromThe() {
 		return fromThe;
 	}
 
-	public void setFromThe(int fromThe) {
+	public void setFromThe(String fromThe) {
 		this.fromThe = fromThe;
 	}
 
-	public int getToThe() {
+	public String getToThe() {
 		return toThe;
 	}
 
-	public void setToThe(int toThe) {
+	public void setToThe(String toThe) {
 		this.toThe = toThe;
 	}
 

@@ -60,12 +60,17 @@ public class SportsFacility implements Serializable {
 		this.sportsFacilityTypeId = sportsFacilityTypeId;
 	}
 
-	public ArrayList<Long> getContentsOfTheFacilityIds() {
+	
+	public ArrayList<Long> getFacilityContentIds() {
 		return facilityContentIds;
 	}
 
-	public void setContentsOfTheFacilityIds(ArrayList<Long> facilityContentIds) {
+	public void setFacilityContentIds(ArrayList<Long> facilityContentIds) {
 		this.facilityContentIds = facilityContentIds;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public boolean isOpenStatus() {

@@ -18,10 +18,10 @@ import javax.ws.rs.core.MediaType;
 import beans.models.FacilityContent;
 import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
-import services.interfaces.ICRUDService;
+import services.interfaces.IFacilityContentService;
 
 @Path("/FacilityContentController")
-public class FacilityContentController implements ICRUDController<FacilityContent> {
+public class FacilityContentController implements ICRUDController<FacilityContent, FacilityContent> {
 
 	@Context
 	ServletContext ctx;
@@ -40,7 +40,7 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<FacilityContent> getAll(){
-		ICRUDService<FacilityContent> facilityContentService = (ICRUDService<FacilityContent>) ctx.getAttribute("FacilityContentService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.getAll();
 	}
 	
@@ -49,7 +49,7 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public FacilityContent get(@PathParam("id") long id) {
-		ICRUDService<FacilityContent> facilityContentService = (ICRUDService<FacilityContent>)ctx.getAttribute("FacilityContentService");
+		IFacilityContentService facilityContentService = (IFacilityContentService)ctx.getAttribute("FacilityContentService");
 		return facilityContentService.get(id);
 	}
 	
@@ -59,7 +59,7 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public FacilityContent create(FacilityContent facilityContent) {
-		ICRUDService<FacilityContent> facilityContentService = (ICRUDService<FacilityContent>) ctx.getAttribute("FacilityContentService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.create(facilityContent);
 	}
 	
@@ -69,7 +69,7 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean update(FacilityContent facilityContent) {
-		ICRUDService<FacilityContent> facilityContentService = (ICRUDService<FacilityContent>) ctx.getAttribute("FacilityContentService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.update(facilityContent);
 	}
 	
@@ -78,7 +78,7 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public boolean delete(@PathParam("id") long id) {
-		ICRUDService<FacilityContent> facilityContentService = (ICRUDService<FacilityContent>) ctx.getAttribute("FacilityContentService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.delete(id);
 	}
 	

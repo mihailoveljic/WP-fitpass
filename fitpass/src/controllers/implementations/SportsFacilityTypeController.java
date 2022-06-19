@@ -21,7 +21,7 @@ import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 
 @Path ("SportsFacilityTypeController")
-public class SportsFacilityTypeController implements ICRUDController<SportsFacilityType> {
+public class SportsFacilityTypeController implements ICRUDController<SportsFacilityType, SportsFacilityType> {
 
 	@Context
 	ServletContext ctx;

@@ -1,12 +1,13 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.FacilityContent;
 import daos.interfaces.IDAO;
-import services.interfaces.ICRUDService;
+import services.interfaces.IFacilityContentService;
 
-public class FacilityContentService implements ICRUDService<FacilityContent> {
+public class FacilityContentService implements IFacilityContentService {
 
 private IDAO<FacilityContent> facilityContentDAO;
 	
@@ -40,6 +41,15 @@ private IDAO<FacilityContent> facilityContentDAO;
 	@Override
 	public boolean delete(long id) {
 		return facilityContentDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public ArrayList<String> getByIds(ArrayList<Long> facilityContentIds) {
+		ArrayList<String> facilityContenNames = new ArrayList<String>();
+		for(long fci : facilityContentIds) {
+			facilityContenNames.add(this.get(fci).getName());
+		}
+		return facilityContenNames;
 	}
 
 

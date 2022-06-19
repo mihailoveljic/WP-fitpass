@@ -12,23 +12,23 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-public interface ICRUDController<T> {
+public interface ICRUDController<T, B> {
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<T> getAll();
+	public Collection<B> getAll();
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public T get(@PathParam("id") long id);
+	public B get(@PathParam("id") long id);
 	
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public T create(T t);
+	public B create(T t);
 	
 	@PUT
 	@Path("/")

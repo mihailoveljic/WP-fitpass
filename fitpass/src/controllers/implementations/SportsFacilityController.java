@@ -1,5 +1,6 @@
 package controllers.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -15,13 +16,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.SportsFacilityDTO;
 import beans.models.SportsFacility;
+import beans.models.SportsFacilityType;
 import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
+import services.interfaces.ICRUDService;
+import services.interfaces.IFacilityContentService;
 import services.interfaces.ISportsFacilityService;
 
-@Path("/sportsFacilities")
-public class SportsFacilityController implements ICRUDController<SportsFacility> {
+@Path("/SportsFacilityController")
+public class SportsFacilityController implements ICRUDController<SportsFacility, SportsFacilityDTO> {
 
 	@Context
 	ServletContext ctx;
@@ -32,6 +37,8 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@PostConstruct
 	public void init() {
 		ContextInitService.initSportsFacilityService(ctx);
+		ContextInitService.initSportsFacilityTypeService(ctx);
+		ContextInitService.initFacilityContentService(ctx);
 	}
 	
 	
@@ -39,18 +46,56 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Collection<SportsFacility> getAll(){
+	public Collection<SportsFacilityDTO> getAll(){
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
-		return sportsFacilityService.getAll();
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
+		IFacilityContentService facilityContentService = (IFacilityContentService)ctx.getAttribute("FacilityContentService");
+		Collection<SportsFacility> sportsFacilities = sportsFacilityService.getAll();
+		Collection<SportsFacilityDTO> sportsFacilityDTOs = new ArrayList<SportsFacilityDTO>();
+		
+		for(SportsFacility sportFacility : sportsFacilities) {
+			SportsFacilityDTO sportsFacilityDTO = new SportsFacilityDTO();
+			sportsFacilityDTO.setId(sportFacility.getId());
+			sportsFacilityDTO.setName(sportFacility.getName());
+			sportsFacilityDTO.setSportsFacilityType(
+					sportsFacilityTypeService.get(sportFacility.getSportsFacilityTypeId()).getName());
+			sportsFacilityDTO.setFacilityContents(
+					facilityContentService.getByIds(sportFacility.getFacilityContentIds()));
+			sportsFacilityDTO.setOpenStatus(sportFacility.isOpenStatus());
+			sportsFacilityDTO.setLocation(sportFacility.getLocation());
+			sportsFacilityDTO.setImage(ctx.getContextPath() + "\\data\\img\\sports-facilities\\" + sportFacility.getImage());
+			sportsFacilityDTO.setAverageRating(sportFacility.getAverageRating());
+			sportsFacilityDTO.setWorkingHours(sportFacility.getWorkingHours());
+			sportsFacilityDTOs.add(sportsFacilityDTO);
+		}
+		return sportsFacilityDTOs;
 	}
 	
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public SportsFacility get(@PathParam("id") long id) {
+	public SportsFacilityDTO get(@PathParam("id") long id) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService)ctx.getAttribute("SportsFacilityService");
-		return sportsFacilityService.get(id);
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
+		IFacilityContentService facilityContentService = (IFacilityContentService)ctx.getAttribute("FacilityContentService");
+		
+		SportsFacility sportFacility = sportsFacilityService.get(id);
+		
+		SportsFacilityDTO sportsFacilityDTO = new SportsFacilityDTO();
+		sportsFacilityDTO.setId(sportFacility.getId());
+		sportsFacilityDTO.setName(sportFacility.getName());
+		sportsFacilityDTO.setSportsFacilityType(
+				sportsFacilityTypeService.get(sportFacility.getSportsFacilityTypeId()).getName());
+		sportsFacilityDTO.setFacilityContents(
+				facilityContentService.getByIds(sportFacility.getFacilityContentIds()));
+		sportsFacilityDTO.setOpenStatus(sportFacility.isOpenStatus());
+		sportsFacilityDTO.setLocation(sportFacility.getLocation());
+		sportsFacilityDTO.setImage(ctx.getContextPath() + "\\data\\img\\sports-facilities\\" + sportFacility.getImage());
+		sportsFacilityDTO.setAverageRating(sportFacility.getAverageRating());
+		sportsFacilityDTO.setWorkingHours(sportFacility.getWorkingHours());
+
+		return sportsFacilityDTO;
 	}
 	
 	@POST
@@ -58,9 +103,25 @@ public class SportsFacilityController implements ICRUDController<SportsFacility>
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public SportsFacility create(SportsFacility sportsFacility) {
+	public SportsFacilityDTO create(SportsFacility sportsFacility) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
-		return sportsFacilityService.create(sportsFacility);
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
+		IFacilityContentService facilityContentService = (IFacilityContentService)ctx.getAttribute("FacilityContentService");	
+		SportsFacility sportFacility = sportsFacilityService.create(sportsFacility);
+		SportsFacilityDTO sportsFacilityDTO = new SportsFacilityDTO();
+		sportsFacilityDTO.setId(sportFacility.getId());
+		sportsFacilityDTO.setName(sportFacility.getName());
+		sportsFacilityDTO.setSportsFacilityType(
+				sportsFacilityTypeService.get(sportFacility.getSportsFacilityTypeId()).getName());
+		sportsFacilityDTO.setFacilityContents(
+				facilityContentService.getByIds(sportFacility.getFacilityContentIds()));
+		sportsFacilityDTO.setOpenStatus(sportFacility.isOpenStatus());
+		sportsFacilityDTO.setLocation(sportFacility.getLocation());
+		sportsFacilityDTO.setImage(ctx.getContextPath() + "\\data\\img\\sports-facilities\\" + sportFacility.getImage());
+		sportsFacilityDTO.setAverageRating(sportFacility.getAverageRating());
+		sportsFacilityDTO.setWorkingHours(sportFacility.getWorkingHours());
+
+		return sportsFacilityDTO;
 	}
 	
 	@PUT

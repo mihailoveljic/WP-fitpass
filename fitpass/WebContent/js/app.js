@@ -1,9 +1,9 @@
-const SportsFacilities = { template: '<sports-facilities></sports-facilities>' }
+const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
 
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		{path: '/', component: SportsFacilities}
+		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities}
 	  ]
 });
 
@@ -14,10 +14,22 @@ var app = new Vue({
 	data: {
 		mode: "GUEST",
 		appBarLinks: [
-			'Home',
-			'Sport Facilities',
-			'Programs',
-			'Trainers',
+			{
+				name:'Home',
+				link: '/'
+			},
+			{
+				name:'Sport Facilities',
+				link: '/sports-facilities'
+			},
+			{
+				name:'Programs',
+				link: '/programs'
+			},
+			{
+				name:'Trainers',
+				link: '/trainers'
+			}
 		],
 		drawer: false,
 		group: null,

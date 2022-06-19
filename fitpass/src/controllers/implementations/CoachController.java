@@ -21,7 +21,7 @@ import services.implementations.ContextInitService;
 import services.interfaces.ICoachService;
 
 @Path("/coaches")
-public class CoachController implements ICRUDController<Coach> {
+public class CoachController implements ICRUDController<Coach, Coach> {
 
 
 	@Context

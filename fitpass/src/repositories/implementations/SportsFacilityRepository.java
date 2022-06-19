@@ -28,7 +28,7 @@ private String contextPath;
 		
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
-		    List<SportsFacility> sportsFacilities = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\sportsFacilities.json").toFile(), SportsFacility[].class));
+		    List<SportsFacility> sportsFacilities = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\sports-facilities.json").toFile(), SportsFacility[].class));
 		    for(SportsFacility sf : sportsFacilities){
 		    	map.put(String.valueOf(sf.getId()), sf);
 		    }
@@ -44,7 +44,7 @@ private String contextPath;
 	public boolean save(Map<String, SportsFacility> map) {
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
-		    mapper.writeValue(Paths.get(contextPath + "data\\sportsFacilities.json").toFile(), map.values());
+		    mapper.writeValue(Paths.get(contextPath + "data\\sports-facilities.json").toFile(), map.values());
 
 		} catch (Exception ex) {
 		    ex.printStackTrace();

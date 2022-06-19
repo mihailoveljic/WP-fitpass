@@ -5,12 +5,14 @@ import javax.servlet.ServletContext;
 import beans.models.Administrator;
 import beans.models.Buyer;
 import beans.models.Coach;
+import beans.models.FacilityContent;
 import beans.models.Manager;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import daos.implementations.AdministratorDAO;
 import daos.implementations.BuyerDAO;
 import daos.implementations.CoachDAO;
+import daos.implementations.FacilityContentDAO;
 import daos.implementations.ManagerDAO;
 import daos.implementations.SportsFacilityDAO;
 import daos.implementations.SportsFacilityTypeDAO;
@@ -18,6 +20,7 @@ import daos.interfaces.IDAO;
 import repositories.implementations.AdministratorRepository;
 import repositories.implementations.BuyerRepository;
 import repositories.implementations.CoachRepository;
+import repositories.implementations.FacilityContentRepository;
 import repositories.implementations.ManagerRepository;
 import repositories.implementations.SportsFacilityRepository;
 import repositories.implementations.SportsFacilityTypeRepository;
@@ -100,5 +103,15 @@ public class ContextInitService {
 			ctx.setAttribute("SportsFacilityTypeService", new SportsFacilityTypeService(sportsFacilityTypeDAO));
 		}
 	}
+	public static void initFacilityContentService(ServletContext ctx) {
+		if (ctx.getAttribute("FacilityContentService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<FacilityContent> facilityContentRepository = new FacilityContentRepository(contextPath);
+	    	
+	    	IDAO<FacilityContent> sportsFacilityDAO = new FacilityContentDAO(facilityContentRepository);
+	    	
+			ctx.setAttribute("FacilityContentService", new FacilityContentService(sportsFacilityDAO));
+		}
+  }
 
 }

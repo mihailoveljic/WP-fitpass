@@ -4,9 +4,9 @@ import java.util.Collection;
 
 import beans.models.Buyer;
 import daos.interfaces.IDAO;
-import services.interfaces.ICRUDService;
+import services.interfaces.IBuyerService;
 
-public class BuyerService implements ICRUDService<Buyer> {
+public class BuyerService implements IBuyerService {
 
 	private IDAO<Buyer> buyerDAO;
 	
@@ -24,7 +24,7 @@ public class BuyerService implements ICRUDService<Buyer> {
 
 	@Override
 	public Buyer get(long id) {
-		return null;
+		return buyerDAO.get(String.valueOf(id));
 	}
 
 	@Override
@@ -33,13 +33,24 @@ public class BuyerService implements ICRUDService<Buyer> {
 	}
 
 	@Override
-	public boolean update(Buyer t) {
-		return false;
+	public boolean update(Buyer buyer) {
+		return buyerDAO.update(buyer);
 	}
 
 	@Override
 	public boolean delete(long id) {
-		return false;
+		return buyerDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public Buyer getByUsername(String username) {
+		Collection<Buyer> buyers = buyerDAO.getAll();
+		for(Buyer b : buyers) {
+			if(b.getUsername().compareTo(username) == 0) {
+				return b;
+			}
+		}
+		return null;
 	}
 
 }

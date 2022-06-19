@@ -2,7 +2,7 @@ package beans.models;
 
 import java.io.Serializable;
 
-public class ContentOfTheFacility implements Serializable {
+public class FacilityContent implements Serializable {
 	/**
 	 * 
 	 */
@@ -10,9 +10,9 @@ public class ContentOfTheFacility implements Serializable {
 	private long id;
 	private String name;
 	
-	public ContentOfTheFacility() {}
+	public FacilityContent() {}
 
-	public ContentOfTheFacility(long id, String name) {
+	public FacilityContent(long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -33,4 +33,6 @@ public class ContentOfTheFacility implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	
 }

@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import beans.enums.Gender;
 import beans.enums.Role;
@@ -34,7 +34,7 @@ public abstract class User implements Serializable {
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -42,13 +42,13 @@ public abstract class User implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String korisnickoIme) {
-		this.username = korisnickoIme;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -97,5 +97,7 @@ public abstract class User implements Serializable {
 
 	public void setRole(Role role) {
 		this.role = role;
-	}	
+	}
+	
+	
 }

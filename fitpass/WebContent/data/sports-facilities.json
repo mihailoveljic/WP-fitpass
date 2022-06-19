@@ -1,0 +1,84 @@
+[
+    {
+        "id": 1,
+        "name": "Fitnes centar Flex",
+        "sportsFacilityTypeId": 1,
+        "facilityContentIds": [
+            1,
+            2
+        ],
+        "openStatus": true,
+        "location": {
+            "latitude": 45.2483289,
+            "longitude": 19.8444608,
+            "address": {
+            	"country":"Bugarska",
+                "street": "Sutjeska",
+                "number": "2",
+                "city": "Beograd",
+                "zipCode": 21000
+            }
+        },
+        "image": "teretana1.jpg",
+        "averageRating": 4.6,
+        "workingHours": {
+            "fromThe": "08:00",
+            "toThe": "21:00"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Fitnes Club Total Gym",
+        "sportsFacilityTypeId": 1,
+        "facilityContentIds": [
+            3,
+            2
+        ],
+        "openStatus": true,
+        "location": {
+            "latitude": 45.2473467,
+            "longitude": 19.846036,
+            "address": {
+            	"country": "Srbija",
+                "street": "Sutjeska",
+                "number": "2",
+                "city": "Novi Sad",
+                "zipCode": 21101
+            }
+        },
+        "image": "teretana2.jpg",
+        "averageRating": 3.3,
+        "workingHours": {
+            "fromThe": "09:00",
+            "toThe": "21:00"
+        }
+    },
+    {
+        "id": 3,
+        "name": "Spens Sportski Centar Vojvodina",
+        "sportsFacilityTypeId": 2,
+        "facilityContentIds": [
+            1,
+            3,
+            2
+        ],
+        "openStatus": true,
+        "location": {
+            "latitude": 45.2471466,
+            "longitude": 19.8458578,
+            "address": {
+            	"country": "Srbija",
+                "street": "Sutjeska",
+                "number": "2",
+                "city": "Novi Sad",
+                "zipCode": 21000
+            }
+        },
+        "image": "spens.jpg",
+        "averageRating": 4.0,
+        "workingHours": {
+            "fromThe": "20:00",
+            "toThe": "22:00"
+        }
+    }
+]

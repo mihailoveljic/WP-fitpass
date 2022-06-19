@@ -27,13 +27,13 @@ public class BuyerRepository implements IRepository<Buyer> {
 		HashMap<String, Buyer> map = new HashMap<String, Buyer>();
 		
 		try {
-		    // create object mapper instance
 		    ObjectMapper mapper = new ObjectMapper();
 
-		    // convert JSON file to map
-		    List<Buyer> buyers = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\buyers.json").toFile(), Buyer[].class));
-		    for(Buyer b : buyers){
-		    	map.put(String.valueOf(b.getId()), b);
+		    List<Buyer> list = Arrays.asList(mapper.readValue(
+		    		Paths.get(contextPath + "data\\buyers.json").toFile(), Buyer[].class));
+		    
+		    for(Buyer element : list){
+		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
 		    ex.printStackTrace();
@@ -46,10 +46,8 @@ public class BuyerRepository implements IRepository<Buyer> {
 	@Override
 	public boolean save(Map<String, Buyer> map) {
 		try {
-		    // create object mapper instance
 		    ObjectMapper mapper = new ObjectMapper();
 		    
-		    // convert map to JSON file
 		    mapper.writeValue(Paths.get(contextPath + "data\\buyers.json").toFile(), map.values());
 
 		} catch (Exception ex) {

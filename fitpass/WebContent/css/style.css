@@ -1,0 +1,14 @@
+.logo {
+  height: 64px;
+}
+
+.drawer-button {
+  margin: auto;
+  margin-right: 15px !important;
+  border: 3px solid #9898fd;
+  padding: 10px;
+}
+
+.appBar {
+  margin-top: 15px !important;
+}

@@ -31,7 +31,7 @@ public class BuyerDAO implements IDAO<Buyer> {
 
 	@Override
 	public Buyer create(Buyer buyer) {
-		long maxId = -1;
+		long maxId = 0;
 		for (String id : buyers.keySet()) {
 			long idNum = Long.parseLong(id);
 			if (idNum > maxId) {

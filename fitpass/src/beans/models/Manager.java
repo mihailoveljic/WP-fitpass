@@ -7,21 +7,23 @@ public class Manager extends User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6450422194171631483L;
-	private SportsFacility sportsFacility;
+	private long sportsFacilityId;
 	
 	public Manager (){}
 
-	public Manager(SportsFacility sportsFacility) {
+	public Manager(long sportsFacilityId) {
 		super();
-		this.sportsFacility = sportsFacility;
+		this.sportsFacilityId = sportsFacilityId;
 	}
 
-	public SportsFacility getSportsFacility() {
-		return sportsFacility;
+	public long getSportsFacilityId() {
+		return sportsFacilityId;
 	}
 
-	public void setSportsFacility(SportsFacility sportsFacility) {
-		this.sportsFacility = sportsFacility;
+	public void setSportsFacilityId(long sportsFacilityId) {
+		this.sportsFacilityId = sportsFacilityId;
 	}
+
+	
 	
 }

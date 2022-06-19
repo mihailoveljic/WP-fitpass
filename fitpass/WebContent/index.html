@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+		<link href="css/style.css" rel="stylesheet"></link>
+	  	<meta charset="UTF-8">
+	</head>
+
+<body>
+	<div id="app">
+		<v-app>
+			<v-navigation-drawer v-model="drawer" app temporary>
+				<v-list nav dense>
+					<v-list-item-group v-model="group" active-class="blue--text text--accent-4">
+						<v-list-item v-for="link in appBarLinks" v-bind:key="link.link" centered>
+							<v-list-item-title>
+								{{ link }}
+							</v-list-item-title>
+						</v-list-item>
+					</v-list-item-group>
+				</v-list>
+				<div>
+					<v-btn v-show="mode=='GUEST'" class="ma-7 mt-12" outlined color="indigo" width="200px" x-large>
+						Register
+					</v-btn>
+				</div>
+				<div>
+					<v-btn v-show="mode=='GUEST'" class="ma-7" color="primary" width="200px" x-large>
+						Login
+					</v-btn>
+				</div>
+				
+				
+
+			</v-navigation-drawer>
+
+			<v-app-bar app color="white" flat class="justify-space-between" height="78">
+
+				<a href="#/">
+					<img class="ma-4" src="img/logo.png" alt="" height=48>
+				</a>
+				<v-tabs class="justify-center d-none d-lg-flex" color="indigo darken-1">
+
+					<v-tab v-for="link in appBarLinks" :key="link.link" :to="link.link">
+						{{ link.name }}
+					</v-tab>
+				</v-tabs>
+				<template v-if="isGuest">
+					<v-row justify="center">
+						<v-dialog v-model="registerDialog" persistent max-width="600px">
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn color="primary" dark v-bind="attrs" v-on="on" class="mx-8 d-none d-lg-flex"
+									outlined color="indigo" centered x-large>
+									Register
+								</v-btn>
+							</template>
+							<v-card>
+								<v-card-title>
+									<span class="text-h5">Registration</span>
+								</v-card-title>
+								<v-card-text>
+									<v-container>
+										<v-row>
+											<v-col cols="12" sm="8" md="12">
+												<v-text-field label="Name*" required v-model="userRegistrationDTO.name">
+												</v-text-field>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<v-text-field label="Surname*" required v-model="userRegistrationDTO.surname">
+												</v-text-field>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<template>
+													<v-container fluid>
+														<p>Gender:</p>
+														<v-radio-group v-model="userRegistrationDTO.gender" mandatory>
+															<v-radio label="Male" value="MALE"></v-radio>
+															<v-radio label="Female" value="FEMALE"></v-radio>
+														</v-radio-group>
+													</v-container>
+												</template>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<v-text-field label="Username*" hint="Must be unique." required v-model="userRegistrationDTO.username">
+												</v-text-field>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<v-text-field label="Password" type="password" v-model="userRegistrationDTO.password"
+													hint="Atleast 8 characters."></v-text-field>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<template>
+													<div>
+														<v-menu ref="menu" v-model="menu"
+															:close-on-content-click="false"
+															transition="scale-transition" offset-y min-width="auto">
+															<template v-slot:activator="{ on, attrs }">
+																<v-text-field v-model="date" label="Birthday date"
+																	prepend-icon="mdi-calendar" readonly v-bind="attrs"
+																	v-on="on">
+																</v-text-field>
+															</template>
+															<v-date-picker v-model="date"
+																:active-picker.sync="activePicker"
+																:max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+																min="1950-01-01" @change="save"></v-date-picker>
+														</v-menu>
+													</div>
+
+												</template>
+											</v-col>
+										</v-row>
+									</v-container>
+									<small>*indicates required field</small>
+								</v-card-text>
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									<v-btn color="blue darken-1" text @click="registerDialog = false">
+										Cancel
+									</v-btn>
+									<v-btn color="blue darken-1" text @click="register">
+										Register
+									</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-dialog>
+					</v-row>
+				</template>
+				<template v-if="isGuest">
+					<v-row justify="center" class="ma-0">
+						<v-dialog v-model="loginDialog" persistent max-width="600px">
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn color="primary" v-bind="attrs" v-on="on" 
+									class="ma-0 d-none d-lg-flex" centered x-large>
+									Login
+								</v-btn>
+							</template>
+							<v-card>
+								<v-card-title>
+									<span class="text-h5">Login</span>
+								</v-card-title>
+								<v-card-text>
+									<v-container>
+										<v-row>
+											<v-col cols="12">
+												<v-text-field label="Username*" v-model="userLoginDTO.username" required></v-text-field>
+											</v-col>
+											<v-col cols="12">
+												<v-text-field label="Password*" v-model="userLoginDTO.password" type="password" required></v-text-field>
+											</v-col>
+										</v-row>
+									</v-container>
+									<small>*indicates required field</small>
+								</v-card-text>
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									<v-btn color="blue darken-1" text @click="loginDialog = false">
+										Cancel
+									</v-btn>
+									<v-btn color="blue darken-1" text @click="login">
+										Login
+									</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-dialog>
+					</v-row>
+				</template>
+				<v-btn color="primary" v-if="!isGuest" class="ma-0 d-none d-lg-flex" @click="logout" centered x-large>
+					Logout
+				</v-btn>
+				<v-app-bar-nav-icon x-large v-on:click.stop="drawer = !drawer" class="d-lg-none drawer-button">
+				</v-app-bar-nav-icon>
+			</v-app-bar>
+			<!-- Sizes your content based upon application components -->
+			<v-main>
+				<!-- Provides the application the proper gutter -->
+				<v-container fluid>
+					<!-- If using vue-router -->
+					<router-view></router-view>
+				</v-container>
+			</v-main>
+
+			<v-footer padless>
+				<v-card flat tile class="indigo lighten-1 white--text text-center">
+					<v-card-text>
+						<v-btn class="mx-4 white--text " icon>
+							<v-icon size="24px">
+								mdi-facebook
+							</v-icon>
+						</v-btn>
+						<v-btn class="mx-4 white--text " icon>
+							<v-icon size="24px">
+								mdi-twitter
+							</v-icon>
+						</v-btn>
+						<v-btn class="mx-4 white--text " icon>
+							<v-icon size="24px">
+								mdi-linkedin
+							</v-icon>
+						</v-btn>
+						<v-btn class="mx-4 white--text " icon>
+							<v-icon size="24px">
+								mdi-instagram
+							</v-icon>
+						</v-btn>
+					</v-card-text>
+
+					<v-card-text class="white--text pt-0">
+						"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+						labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+						laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+						voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+						non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					</v-card-text>
+
+					<v-divider></v-divider>
+
+					<v-card-text class="white--text">
+						{{ new Date().getFullYear() }} - <strong>fitpass</strong>
+					</v-card-text>
+				</v-card>
+			</v-footer>
+		</v-app>
+	</div>
+	<script src="js/axios.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+	<script src="js/vue-router.js"></script>
+	<script src="components/sports-facilities.js"></script>
+	<script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class TrainingHistory implements Serializable {
 	/**
@@ -9,22 +9,22 @@ public class TrainingHistory implements Serializable {
 	 */
 	private static final long serialVersionUID = 347514008638487485L;
 	private long id;
-	private Date dateTime;
-	private Training training;
-	private Buyer buyer;
-	private Coach coach;
+	private LocalDate dateTime;
+	private long trainingId;
+	private long buyerId;
+	private long coachId;
 	
 	public TrainingHistory() {}
 
-	public TrainingHistory(long id, Date dateTime, Training training, Buyer buyer, Coach coach) {
+	public TrainingHistory(long id, LocalDate dateTime, long trainingId, long buyerId, long coachId) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
-		this.training = training;
-		this.buyer = buyer;
-		this.coach = coach;
+		this.trainingId = trainingId;
+		this.buyerId = buyerId;
+		this.coachId = coachId;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -33,37 +33,37 @@ public class TrainingHistory implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateTime() {
+	public LocalDate getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(Date dateTime) {
+	public void setDateTime(LocalDate dateTime) {
 		this.dateTime = dateTime;
 	}
 
-	public Training getTraining() {
-		return training;
+	public long getTrainingId() {
+		return trainingId;
 	}
 
-	public void setTraining(Training training) {
-		this.training = training;
+	public void setTrainingId(long trainingId) {
+		this.trainingId = trainingId;
 	}
 
-	public Buyer getBuyer() {
-		return buyer;
+	public long getBuyerId() {
+		return buyerId;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setBuyerId(long buyerId) {
+		this.buyerId = buyerId;
 	}
 
-	public Coach getCoach() {
-		return coach;
+	public long getCoachId() {
+		return coachId;
 	}
 
-	public void setCoach(Coach coach) {
-		this.coach = coach;
+	public void setCoachId(long coachId) {
+		this.coachId = coachId;
 	}
-	
+
 	
 }

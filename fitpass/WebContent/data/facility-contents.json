@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "Personal training"
+    },
+    {
+        "id": 2,
+        "name": "Group training"
+    },
+    {
+        "id": 3,
+        "name": "Sauna"
+    },
+    {
+        "id": 4,
+        "name": "Massage"
+    }
+]

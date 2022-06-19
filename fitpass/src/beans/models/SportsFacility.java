@@ -1,12 +1,8 @@
 package beans.models;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 
 public class SportsFacility implements Serializable {
 	/**
@@ -15,31 +11,31 @@ public class SportsFacility implements Serializable {
 	private static final long serialVersionUID = 6725392041839697593L;
 	private long id;
 	private String name;
-	private SportsFacilityType sportsFacilityType;
-	private ArrayList<ContentOfTheFacility> contentsOfTheFacility;
+	private long sportsFacilityTypeId;
+	private ArrayList<Long> facilityContentIds;
 	private boolean openStatus;
 	private Location location;
-	private BufferedImage image;
+	private String image;
 	private double averageRating;
 	private WorkingHours workingHours;
 	
 	public SportsFacility() {}
 
-	public SportsFacility(long id ,String name, SportsFacilityType sportsFacilityType, ArrayList<ContentOfTheFacility> contentsOfTheFacility,
-			boolean openStatus, Location location, double averageRating,
-			WorkingHours workingHours) throws IOException {
+	public SportsFacility(long id ,String name, long sportsFacilityTypeId, ArrayList<Long> facilityContentIds,
+			boolean openStatus, Location location, String image, double averageRating,
+			WorkingHours workingHours) {
 		super();
 		this.name = name;
-		this.sportsFacilityType = sportsFacilityType;
-		this.contentsOfTheFacility = contentsOfTheFacility;
+		this.sportsFacilityTypeId = sportsFacilityTypeId;
+		this.facilityContentIds = facilityContentIds;
 		this.openStatus = openStatus;
 		this.location = location;
-		this.image = ImageIO.read(new File(name + ".png"));
+		this.image = image;
 		this.averageRating = averageRating;
 		this.workingHours = workingHours;
 		this.id = id;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -47,6 +43,7 @@ public class SportsFacility implements Serializable {
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
@@ -55,20 +52,25 @@ public class SportsFacility implements Serializable {
 		this.name = name;
 	}
 
-	public SportsFacilityType getSportsFacilityType() {
-		return sportsFacilityType;
+	public long getSportsFacilityTypeId() {
+		return sportsFacilityTypeId;
 	}
 
-	public void setSportsFacilityType(SportsFacilityType sportsFacilityType) {
-		this.sportsFacilityType = sportsFacilityType;
+	public void setSportsFacilityTypeId(long sportsFacilityTypeId) {
+		this.sportsFacilityTypeId = sportsFacilityTypeId;
 	}
 
-	public ArrayList<ContentOfTheFacility> getContentsOfTheFacility() {
-		return contentsOfTheFacility;
+	
+	public ArrayList<Long> getFacilityContentIds() {
+		return facilityContentIds;
 	}
 
-	public void setContentsOfTheFacility(ArrayList<ContentOfTheFacility> contentsOfTheFacility) {
-		this.contentsOfTheFacility = contentsOfTheFacility;
+	public void setFacilityContentIds(ArrayList<Long> facilityContentIds) {
+		this.facilityContentIds = facilityContentIds;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public boolean isOpenStatus() {
@@ -87,8 +89,12 @@ public class SportsFacility implements Serializable {
 		this.location = location;
 	}
 
-	public BufferedImage getImage() {
+	public String getImage() {
 		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public double getAverageRating() {
@@ -106,8 +112,5 @@ public class SportsFacility implements Serializable {
 	public void setWorkingHours(WorkingHours workingHours) {
 		this.workingHours = workingHours;
 	}
-	
-	
-	
 	
 }

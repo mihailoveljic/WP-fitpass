@@ -20,7 +20,7 @@ import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ISportsFacilityService;
 
-@Path("/sportsFacilities")
+@Path("/SportsFacilitiesController")
 public class SportsFacilityController implements ICRUDController<SportsFacility> {
 
 	@Context

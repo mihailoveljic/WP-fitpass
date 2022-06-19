@@ -1,11 +1,11 @@
 [
     {
         "id": 1,
-        "name": "Teretana"
+        "name": "Gym"
     },
     {
         "id": 2,
-        "name": "Sportski objekat"
+        "name": "Sport facility"
     },
     {
         "id": 3,
@@ -13,6 +13,6 @@
     },
     {
         "id": 4,
-        "name": "Bazen"
+        "name": "Pool"
     }
 ]

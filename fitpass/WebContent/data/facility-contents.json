@@ -1,11 +1,11 @@
 [
     {
         "id": 1,
-        "name": "Personalni trening"
+        "name": "Personal training"
     },
     {
         "id": 2,
-        "name": "Grupni trening"
+        "name": "Group training"
     },
     {
         "id": 3,
@@ -13,6 +13,6 @@
     },
     {
         "id": 4,
-        "name": "Masaža"
+        "name": "Massage"
     }
 ]

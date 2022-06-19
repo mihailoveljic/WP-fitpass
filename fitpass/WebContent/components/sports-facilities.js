@@ -16,7 +16,7 @@ Vue.component("sports-facilities", {
 					<div class="text-h4 gray--text text-center mt-2">
 						Fitnes centar Flex
 					</div>
-					<div class="text-body-1 gray--text text-center text-center">
+					<div class="text-body-1 gray--text text-center">
 						Teretana
 					</div>
 					<v-divider class="my-2"></v-divider>

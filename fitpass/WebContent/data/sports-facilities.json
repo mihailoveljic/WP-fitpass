@@ -12,9 +12,10 @@
             "latitude": 45.2483289,
             "longitude": 19.8444608,
             "address": {
+            	"country":"Bugarska",
                 "street": "Sutjeska",
                 "number": "2",
-                "city": "Novi Sad",
+                "city": "Beograd",
                 "zipCode": 21000
             }
         },
@@ -38,6 +39,7 @@
             "latitude": 45.2473467,
             "longitude": 19.846036,
             "address": {
+            	"country": "Srbija",
                 "street": "Sutjeska",
                 "number": "2",
                 "city": "Novi Sad",
@@ -65,6 +67,7 @@
             "latitude": 45.2471466,
             "longitude": 19.8458578,
             "address": {
+            	"country": "Srbija",
                 "street": "Sutjeska",
                 "number": "2",
                 "city": "Novi Sad",
@@ -74,7 +77,7 @@
         "image": "spens.jpg",
         "averageRating": 4.0,
         "workingHours": {
-            "fromThe": "07:00",
+            "fromThe": "20:00",
             "toThe": "22:00"
         }
     }

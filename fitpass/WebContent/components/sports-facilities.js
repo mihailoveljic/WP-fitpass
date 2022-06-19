@@ -11,7 +11,9 @@ Vue.component("sports-facilities", {
 				facilityContents: null,
 				facilityContentNames: new Array(),
 				facilityContentsSearched: new Array(),
-				requiredRating: 0.0
+				requiredRating: 0.0,
+				sportsFacilityCountrySearched: "",
+				sportsFacilityCitySearched: ""
 		    }
 	},
 	template: 
@@ -35,10 +37,10 @@ Vue.component("sports-facilities", {
 							</div>
 							<v-divider class="my-2"></v-divider>
 							<div class="text-body-1 gray--text text-center">
-								{{sportsFacility.location.address.street}} {{sportsFacility.location.address.number}}, {{sportsFacility.location.address.city}}, {{sportsFacility.location.address.zipCode}}
+								{{sportsFacility.location.address.street}} {{sportsFacility.location.address.number}}, {{sportsFacility.location.address.city}}, {{sportsFacility.location.address.zipCode}}, {{sportsFacility.location.address.country}}
 							</div>
-							<div class="text-body-1 gray--text text-center green--text">
-								{{sportsFacility.workingHours.fromThe}} - {{sportsFacility.workingHours.toThe}}  <!--|   {{checkIfIsOpen(sportsFacility)}}-->
+							<div class="text-body-1 gray--text text-center" v-bind:class='{"red--text" : !sportsFacility.openStatus,  "green--text" : sportsFacility.openStatus}'>
+								{{sportsFacility.workingHours.fromThe}} - {{sportsFacility.workingHours.toThe}}  |   {{checkIfIsOpen(sportsFacility)}}
 							</div>
 							<v-rating color="primary" class="text-center" half-increments length="5" size="26" :value="sportsFacility.averageRating" readonly></v-rating>
 						</v-col>
@@ -47,11 +49,13 @@ Vue.component("sports-facilities", {
 			</v-col>
 			<v-col cols="2">
 				<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
-					<v-autocomplete @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" :items="sportsFacilityNames" label="Sport facility name" clearable solo></v-autocomplete>
+					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" label="Sport facility name" outlined clearable></v-text-field>
+					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCountrySearched" label="Country" outlined clearable></v-text-field>
+					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCitySearched" label="City" outlined clearable></v-text-field>
 					<v-combobox @change="filterSportsFacility" v-model="sportsFacilityTypesSearched" :items="sportsFacilityTypeNames" label="Sport facility types" clearable multiple outlined small-chips></v-combobox>
 					<v-combobox @change="filterSportsFacility" v-model="facilityContentsSearched" :items="facilityContentNames" label="Programs" clearable multiple outlined small-chips></v-combobox>
 					<label>Required rating:</label>
-					<v-rating @change="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" :value="requiredRating"></v-rating>
+					<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
 				</v-card>
 			</v-col>
 		</v-row>
@@ -59,10 +63,42 @@ Vue.component("sports-facilities", {
 `
 	, 
 	methods : {
+		filterSportsFacilityByRating(){
+			if(this.requiredRating <= 0.0) return false;
+			this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => {
+				if(sportsFacility.averageRating >= this.requiredRating) return true;
+				return false;
+			});
+		},
+		filterSportsFacilityByCountry(){
+			if(this.sportsFacilityCountrySearched == "") return false;
+			this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => {
+				if(sportsFacility.location.address.country.toLowerCase().includes(this.sportsFacilityCountrySearched.toLowerCase())) return true;
+				return false;
+			});
+		},
+		filterSportsFacilityByCity(){
+			if(this.sportsFacilityCitySearched == "") return false;
+			this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => {
+				if(sportsFacility.location.address.city.toLowerCase().includes(this.sportsFacilityCitySearched.toLowerCase())) return true;
+				return false;
+			});
+		},
+		filterSportsFacilityByName(){
+			if(this.sportsFacilityNameSearched == "") return false;
+			this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => {
+				if(sportsFacility.name.toLowerCase().includes(this.sportsFacilityNameSearched.toLowerCase())) return true;
+				return false;
+			});
+		},
 		filterSportsFacility(){
 			this.sportsFacilities = JSON.parse(JSON.stringify(this.sportsFacilitiesBackup));
 			this.filterSportsFacilityTypes();
 			this.filterFacilityContents();
+			this.filterSportsFacilityByName();
+			this.filterSportsFacilityByCountry();
+			this.filterSportsFacilityByCity();
+			this.filterSportsFacilityByRating();
 		},
 		filterSportsFacilityTypes(){
 			if(this.sportsFacilityTypesSearched.length == 0) return;
@@ -86,14 +122,30 @@ Vue.component("sports-facilities", {
 				}
 				return false;
 				});
-		}
+		},
+		checkIfIsOpen: function(sportsFacility){
+				let from = sportsFacility.workingHours.fromThe.split(':');
+				let to = sportsFacility.workingHours.toThe.split(':');
+				let hour = new Date().getHours();
+				let minute = new Date().getMinutes();
+				if(from[0]<= hour && hour <=to[0]){
+					if(from[0]== hour){
+						if(from[1]>minute) return "Closed";
+						sportsFacility.openStatus = false;
+					}else if(to[0]==hour){
+						if(to[1]<minute) return "Closed";
+						sportsFacility.openStatus = false;
+					}else{
+						sportsFacility.openStatus = true;
+						return "Open";
+					}
+				}
+				sportsFacility.openStatus = false;
+				return "Closed";
+			}
 	},
 	computed: {
-		/*checkIfIsOpen: function(sportsFacility){
-			if(sportsFacility.openStatus){
-				if(sportsFacility.workingHours.fromThe > new Date().getHours < sportsFacility)
-			}
-		}*/
+		
 	},
 	mounted () {
 		axios.get('rest/SportsFacilityController')

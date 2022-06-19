@@ -12,7 +12,7 @@ public class SportsFacility implements Serializable {
 	private long id;
 	private String name;
 	private long sportsFacilityTypeId;
-	private ArrayList<Long> contentsOfTheFacilityIds;
+	private ArrayList<Long> facilityContentIds;
 	private boolean openStatus;
 	private Location location;
 	private String image;
@@ -21,13 +21,13 @@ public class SportsFacility implements Serializable {
 	
 	public SportsFacility() {}
 
-	public SportsFacility(long id ,String name, long sportsFacilityTypeId, ArrayList<Long> contentsOfTheFacilityIds,
+	public SportsFacility(long id ,String name, long sportsFacilityTypeId, ArrayList<Long> facilityContentIds,
 			boolean openStatus, Location location, String image, double averageRating,
 			WorkingHours workingHours) {
 		super();
 		this.name = name;
 		this.sportsFacilityTypeId = sportsFacilityTypeId;
-		this.contentsOfTheFacilityIds = contentsOfTheFacilityIds;
+		this.facilityContentIds = facilityContentIds;
 		this.openStatus = openStatus;
 		this.location = location;
 		this.image = image;
@@ -61,11 +61,11 @@ public class SportsFacility implements Serializable {
 	}
 
 	public ArrayList<Long> getContentsOfTheFacilityIds() {
-		return contentsOfTheFacilityIds;
+		return facilityContentIds;
 	}
 
-	public void setContentsOfTheFacilityIds(ArrayList<Long> contentsOfTheFacilityIds) {
-		this.contentsOfTheFacilityIds = contentsOfTheFacilityIds;
+	public void setContentsOfTheFacilityIds(ArrayList<Long> facilityContentIds) {
+		this.facilityContentIds = facilityContentIds;
 	}
 
 	public boolean isOpenStatus() {

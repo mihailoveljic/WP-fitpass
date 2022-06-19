@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "name": "Personalni trening"
+    },
+    {
+        "id": 2,
+        "name": "Grupni trening"
+    },
+    {
+        "id": 3,
+        "name": "Sauna"
+    },
+    {
+        "id": 4,
+        "name": "Masaža"
+    }
+]

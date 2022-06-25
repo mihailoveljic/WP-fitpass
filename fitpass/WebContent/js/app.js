@@ -120,6 +120,13 @@ var app = new Vue({
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
+		},
+		checkIfUsernameIsUnique(){
+			axios.get('rest/RegisterController/checkIfUsernameIsUnique')
+              .then(response => (this.isUsernameUnique(response.data)))
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
 		}
 	}
 });

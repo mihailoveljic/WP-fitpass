@@ -85,7 +85,8 @@
 												</template>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field label="Username*" hint="Must be unique." required v-model="userRegistrationDTO.username">
+												<v-text-field name="usernameVTextField" label="Username*" hint="Must be unique." required v-model="userRegistrationDTO.username"
+												 v-on:blur="checkIfUsernameIsUnique" :class="{error : 'isUsernameUnique'}">
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">

@@ -7,7 +7,7 @@
             1,
             2
         ],
-        "openStatus": true,
+        "openStatus": false,
         "location": {
             "latitude": 45.2483289,
             "longitude": 19.8444608,
@@ -22,7 +22,7 @@
         "image": "teretana1.jpg",
         "averageRating": 4.6,
         "workingHours": {
-            "fromThe": "08:00",
+            "fromThe": "20:00",
             "toThe": "21:00"
         }
     },

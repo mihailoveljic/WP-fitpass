@@ -13,7 +13,8 @@ Vue.component("sports-facilities", {
 				facilityContentsSearched: new Array(),
 				requiredRating: 0.0,
 				sportsFacilityCountrySearched: "",
-				sportsFacilityCitySearched: ""
+				sportsFacilityCitySearched: "",
+				isOpenCheckbox: false
 		    }
 	},
 	template: 
@@ -56,6 +57,7 @@ Vue.component("sports-facilities", {
 					<v-combobox @change="filterSportsFacility" v-model="facilityContentsSearched" :items="facilityContentNames" label="Programs" clearable multiple outlined small-chips></v-combobox>
 					<label>Required rating:</label>
 					<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
+					<v-checkbox class="justify-center" @change="filterSportsFacility" v-model="isOpenCheckbox" label="Opened"></v-checkbox>
 				</v-card>
 			</v-col>
 		</v-row>
@@ -99,6 +101,12 @@ Vue.component("sports-facilities", {
 			this.filterSportsFacilityByCountry();
 			this.filterSportsFacilityByCity();
 			this.filterSportsFacilityByRating();
+			this.filterSportsFacilityByOpenStatus();
+		},
+		filterSportsFacilityByOpenStatus(){
+			if(this.isOpenCheckbox){
+				this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => (sportsFacility.openStatus));
+			}
 		},
 		filterSportsFacilityTypes(){
 			if(this.sportsFacilityTypesSearched.length == 0) return;
@@ -151,6 +159,10 @@ Vue.component("sports-facilities", {
 		axios.get('rest/SportsFacilityController')
               .then(response => {
 					this.sportsFacilities = response.data;
+					for(let sportsFacility of this.sportsFacilities){
+						this.checkIfIsOpen(sportsFacility);
+					}
+					this.sportsFacilities = this.sportsFacilities.sort((a, b) => Number(b.openStatus) - Number(a.openStatus));
 					this.sportsFacilitiesBackup = JSON.parse(JSON.stringify(this.sportsFacilities));
 					for(let sportsFacility of this.sportsFacilities){
 						this.sportsFacilityNames.push(sportsFacility.name);

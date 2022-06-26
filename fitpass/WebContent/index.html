@@ -66,21 +66,21 @@
 									<v-container>
 										<v-row>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field label="Name*" required v-model="userRegistrationDTO.name"
-												:rules="[() => !!userRegistrationDTO.name || 'This field is required!']" :error-messages="errorMessages">
+												<v-text-field ref="registrationName" label="Name*" required v-model="userRegistrationDTO.name"
+												:rules="[() => !!userRegistrationDTO.name || 'This field is required!']" :error-messages="registrationErrorMessages">
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field label="Surname*" required v-model="userRegistrationDTO.surname"
-												:rules="[() => !!userRegistrationDTO.surname || 'This field is required!']" :error-messages="errorMessages">
+												<v-text-field ref="registrationSurname" label="Surname*" required v-model="userRegistrationDTO.surname"
+												:rules="[() => !!userRegistrationDTO.surname || 'This field is required!']" :error-messages="registrationErrorMessages">
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
 												<template>
 													<v-container fluid>
 														<p>Gender:</p>
-														<v-radio-group v-model="userRegistrationDTO.gender" mandatory
-														 :rules="[() => !!userRegistrationDTO.gender || 'This field is required!']" :error-messages="errorMessages">
+														<v-radio-group ref="registrationGender" v-model="userRegistrationDTO.gender" mandatory
+														 :rules="[() => !!userRegistrationDTO.gender || 'This field is required!']" :error-messages="registrationErrorMessages">
 															<v-radio label="Male" value="MALE"></v-radio>
 															<v-radio label="Female" value="FEMALE"></v-radio>
 														</v-radio-group>
@@ -88,14 +88,14 @@
 												</template>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field label="Username*" required v-model="userRegistrationDTO.username"
+												<v-text-field ref="registrationUsername" label="Username*" required v-model="userRegistrationDTO.username"
 												  :rules="[  () => !!userRegistrationDTO.username || 'This field is required!',
-												 			 checkIfUsernameIsUnique()  || 'Must be unique']" :error-messages="errorMessages"> <!--:class="{error : '!isUsernameUnique'}" v-on:blur="checkIfUsernameIsUnique"-->
+												 			 checkIfUsernameIsUnique()  || 'Must be unique']" :error-messages="registrationErrorMessages"> <!--:class="{error : '!isUsernameUnique'}" v-on:blur="checkIfUsernameIsUnique"-->
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field label="Password" type="password" v-model="userRegistrationDTO.password"
-													:rules="[() => !!userRegistrationDTO.password || 'This field is required!']" :error-messages="errorMessages"></v-text-field>
+												<v-text-field ref="registrationPassword" label="Password" type="password" v-model="userRegistrationDTO.password"
+													:rules="[() => !!userRegistrationDTO.password || 'This field is required!']" :error-messages="registrationErrorMessages"></v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
 												<template>
@@ -109,11 +109,11 @@
 																	v-on="on">
 																</v-text-field>
 															</template>
-															<v-date-picker v-model="date"
+															<v-date-picker ref="registrationDate" v-model="date" required
 																:active-picker.sync="activePicker"
 																:max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
 																min="1950-01-01" @change="save"
-																:rules="[() => !!date || 'This field is required!']" :error-messages="errorMessages"></v-date-picker>
+																:rules="[() => !!date || 'This field is required!']" :error-messages="registrationErrorMessages"></v-date-picker>
 														</v-menu>
 													</div>
 
@@ -128,7 +128,7 @@
 									<v-btn color="blue darken-1" text @click="registerDialog = false">
 										Cancel
 									</v-btn>
-									<v-btn color="blue darken-1" text @click="register" :disabled="!isUsernameUnique || errorMessages=='' ">
+									<v-btn color="blue darken-1" text @click="register">
 										Register
 									</v-btn>
 								</v-card-actions>
@@ -153,10 +153,14 @@
 									<v-container>
 										<v-row>
 											<v-col cols="12">
-												<v-text-field label="Username*" v-model="userLoginDTO.username" required></v-text-field>
+												<v-text-field ref="loginUsername" label="Username*" v-model="userLoginDTO.username"
+												:rules="[() => !!userLoginDTO.username || 'This field is required!']" :error-messages="loginErrorMessages"
+												 required></v-text-field>
 											</v-col>
 											<v-col cols="12">
-												<v-text-field label="Password*" v-model="userLoginDTO.password" type="password" required></v-text-field>
+												<v-text-field ref="loginPassword" label="Password*" v-model="userLoginDTO.password" type="password"
+												:rules="[() => !!userLoginDTO.password || 'This field is required!']" :error-messages="loginErrorMessages"
+												required></v-text-field>
 											</v-col>
 										</v-row>
 									</v-container>

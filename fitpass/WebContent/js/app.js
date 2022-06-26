@@ -57,7 +57,10 @@ var app = new Vue({
 		},
 		userToken: null,
 		isUsernameUnique : true,
-		errorMessages : ''
+		registrationErrorMessages : '',
+		loginErrorMessages : '',
+		loginFormHasErrors: false,
+		registrationFormHasErrors: false
 	},
 	created(){
 		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));
@@ -72,12 +75,36 @@ var app = new Vue({
 		isGuest(){
 			return this.mode == "GUEST";
 		},
+		loginForm () {
+	        return {
+	         	loginUsername: this.userRegistrationDTO.username,
+				loginPassword:this.userRegistrationDTO.password
+			}
+        },
+        registrationForm () {
+	        return {
+	         	registrationUsername: this.userRegistrationDTO.username,
+				registrationPassword:this.userRegistrationDTO.password,
+				registrationName:this.userRegistrationDTO.name,
+				registrationSurname: this.userRegistrationDTO.surname,
+				registrationGender: this.userRegistrationDTO.gender
+			}
+        }
 	},
 	methods: {
 		save(date) {
 			this.$refs.menu.save(date);
 		},
 		login(){
+			this.loginFormHasErrors = false
+
+	        Object.keys(this.loginForm).forEach(f => {
+	          if (!this.loginForm[f]) this.loginFormHasErrors = true
+	
+	          this.$refs[f].validate(true)
+	        })
+			
+			if(this.loginFormHasErrors) return;
 			if(this.userToken != null) return;
 			axios.post('rest/LoginController/login', this.userLoginDTO)
               .then(response => {
@@ -106,6 +133,16 @@ var app = new Vue({
              this.mode = "GUEST";
 		},
 		register(){
+			this.registrationFormHasErrors = false
+
+	        Object.keys(this.registrationForm).forEach(f => {
+	          if (!this.registrationForm[f]) this.registrationFormHasErrors = true
+	
+	          this.$refs[f].validate(true)
+	        })
+			
+			if(this.registrationFormHasErrors) return;
+			
 			let temp = this.date.split('-');
 			this.userRegistrationDTO.dateOfBirth.year = temp[0];
 			this.userRegistrationDTO.dateOfBirth.month = temp[1];

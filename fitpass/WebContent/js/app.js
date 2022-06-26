@@ -1,9 +1,15 @@
 const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
+const BuyersList = { template : '<buyers-list></buyers-list>'}
+const ManagersList = {template : '<managers-list></managers-list>'}
+const CoachesList = {template : '<coaches-list></coaches-list>'}
 
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
-		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities}
+		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities},
+		{path: '/buyers', name: 'buyers-list', component: BuyersList},
+		{path: '/managers', name:'managers-list', component: ManagersList},
+		{path: '/coaches', name:'coaches-list', component: CoachesList}
 	  ]
 });
 
@@ -220,7 +226,7 @@ var app = new Vue({
 			},
 			{
 				name:'Trainers',
-				link: '/trainers'
+				link: '/coaches'
 			},
 			{
 				name: 'Buyers',

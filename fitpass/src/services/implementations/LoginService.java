@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 
 import beans.dtos.UserLoginDTO;
+import beans.dtos.UserToken;
 import beans.models.User;
 import services.interfaces.ILoginService;
 
@@ -25,9 +26,9 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public boolean logout(HttpServletRequest request) {
-		User user = null;
-		user = (User) request.getSession().getAttribute("user");
-		if (user != null) {
+		UserToken userToken = null;
+		userToken = (UserToken) request.getSession().getAttribute("userToken");
+		if (userToken != null) {
 			request.getSession().invalidate();
 		}
 		return true;

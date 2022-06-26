@@ -31,6 +31,7 @@ var app = new Vue({
 				link: '/trainers'
 			}
 		],
+		
 		drawer: false,
 		group: null,
 		registerDialog: false,
@@ -64,7 +65,10 @@ var app = new Vue({
 	},
 	created(){
 		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));
-		if(this.userToken != null) this.mode = this.userToken.role;
+		if(this.userToken != null) {
+			this.mode = this.userToken.role;
+		this.refreshNavBar();
+		}
 	},
 	watch: {
 		menu(val) {
@@ -77,8 +81,8 @@ var app = new Vue({
 		},
 		loginForm () {
 	        return {
-	         	loginUsername: this.userRegistrationDTO.username,
-				loginPassword:this.userRegistrationDTO.password
+	         	loginUsername: this.userLoginDTO.username,
+				loginPassword:this.userLoginDTO.password
 			}
         },
         registrationForm () {
@@ -108,10 +112,11 @@ var app = new Vue({
 			if(this.userToken != null) return;
 			axios.post('rest/LoginController/login', this.userLoginDTO)
               .then(response => {
-				this.userToken = response.data
-              	if(this.userToken == null) return;
+				this.userToken = response.data;
+              	if(this.userToken == null || this.userToken=="") return;
 	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
 	            this.mode= this.userToken.role;
+	            this.refreshNavBar();
 	            this.loginDialog = false;
               }
               )
@@ -131,6 +136,7 @@ var app = new Vue({
              sessionStorage.removeItem('userToken');
              this.userToken = null;
              this.mode = "GUEST";
+             this.refreshNavBar();
 		},
 		register(){
 			this.registrationFormHasErrors = false
@@ -172,6 +178,114 @@ var app = new Vue({
                     alert(error.message + " GRESKA");
                     });
                     return this.isUsernameUnique
+		},
+		refreshNavBar(){
+			
+			if(this.mode == 'KUPAC'){
+			this.appBarLinks = [
+				{
+					name:'Home',
+					link: '/'
+				},
+				{
+					name:'Sport Facilities',
+					link: '/sports-facilities'
+				},
+				{
+					name:'Programs',
+					link: '/programs'
+				},
+				{
+					name:'Trainers',
+					link: '/trainers'
+				},
+				{
+					name:'My Account',
+					link:'/account'
+				}
+			]
+			} else if(this.mode == "ADMINISTRATOR"){
+				this.appBarLinks= [
+			{
+				name:'Home',
+				link: '/'
+			},
+			{
+				name:'Sport Facilities',
+				link: '/sports-facilities'
+			},
+			{
+				name:'Managers',
+				link: '/managers'
+			},
+			{
+				name:'Trainers',
+				link: '/trainers'
+			},
+			{
+				name: 'Buyers',
+				link: '/buyers'
+			},
+			{
+					name:'My Account',
+					link:'/account'
+			}
+		]
+			} else if(this.mode == "MENADZER"){
+				this.appBarLinks= [
+			{
+				name:'Home',
+				link: '/'
+			},
+			{
+				name:'Sport Facility',
+				link: '/sports-facility'
+			},
+			{
+				name:'Programs',
+				link:'/programs'
+			},
+			{
+					name:'My Account',
+					link:'/account'
+			}
+		]
+			} else if(this.mode == "TRENER"){
+				this.appBarLinks= [
+			{
+				name:'Home',
+				link: '/'
+			},
+			{
+				name:'Sport Facilities',
+				link: '/sports-facilities'
+			},
+			{
+					name:'My Account',
+					link:'/account'
+			}
+		]
+			} else if(this.mode == "GUEST")
+			{
+				this.appBarLinks = [
+				{
+					name:'Home',
+					link: '/'
+				},
+				{
+					name:'Sport Facilities',
+					link: '/sports-facilities'
+				},
+				{
+					name:'Programs',
+					link: '/programs'
+				},
+				{
+					name:'Trainers',
+					link: '/trainers'
+				}
+			]
+			}
 		}
 	}
 });

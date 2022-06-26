@@ -1,0 +1,13 @@
+[
+	{
+		"id": 1,
+		"username": "holja",
+		"password": "holja",
+		"name": "Nikola",
+		"surname": "Holjevac",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": 1
+	}
+]

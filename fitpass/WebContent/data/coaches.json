@@ -1,0 +1,13 @@
+[
+	{
+		"id": 1,
+		"username": "milena",
+		"password": "milena",
+		"name": "Milena",
+		"surname": "Jelic",
+		"gender": "FEMALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistory": []
+	}
+]

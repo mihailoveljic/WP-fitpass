@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class TrainingHistory implements Serializable {
 	/**
@@ -9,14 +9,14 @@ public class TrainingHistory implements Serializable {
 	 */
 	private static final long serialVersionUID = 347514008638487485L;
 	private long id;
-	private LocalDate dateTime;
+	private Date dateTime;
 	private long trainingId;
 	private long buyerId;
 	private long coachId;
 	
 	public TrainingHistory() {}
 
-	public TrainingHistory(long id, LocalDate dateTime, long trainingId, long buyerId, long coachId) {
+	public TrainingHistory(long id, Date dateTime, long trainingId, long buyerId, long coachId) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
@@ -33,11 +33,11 @@ public class TrainingHistory implements Serializable {
 		this.id = id;
 	}
 
-	public LocalDate getDateTime() {
+	public Date getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(LocalDate dateTime) {
+	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 

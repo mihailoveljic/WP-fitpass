@@ -55,7 +55,9 @@ var app = new Vue({
 				day: null
 			}
 		},
-		userToken: null
+		userToken: null,
+		isUsernameUnique : true,
+		errorMessages : ''
 	},
 	created(){
 		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));
@@ -122,11 +124,17 @@ var app = new Vue({
                     });
 		},
 		checkIfUsernameIsUnique(){
-			axios.get('rest/RegisterController/checkIfUsernameIsUnique')
-              .then(response => (this.isUsernameUnique(response.data)))
+			if(this.userRegistrationDTO.username === ""){
+				this.isUsernameUnique = false
+				return false
+			}
+			let proba = this.errorMessages;
+			axios.get('rest/RegisterController/checkIfUsernameIsUnique/' + this.userRegistrationDTO.username)
+              .then(response => (this.isUsernameUnique = response.data ))
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
+                    return this.isUsernameUnique
 		}
 	}
 });

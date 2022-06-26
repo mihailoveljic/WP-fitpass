@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -46,12 +47,12 @@ public class RegisterController implements IRegisterController {
 		ContextInitService.initLoginService(ctx);
 		ContextInitService.initRegisterService(ctx);
 	}
-	
+
 	@GET
-	@Path("/checkIfUsernameIsUnique")
+	@Path("/checkIfUsernameIsUnique/{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean checkIfUsernameIsUnique(@Context HttpServletRequest request, String username) {
+	public boolean checkIfUsernameIsUnique(@Context HttpServletRequest request, @PathParam("username") String username) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");

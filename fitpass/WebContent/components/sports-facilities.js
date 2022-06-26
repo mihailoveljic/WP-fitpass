@@ -138,11 +138,15 @@ Vue.component("sports-facilities", {
 				let minute = new Date().getMinutes();
 				if(from[0]<= hour && hour <=to[0]){
 					if(from[0]== hour){
-						if(from[1]>minute) return "Closed";
-						sportsFacility.openStatus = false;
+						if(from[1]>minute){
+							sportsFacility.openStatus = false;
+							return "Closed";
+						} 
 					}else if(to[0]==hour){
-						if(to[1]<minute) return "Closed";
-						sportsFacility.openStatus = false;
+						if(to[1]<minute){
+							sportsFacility.openStatus = false;
+							return "Closed";
+						} 
 					}else{
 						sportsFacility.openStatus = true;
 						return "Open";

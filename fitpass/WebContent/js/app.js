@@ -1,7 +1,7 @@
 const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
 const BuyersList = { template : '<buyers-list></buyers-list>'}
 const ManagersList = {template : '<managers-list></managers-list>'}
-const CoachesList = {template : '<coaches-list></coaches-list>'}
+const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -9,8 +9,7 @@ const router = new VueRouter({
 		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities},
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
-		{path: '/coaches', name:'coaches-list', component: CoachesList, props: true}
-
+		{path: '/coaches', name:'coaches-list', component: CoachesList}
 	  ]
 });
 
@@ -103,14 +102,6 @@ var app = new Vue({
         }
 	},
 	methods: {
-		pomeri(){
-			this.$router.push({
-			name: 'coaches-list',
-			params: {
-				mode: this.mode
-			}
-		});
-		},
 		save(date) {
 			this.$refs.menu.save(date);
 		},

@@ -1,4 +1,5 @@
 Vue.component("coaches-list", {
+	name: "coaches-list",
 	data: function () {
 		    return {
 				coaches : [],

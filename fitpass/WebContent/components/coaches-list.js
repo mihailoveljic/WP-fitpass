@@ -3,6 +3,7 @@ Vue.component("coaches-list", {
 	data: function () {
 		    return {
 				coaches : [],
+				currentCoach:null,
 				createDialog:false,
 				userRegistrationDTO: {
 					username: "",
@@ -145,7 +146,7 @@ Vue.component("coaches-list", {
 	        >
 	          <td>{{ coach.name }}</td>
 	          <td>{{ coach.surname }}</td>
-	          <td><v-btn>delete</v-btn></td>
+	          <td><v-btn @click="deleteCoach(coach)">delete</v-btn></td>
 	        </tr>
 	      </tbody>
 	    </template>
@@ -200,9 +201,23 @@ Vue.component("coaches-list", {
                     alert(error.message + " GRESKA");
                     });
 		},
+		deleteCoach(coach){
+			axios.delete('rest/coaches/' + coach.id)
+              .then(response => {
+					if(response.data == false){
+						alert("Failed to delete coach!");
+						return false;
+					} 
+              })
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+                    this.reloadPage();
+                    return true;
+		},
 		reloadPage(){
     		window.location.reload();
-  		}
+  		},
 	},
 	watch: {
 		menu(val) {

@@ -9,7 +9,8 @@ const router = new VueRouter({
 		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities},
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
-		{path: '/coaches', name:'coaches-list', component: CoachesList}
+		{path: '/coaches', name:'coaches-list', component: CoachesList, props: true}
+
 	  ]
 });
 
@@ -34,7 +35,7 @@ var app = new Vue({
 			},
 			{
 				name:'Trainers',
-				link: '/trainers'
+				link: '/coaches'
 			}
 		],
 		
@@ -102,6 +103,14 @@ var app = new Vue({
         }
 	},
 	methods: {
+		pomeri(){
+			this.$router.push({
+			name: 'coaches-list',
+			params: {
+				mode: this.mode
+			}
+		});
+		},
 		save(date) {
 			this.$refs.menu.save(date);
 		},
@@ -177,7 +186,6 @@ var app = new Vue({
 				this.isUsernameUnique = false
 				return false
 			}
-			let proba = this.errorMessages;
 			axios.get('rest/RegisterController/checkIfUsernameIsUnique/' + this.userRegistrationDTO.username)
               .then(response => (this.isUsernameUnique = response.data ))
               .catch(error => {

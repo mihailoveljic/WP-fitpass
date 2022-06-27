@@ -45,7 +45,7 @@
 				</a>
 				<v-tabs class="justify-center d-none d-lg-flex" color="indigo darken-1">
 
-					<v-tab v-for="link in appBarLinks" :key="link.link" :to="link.link">
+					<v-tab v-for="link in appBarLinks" :key="link.link" @click="pomeri">
 						{{ link.name }}
 					</v-tab>
 				</v-tabs>

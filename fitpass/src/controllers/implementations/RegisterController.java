@@ -14,6 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import beans.dtos.UserLoginDTO;
 import beans.dtos.UserRegistrationDTO;
@@ -78,7 +80,7 @@ public class RegisterController implements IRegisterController {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		ILoginService loginService = (ILoginService)ctx.getAttribute("LoginService");
 		
-		//if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
+		if(IsUsernameTaken(userRegistrationDTO.getUsername(), buyerService, coachService, managerService, administratorService)) return null;
 		
 		Buyer buyer = registerService.registerBuyer(userRegistrationDTO, buyerService);
 		

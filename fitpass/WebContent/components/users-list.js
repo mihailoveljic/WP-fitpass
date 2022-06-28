@@ -11,7 +11,6 @@ Vue.component("users-list", {
 				userNameSearched : "",
 				userSurnameSearched : "",
 				usernameSearched : "",
-				buyerTypes : [],
 				userRoles : ['KUPAC', 'TRENER', 'MENADZER', 'ADMINISTRATOR'],
 				userRoleSearched : []
 				
@@ -37,6 +36,9 @@ Vue.component("users-list", {
 					          <th class="text-left">
 					            Surname
 					          </th>
+					          <th class="text-left">
+					            Username
+					          </th>
 					        </tr>
 				      	</thead>
 				      	<tbody>
@@ -45,6 +47,7 @@ Vue.component("users-list", {
 					          :key="user.username">
 					          <td>{{ user.name }}</td>
 					          <td>{{ user.surname }}</td>
+					          <td>{{ user.username }}</td>
 					          <td><v-btn @click="deleteUser(user)">delete</v-btn></td>
 				        	</tr>
 						</tbody>
@@ -67,6 +70,31 @@ Vue.component("users-list", {
 	methods : {
 		filterUsers(){
 				this.filterUsersByRole();
+				this.filterUsersByName();
+				this.filterUsersBySurname();
+				this.filterUsersByUsername();
+				
+		},
+		filterUsersByName(){
+			if(this.userNameSearched == "") return false;
+			this.users = this.users.filter(user => {
+				if(user.name.toLowerCase().includes(this.userNameSearched.toLowerCase())) return true;
+				return false;
+			});
+		},
+		filterUsersBySurname(){
+			if(this.userSurnameSearched == "") return false;
+			this.users = this.users.filter(user => {
+				if(user.surname.toLowerCase().includes(this.userSurnameSearched.toLowerCase())) return true;
+				return false;
+			});
+		},
+		filterUsersByUsername(){
+			if(this.usernameSearched == "") return false;
+			this.users = this.users.filter(user => {
+				if(user.username.toLowerCase().includes(this.usernameSearched.toLowerCase())) return true;
+				return false;
+			});
 		},
 		filterUsersByRole(){
 			this.users=JSON.parse(JSON.stringify(this.usersBackup));

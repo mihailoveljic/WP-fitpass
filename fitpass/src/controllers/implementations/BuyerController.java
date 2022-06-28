@@ -1,6 +1,7 @@
 package controllers.implementations;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -15,13 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.UserUpdateDTO;
 import beans.models.Buyer;
-import controllers.interfaces.ICRUDController;
+import controllers.interfaces.IBuyerController;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
 
 @Path("/buyers")
-public class BuyerController implements ICRUDController<Buyer, Buyer> {
+public class BuyerController implements IBuyerController {
 
 
 	@Context
@@ -62,13 +64,30 @@ public class BuyerController implements ICRUDController<Buyer, Buyer> {
 		return buyerService.create(buyer);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public boolean update(Buyer buyer) {
+	public boolean update(UserUpdateDTO userUpdateDTO) {
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		Buyer buyer = buyerService.get(userUpdateDTO.getId());
+		if(!userUpdateDTO.getOldPassword().equals(buyer.getPassword())) return false;
+		
+		if(userUpdateDTO.isChangePassword()) {
+			buyer.setPassword(userUpdateDTO.getNewPassword());
+		}
+		buyer.setName(userUpdateDTO.getName());
+		buyer.setSurname(userUpdateDTO.getSurname());
+		buyer.setGender(userUpdateDTO.getGender());
+		try {
+			buyer.setDateOfBirth(new Date(
+					userUpdateDTO.getDateOfBirth().getYear(),
+					userUpdateDTO.getDateOfBirth().getMonth(),
+					userUpdateDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return false;}
+		
 		return buyerService.update(buyer);
 	}
 	

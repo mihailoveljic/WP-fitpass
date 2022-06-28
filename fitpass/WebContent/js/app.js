@@ -2,6 +2,7 @@ const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
 const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>'}
 const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
+const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 
 const router = new VueRouter({
@@ -11,6 +12,7 @@ const router = new VueRouter({
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
 		{path: '/coaches', name:'coaches-list', component: CoachesList},
+		{path: '/account', name:'account-page', component: AccountPage}
 		{path: '/users', name:'users-list', component: UsersList}
 	  ]
 });
@@ -126,6 +128,7 @@ var app = new Vue({
 	            this.mode= this.userToken.role;
 	            this.refreshNavBar();
 	            this.loginDialog = false;
+	            this.$router.push('/');
               }
               )
               .catch(error => {
@@ -140,6 +143,7 @@ var app = new Vue({
                     });
 		},
 		checkForLogout(isLoggedout){
+			this.$router.push('/');
 			if(!isLoggedout) return;
              sessionStorage.removeItem('userToken');
              this.userToken = null;
@@ -189,28 +193,28 @@ var app = new Vue({
 		refreshNavBar(){
 			
 			if(this.mode == 'KUPAC'){
-			this.appBarLinks = [
-				{
-					name:'Home',
-					link: '/'
-				},
-				{
-					name:'Sport Facilities',
-					link: '/sports-facilities'
-				},
-				{
-					name:'Programs',
-					link: '/programs'
-				},
-				{
-					name:'Trainers',
-					link: '/trainers'
-				},
-				{
-					name:'My Account',
-					link:'/account'
-				}
-			]
+				this.appBarLinks = [
+					{
+						name:'Home',
+						link: '/'
+					},
+					{
+						name:'Sport Facilities',
+						link: '/sports-facilities'
+					},
+					{
+						name:'Programs',
+						link: '/programs'
+					},
+					{
+						name:'Trainers',
+						link: '/trainers'
+					},
+					{
+						name:'My Account',
+						link:'/account'
+					}
+				]
 			} else if(this.mode == "ADMINISTRATOR"){
 				this.appBarLinks= [
 			{
@@ -244,58 +248,58 @@ var app = new Vue({
 		]
 			} else if(this.mode == "MENADZER"){
 				this.appBarLinks= [
-			{
-				name:'Home',
-				link: '/'
-			},
-			{
-				name:'Sport Facility',
-				link: '/sports-facility'
-			},
-			{
-				name:'Programs',
-				link:'/programs'
-			},
-			{
-					name:'My Account',
-					link:'/account'
-			}
-		]
+					{
+						name:'Home',
+						link: '/'
+					},
+					{
+						name:'Sport Facility',
+						link: '/sports-facility'
+					},
+					{
+						name:'Programs',
+						link:'/programs'
+					},
+					{
+							name:'My Account',
+							link:'/account'
+					}
+				]
 			} else if(this.mode == "TRENER"){
 				this.appBarLinks= [
-			{
-				name:'Home',
-				link: '/'
-			},
-			{
-				name:'Sport Facilities',
-				link: '/sports-facilities'
-			},
-			{
-					name:'My Account',
-					link:'/account'
-			}
-		]
+					{
+						name:'Home',
+						link: '/'
+					},
+					{
+						name:'Sport Facilities',
+						link: '/sports-facilities'
+					},
+					{
+							name:'My Account',
+							link:'/account'
+					}
+				]
 			} else if(this.mode == "GUEST")
 			{
 				this.appBarLinks = [
-				{
-					name:'Home',
-					link: '/'
-				},
-				{
-					name:'Sport Facilities',
-					link: '/sports-facilities'
-				},
-				{
-					name:'Programs',
-					link: '/programs'
-				},
-				{
-					name:'Trainers',
-					link: '/trainers'
-				}
-			]
+					{
+						name:'Home',
+						link: '/'
+					},
+					{
+						name:'Sport Facilities',
+						link: '/sports-facilities'
+					},
+					{
+						name:'Programs',
+						link: '/programs'
+					},
+					{
+						name:'Trainers',
+						link: '/trainers'
+					}
+				]
 			}
 		}
 	}

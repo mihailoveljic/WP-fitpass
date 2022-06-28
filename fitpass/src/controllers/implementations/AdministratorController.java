@@ -1,6 +1,7 @@
 package controllers.implementations;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -15,8 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.UserUpdateDTO;
 import beans.models.Administrator;
-import controllers.interfaces.ICRUDController;
 import daos.implementations.AdministratorDAO;
 import daos.interfaces.IDAO;
 import repositories.implementations.AdministratorRepository;
@@ -25,7 +26,7 @@ import services.implementations.AdministratorService;
 import services.interfaces.IAdministratorService;
 
 @Path("/administrators")
-public class AdministratorController implements ICRUDController<Administrator, Administrator> {
+public class AdministratorController {
 
 
 	@Context
@@ -48,7 +49,6 @@ public class AdministratorController implements ICRUDController<Administrator, A
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<Administrator> getAll(){
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.getAll();
@@ -57,7 +57,6 @@ public class AdministratorController implements ICRUDController<Administrator, A
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Administrator get(@PathParam("id") long id) {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.get(id);
@@ -67,7 +66,6 @@ public class AdministratorController implements ICRUDController<Administrator, A
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Administrator create(Administrator administrator) {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.create(administrator);
@@ -77,16 +75,30 @@ public class AdministratorController implements ICRUDController<Administrator, A
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public boolean update(Administrator administrator) {
+	public boolean update(UserUpdateDTO userUpdateDTO) {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		Administrator administrator = administratorService.get(userUpdateDTO.getId());
+		if(!userUpdateDTO.getOldPassword().equals(administrator.getPassword())) return false;
+		
+		if(userUpdateDTO.isChangePassword()) {
+			administrator.setPassword(userUpdateDTO.getNewPassword());
+		}
+		administrator.setName(userUpdateDTO.getName());
+		administrator.setSurname(userUpdateDTO.getSurname());
+		administrator.setGender(userUpdateDTO.getGender());
+		try {
+			administrator.setDateOfBirth(new Date(
+					userUpdateDTO.getDateOfBirth().getYear(),
+					userUpdateDTO.getDateOfBirth().getMonth(),
+					userUpdateDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return false;}
+		
 		return administratorService.update(administrator);
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean delete(@PathParam("id") long id) {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		return administratorService.delete(id);

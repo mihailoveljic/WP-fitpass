@@ -216,7 +216,13 @@ Vue.component("coaches-list", {
                     return true;
 		},
 		reloadPage(){
-    		window.location.reload();
+    		axios.get('rest/coaches')
+              .then(response => {
+					this.coaches = response.data;
+				})
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
   		},
 	},
 	watch: {

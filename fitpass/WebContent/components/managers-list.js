@@ -219,7 +219,13 @@ Vue.component("managers-list", {
                     return true;
 		},
 		reloadPage(){
-    		window.location.reload();
+    		axios.get('rest/managers')
+              .then(response => {
+					this.managers = response.data;
+				})
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
   		},
 	},
 	watch: {

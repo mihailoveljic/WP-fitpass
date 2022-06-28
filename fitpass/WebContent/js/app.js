@@ -1,6 +1,6 @@
 const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
-const BuyersList = { template : '<buyers-list></buyers-list>'}
-const ManagersList = {template : '<managers-list></managers-list>'}
+const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>'}
+const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 
 const router = new VueRouter({

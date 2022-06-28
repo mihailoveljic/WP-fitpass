@@ -3,7 +3,6 @@ Vue.component("coaches-list", {
 	data: function () {
 		    return {
 				coaches : [],
-				currentCoach:null,
 				createDialog:false,
 				userRegistrationDTO: {
 					username: "",
@@ -114,7 +113,7 @@ Vue.component("coaches-list", {
 									<v-btn color="blue darken-1" text @click="createDialog = false">
 										Cancel
 									</v-btn>
-									<v-btn color="blue darken-1" text @click="register(); reloadPage()">
+									<v-btn color="blue darken-1" text @click="register()">
 										Register
 									</v-btn>
 								</v-card-actions>
@@ -194,7 +193,8 @@ Vue.component("coaches-list", {
 				this.userToken = response.data
               	if(this.userToken == null) return;
 	            this.createDialog = false;
-	            alert("New coach successfuly added!")
+	            alert("New coach successfuly added!");
+	            this.reloadPage();
               }
               )
               .catch(error => {

@@ -21,7 +21,10 @@ Vue.component("buyers-list", {
 				menu: false,
 		        radios: null,
 		        registrationErrorMessages : "",
-		        registrationFormHasErrors : false
+		        registrationFormHasErrors : false,
+		        collectedPointsSearched : null,
+		        buyerTypeSearched : null,
+		        buyerTypes : []
 			}
 	},
 	props:
@@ -121,9 +124,6 @@ Vue.component("buyers-list", {
 						</v-dialog>
 					</v-row>
 				</template>
-	 
-	 
-	 
 	 </v-col>
 	 <v-col cols="6">
 	  <v-simple-table >
@@ -136,6 +136,9 @@ Vue.component("buyers-list", {
 	          <th class="text-left">
 	            Surname
 	          </th>
+	          <th class="text-left">
+	            Collected points
+	          </th>
 	        </tr>
 	      </thead>
 	      <tbody>
@@ -145,6 +148,7 @@ Vue.component("buyers-list", {
 	        >
 	          <td>{{ buyer.name }}</td>
 	          <td>{{ buyer.surname }}</td>
+	          <td> {{ buyer.numberOfCollectedPoints }} </td>
 	          <td><v-btn @click="deleteBuyer(buyer)">delete</v-btn></td>
 	        </tr>
 	      </tbody>
@@ -152,12 +156,19 @@ Vue.component("buyers-list", {
 	  </v-simple-table>
 	  </v-col>
 	  <v-col cols="3">
+	  	<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
+			<v-text-field @keyup.enter="filterUsers" v-model="collectedPointsSearched" label="Collected points" outlined clearable></v-text-field>
+			<v-combobox @change="filterBuyers" v-model="buyerTypeSearched" :items="buyerTypes" label="Buyer Type" clearable multiple outlined small-chips></v-combobox>
+		</v-card>
 	  </v-col>
 	 </v-row>
 </div>
 `
 , 
 	methods : {
+		filterBuyers(){
+			
+		},
 		save(date) {
 				this.$refs.menu.save(date);
 		},

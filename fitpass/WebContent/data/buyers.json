@@ -10,7 +10,7 @@
         "role": "KUPAC",
         "membershipId": -1,
         "visitedSportsFacilitiesIds": [],
-        "numberOfCollectedPoints": 0,
+        "numberOfCollectedPoints": 10,
         "buyerTypeId": 1
     },
     {
@@ -24,7 +24,7 @@
         "role": "KUPAC",
         "membershipId": -1,
         "visitedSportsFacilitiesIds": [],
-        "numberOfCollectedPoints": 0,
+        "numberOfCollectedPoints": 5,
         "buyerTypeId": 1
     }
 ]

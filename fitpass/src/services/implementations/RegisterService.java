@@ -25,7 +25,6 @@ public class RegisterService implements IRegisterService {
 		return true;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Buyer registerBuyer(UserRegistrationDTO userRegistrationDTO, ICRUDService<Buyer> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
@@ -50,7 +49,6 @@ public class RegisterService implements IRegisterService {
 		return service.create(buyer);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Coach registerCoach(UserRegistrationDTO userRegistrationDTO, ICRUDService<Coach> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
@@ -71,7 +69,6 @@ public class RegisterService implements IRegisterService {
 		return service.create(coach);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Manager registerManager(UserRegistrationDTO userRegistrationDTO, ICRUDService<Manager> service) {
 		if(!validateUserFields(userRegistrationDTO)) return null;
@@ -85,7 +82,7 @@ public class RegisterService implements IRegisterService {
 		manager.setGender(userRegistrationDTO.getGender());
 		manager.setName(userRegistrationDTO.getName());
 		manager.setPassword(userRegistrationDTO.getPassword());
-		manager.setRole(Role.TRENER);
+		manager.setRole(Role.MENADZER);
 		manager.setSurname(userRegistrationDTO.getSurname());
 		manager.setUsername(userRegistrationDTO.getUsername());
 		manager.setSportsFacilityId(-1);

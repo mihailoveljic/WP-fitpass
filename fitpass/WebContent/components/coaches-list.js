@@ -38,8 +38,8 @@ Vue.component("coaches-list", {
 					<v-row justify="center">
 						<v-dialog v-model="createDialog" persistent max-width="600px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-btn dark v-bind="attrs" v-on="on" class="mx-8 d-none d-lg-flex"
-									outlined color="indigo" centered x-large>
+								<v-btn v-bind="attrs" v-on="on" color="primary" class="ma-0 d-none d-lg-flex""
+								 centered x-large>
 									Add Coach
 								</v-btn>
 							</template>
@@ -113,7 +113,7 @@ Vue.component("coaches-list", {
 									<v-btn color="blue darken-1" text @click="createDialog = false">
 										Cancel
 									</v-btn>
-									<v-btn color="blue darken-1" text @click="register">
+									<v-btn color="blue darken-1" text @click="register()">
 										Register
 									</v-btn>
 								</v-card-actions>
@@ -145,7 +145,7 @@ Vue.component("coaches-list", {
 	        >
 	          <td>{{ coach.name }}</td>
 	          <td>{{ coach.surname }}</td>
-	          <td><v-btn>delete</v-btn></td>
+	          <td><v-btn @click="deleteCoach(coach)">delete</v-btn></td>
 	        </tr>
 	      </tbody>
 	    </template>
@@ -192,15 +192,32 @@ Vue.component("coaches-list", {
               .then(response => {
 				this.userToken = response.data
               	if(this.userToken == null) return;
-	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
-	            this.mode= this.userToken.role;
 	            this.createDialog = false;
+	            alert("New coach successfuly added!");
+	            this.reloadPage();
               }
               )
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
 		},
+		deleteCoach(coach){
+			axios.delete('rest/coaches/' + coach.id)
+              .then(response => {
+					if(response.data == false){
+						alert("Failed to delete coach!");
+						return false;
+					} 
+              })
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+                    this.reloadPage();
+                    return true;
+		},
+		reloadPage(){
+    		window.location.reload();
+  		},
 	},
 	watch: {
 		menu(val) {

@@ -1,8 +1,9 @@
 const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
-const BuyersList = { template : '<buyers-list></buyers-list>'}
-const ManagersList = {template : '<managers-list></managers-list>'}
+const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>'}
+const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
+const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -12,6 +13,7 @@ const router = new VueRouter({
 		{path: '/managers', name:'managers-list', component: ManagersList},
 		{path: '/coaches', name:'coaches-list', component: CoachesList},
 		{path: '/account', name:'account-page', component: AccountPage}
+		{path: '/users', name:'users-list', component: UsersList}
 	  ]
 });
 
@@ -215,31 +217,35 @@ var app = new Vue({
 				]
 			} else if(this.mode == "ADMINISTRATOR"){
 				this.appBarLinks= [
-					{
-						name:'Home',
-						link: '/'
-					},
-					{
-						name:'Sport Facilities',
-						link: '/sports-facilities'
-					},
-					{
-						name:'Managers',
-						link: '/managers'
-					},
-					{
-						name:'Trainers',
-						link: '/coaches'
-					},
-					{
-						name: 'Buyers',
-						link: '/buyers'
-					},
-					{
-							name:'My Account',
-							link:'/account'
-					}
-				]
+			{
+				name:'Home',
+				link: '/'
+			},
+			{
+				name:'Sport Facilities',
+				link: '/sports-facilities'
+			},
+			{
+				name:'Managers',
+				link: '/managers'
+			},
+			{
+				name:'Trainers',
+				link: '/coaches'
+			},
+			{
+				name: 'Buyers',
+				link: '/buyers'
+			},
+			{
+				name:'All users',
+				link:'/users'
+			},
+			{
+					name:'My Account',
+					link:'/account'
+			}
+		]
 			} else if(this.mode == "MENADZER"){
 				this.appBarLinks= [
 					{

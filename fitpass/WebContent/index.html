@@ -179,7 +179,7 @@
 						</v-dialog>
 					</v-row>
 				</template>
-				<v-btn color="primary" v-if="!isGuest" class="ma-0 d-none d-lg-flex" @click="logout" centered x-large>
+				<v-btn v-if="!isGuest" color="primary" class="ma-0 d-none d-lg-flex" @click="logout" centered x-large>
 					Logout
 				</v-btn>
 				<v-app-bar-nav-icon x-large v-on:click.stop="drawer = !drawer" class="d-lg-none drawer-button">
@@ -245,6 +245,7 @@
 	<script src="components/buyers-list.js"></script>
 	<script src="components/managers-list.js"></script>
 	<script src="components/coaches-list.js"></script>
+	<script src="components/users-list.js"></script>
 	
 	<script src="js/app.js"></script>
 </body>

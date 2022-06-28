@@ -17,11 +17,16 @@ Vue.component("sports-facilities", {
 				isOpenCheckbox: false
 		    }
 	},
+	props: ["mode"],
 	template: 
 ` 
 	<div>
 		<v-row>
 			<v-col cols="3">
+			<v-btn v-if="mode=='ADMINISTRATOR'" color="primary" class="ma-0 d-none d-lg-flex""
+								 centered x-large to="/newSportFacility">
+									New sport facility
+								</v-btn>
 			</v-col>
 			<v-col cols="6">
 				<v-card v-for="sportsFacility in sportsFacilities" :key="sportsFacility.id" width="800" height="252" class="mx-auto mt-8" outlined  rounded="8" hover>

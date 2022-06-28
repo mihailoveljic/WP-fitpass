@@ -64,7 +64,6 @@ public class BuyerController implements IBuyerController {
 		return buyerService.create(buyer);
 	}
 	
-	@SuppressWarnings("deprecation")
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)

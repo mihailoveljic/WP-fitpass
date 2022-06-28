@@ -1,9 +1,11 @@
-const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
+const SportsFacilities = { template: '<sports-facilities :mode="$attrs.mode"></sports-facilities>'}
 const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>'}
 const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
+const NewSportFacilityPage = {template : '<newSportFacility-page :mode="$attrs.mode" :userToken="$attrs.usertoken"></newSportFacility-page>'}
+
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -12,8 +14,9 @@ const router = new VueRouter({
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
 		{path: '/coaches', name:'coaches-list', component: CoachesList},
-		{path: '/account', name:'account-page', component: AccountPage}
-		{path: '/users', name:'users-list', component: UsersList}
+		{path: '/account', name:'account-page', component: AccountPage},
+		{path: '/users', name:'users-list', component: UsersList},
+		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage}
 	  ]
 });
 
@@ -119,7 +122,7 @@ var app = new Vue({
 	        })
 			
 			if(this.loginFormHasErrors) return;
-			if(this.userToken != null) return;
+			if(this.userToken != null || this.userToken == "") return;
 			axios.post('rest/LoginController/login', this.userLoginDTO)
               .then(response => {
 				this.userToken = response.data;

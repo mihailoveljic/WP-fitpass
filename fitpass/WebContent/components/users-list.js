@@ -97,7 +97,30 @@ Vue.component("users-list", {
 			
 		},
 		reloadPage(){
-    		window.location.reload();
+    		let promiseBuyers = axios.get('rest/buyers')
+              .then(response => {
+					this.buyers = response.data;
+				})
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+	        let promiseCoaches =  axios.get('rest/coaches')
+	              .then(response => {
+						this.coaches = response.data;
+					})
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	                    });
+	     	let promiseManagers = axios.get('rest/managers')
+	              .then(response => {
+						this.managers = response.data;
+					})
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	                    });
+	       Promise.all([promiseBuyers, promiseCoaches, promiseManagers]).then(() => {
+			  this.users = this.managers.concat(this.coaches).concat(this.buyers);
+			});
   		},
 	},
 	watch: {

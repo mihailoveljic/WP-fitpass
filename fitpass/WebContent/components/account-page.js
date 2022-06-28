@@ -123,7 +123,7 @@ Vue.component("account-page", {
 			<v-col cols="4">
 				<v-card-actions class="text-center">
 					<v-spacer></v-spacer>
-					<v-btn @click="saveChanges" :loading="saving">
+					<v-btn @click="saveChanges" :loading="saving" color="primary" class="ma-0 d-none d-lg-flex">
 						Save Changes
 					</v-btn>
 				</v-card-actions>

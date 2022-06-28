@@ -216,7 +216,13 @@ Vue.component("buyers-list", {
                     return true;
 		},
 		reloadPage(){
-    		window.location.reload();
+    		axios.get('rest/buyers')
+              .then(response => {
+					this.buyers = response.data;
+				})
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
   		},
 	},
 	watch: {

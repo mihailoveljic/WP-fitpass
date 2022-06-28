@@ -2,6 +2,7 @@ const SportsFacilities = { template: '<sports-facilities></sports-facilities>'}
 const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>'}
 const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
+const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -9,7 +10,8 @@ const router = new VueRouter({
 		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities},
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
-		{path: '/coaches', name:'coaches-list', component: CoachesList}
+		{path: '/coaches', name:'coaches-list', component: CoachesList},
+		{path: '/users', name:'users-list', component: UsersList}
 	  ]
 });
 
@@ -230,6 +232,10 @@ var app = new Vue({
 			{
 				name: 'Buyers',
 				link: '/buyers'
+			},
+			{
+				name:'All users',
+				link:'/users'
 			},
 			{
 					name:'My Account',

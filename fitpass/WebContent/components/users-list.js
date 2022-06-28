@@ -14,40 +14,38 @@ Vue.component("users-list", {
 	template: 
 ` 
 <div v-if="mode=='ADMINISTRATOR'">
-	 <v-row>
-	 <v-col cols="3" class="text-center"></v-col> 
-	 </v-row>
-<template>
-	<v-row>
-	 <v-col cols="6">
-	  <v-simple-table >
-	    <template v-slot:default>
-	      <thead>
-	        <tr>
-	          <th class="text-left">
-	            Name
-	          </th>
-	          <th class="text-left">
-	            Surname
-	          </th>
-	        </tr>
-	      </thead>
-	      <tbody>
-	        <tr
-	          v-for="user in users"
-	          :key="user.id"
-	        >
-	          <td>{{ user.name }}</td>
-	          <td>{{ user.surname }}</td>
-	          <td><v-btn @click="deleteUser(user)">delete</v-btn></td>
-	        </tr>
-	      </tbody>
-	    </template>
-	  </v-simple-table>
-	  </v-col>
-	  <v-col cols="3">
-	  </v-col>
-	 </v-row>
+	<template>
+		<v-row>
+			<v-col cols="3" class="text-center">
+		 	</v-col> 
+			<v-col cols="6">
+				<v-simple-table >
+				    <template v-slot:default>
+				      	<thead>
+					        <tr>
+					          <th class="text-left">
+					            Name
+					          </th>
+					          <th class="text-left">
+					            Surname
+					          </th>
+					        </tr>
+				      	</thead>
+				      	<tbody>
+					        <tr
+					          v-for="user in users"
+					          :key="user.username">
+					          <td>{{ user.name }}</td>
+					          <td>{{ user.surname }}</td>
+					          <td><v-btn @click="deleteUser(user)">delete</v-btn></td>
+				        	</tr>
+						</tbody>
+			    	</template>
+			  	</v-simple-table>
+			  </v-col>
+				<v-col cols="3">
+			</v-col>
+		</v-row>
 	</template>
 </div>
 `
@@ -107,29 +105,33 @@ Vue.component("users-list", {
 	computed: {
 	},
 	created() {
-		axios.get('rest/buyers')
+		let promiseBuyers = axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-         axios.get('rest/coaches')
+        let promiseCoaches =  axios.get('rest/coaches')
               .then(response => {
 					this.coaches = response.data;
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-         axios.get('rest/managers')
+     	let promiseManagers = axios.get('rest/managers')
               .then(response => {
 					this.managers = response.data;
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
+       Promise.all([promiseBuyers, promiseCoaches, promiseManagers]).then(() => {
+		  this.users = this.managers.concat(this.coaches).concat(this.buyers);
+		});
+       
 	},
 	mounted () {
-              this.users = this.managers.concat(this.coaches).concat(this.buyers);
+              
     }
 });

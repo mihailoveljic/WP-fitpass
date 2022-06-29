@@ -3,6 +3,7 @@ Vue.component("buyers-list", {
 	data: function () {
 		    return {
 				buyers : [],
+				buyersNames : [],
 				createDialog:false,
 				userRegistrationDTO: {
 					username: "",
@@ -24,7 +25,8 @@ Vue.component("buyers-list", {
 		        registrationFormHasErrors : false,
 		        collectedPointsSearched : null,
 		        buyerTypeSearched : null,
-		        buyerTypes : []
+		        buyerTypes : [],
+		        sortBuyersByNameAsc: false,
 			}
 	},
 	props:
@@ -130,8 +132,8 @@ Vue.component("buyers-list", {
 	    <template v-slot:default>
 	      <thead>
 	        <tr>
-	          <th class="text-left">
-	            Name
+	          <th class="text-left text-h6">
+	            Name<v-btn class="mx-4"  @click="sortBuyersByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
 	          <th class="text-left">
 	            Surname
@@ -157,7 +159,6 @@ Vue.component("buyers-list", {
 	  </v-col>
 	  <v-col cols="3">
 	  	<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
-			<v-text-field @keyup.enter="filterUsers" v-model="collectedPointsSearched" label="Collected points" outlined clearable></v-text-field>
 			<v-combobox @change="filterBuyers" v-model="buyerTypeSearched" :items="buyerTypes" label="Buyer Type" clearable multiple outlined small-chips></v-combobox>
 		</v-card>
 	  </v-col>
@@ -166,6 +167,16 @@ Vue.component("buyers-list", {
 `
 , 
 	methods : {
+		
+		sortBuyersByName(){
+			if(this.sortBuyersByNameAsc){
+				this.buyers.sort((a, b) => a.name.localeCompare(b.name));
+			}else{				
+				this.buyers.sort((a, b) => a.name.localeCompare(b.name));
+				this.buyers.reverse();
+			}
+			this.sortBuyersByNameAsc = !this.sortBuyersByNameAsc;
+		},
 		filterBuyers(){
 			
 		},
@@ -256,6 +267,7 @@ Vue.component("buyers-list", {
 		axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
+					this.buyersName = this.buyers.map(buyer => buyer.name);
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

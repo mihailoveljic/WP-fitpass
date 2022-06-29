@@ -45,6 +45,8 @@ Vue.component("newSportFacility-page", {
 				registrationFormHasErrors: false,
 				fromThePickerOpen: false,
 				toThePickerOpen: false,
+				imageAdded: false,
+				image: ""
 		    }
 	},
 	template: 
@@ -203,8 +205,11 @@ Vue.component("newSportFacility-page", {
 		<v-row>
 			<v-col cols="4">
 			</v-col>
-			<v-col cols="4">
-				<v-file-input counter v-model="sportFacilityDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
+			<v-col cols="2">
+				<v-img class="ma-4" v-if="imageAdded" :src="image" height="150" width="150" dark></v-img>
+			</v-col>
+			<v-col cols="2">
+				<v-file-input @change="uploadImage()" counter v-model="sportFacilityDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
 			</v-col>
 			<v-col cols="4">
 			</v-col>
@@ -311,9 +316,8 @@ Vue.component("newSportFacility-page", {
                     });
                     return this.isUsernameUnique
 		},
-		createNewSportFacility(){
-			//validacija
-			axios.post('rest/SportsFacilityController/uploadImage', this.sportFacilityDTO.image , 
+		uploadImage(){
+			let promiseImageUploaded = axios.post('rest/SportsFacilityController/uploadImage', this.sportFacilityDTO.image , 
 			{
 				headers:{
 					'Content-Type': 'image/jpeg'
@@ -321,8 +325,20 @@ Vue.component("newSportFacility-page", {
 			})
               .then(response => {
 				let parts = response.headers.location.split('/');
-				let imageName = parts[3];
-	            console.log(imageName);
+				this.image = "\\fitpass\\data\\img\\sports-facilities\\" + parts[3];
+              })
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+             let s = new Promise(r => setTimeout(r, 2000));
+             Promise.all([promiseImageUploaded, s]).then(() =>{
+				
+				this.imageAdded = true
+			 });
+		},
+		createNewSportFacility(){
+			//validacija
+			
 	            let sportFacility = {
 					id: -1,
 					name:  this.sportFacilityDTO.name,
@@ -340,7 +356,7 @@ Vue.component("newSportFacility-page", {
 							zipCode: -1
 						}
 					},
-					image: imageName,
+					image: this.image,
 					averageRating: 0,
 					workingHours:{
 						fromThe:  this.sportFacilityDTO.fromThe,
@@ -358,8 +374,7 @@ Vue.component("newSportFacility-page", {
 					}
 					axios.put('rest/managers/updateFacility', managerFacilityDTO)
 		              .then(response => {
-						
-						
+						this.$router.push('/sports-facilities');						
 		              }
 	              )
 	              .catch(error => {
@@ -371,11 +386,6 @@ Vue.component("newSportFacility-page", {
 	              .catch(error => {
 	                    alert(error.message + " GRESKA");
 	              });
-              }
-              )
-              .catch(error => {
-                    alert(error.message + " GRESKA");
-                    });
 		},
 		register(){
 			this.registrationFormHasErrors = false

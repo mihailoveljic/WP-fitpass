@@ -180,6 +180,7 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 
         // Copy the file to its location.
         Files.copy(in, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        in.close();
         
         // Return a 201 Created response with the appropriate Location header.
         return Response.status(Status.CREATED).location(URI.create("/" + fileName)).build();

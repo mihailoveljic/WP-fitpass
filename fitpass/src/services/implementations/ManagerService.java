@@ -1,5 +1,6 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.Manager;
@@ -51,6 +52,12 @@ public class ManagerService implements IManagerService {
 			}
 		}
 		return null;
+	}
+	@Override
+	public Collection<Manager> getFree() {
+		 Collection<Manager> managers = new ArrayList<Manager>(managerDAO.getAll());
+		 managers.removeIf(m -> m.getSportsFacilityId() != -1);
+		 return managers;
 	}
 
 }

@@ -9,5 +9,27 @@
 		"dateOfBirth": 60908454000000,
 		"role": "MENADZER",
 		"sportsFacilityId": 1
+	},
+	{
+		"id": 2,
+		"username": "pera",
+		"password": "pera",
+		"name": "Pera",
+		"surname": "Peric",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": -1
+	},
+	{
+		"id": 3,
+		"username": "steva",
+		"password": "steva",
+		"name": "Steva",
+		"surname": "Stevic",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": -1
 	}
 ]

@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.ManagerFacilityUpdateDTO;
 import beans.dtos.UserUpdateDTO;
 import beans.models.Manager;
 import services.implementations.ContextInitService;
@@ -42,6 +43,14 @@ public class ManagerController{
 	public Collection<Manager> getAll(){
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.getAll();
+	}
+	
+	@GET
+	@Path("/free")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Manager> getFree(){
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		return managerService.getFree();
 	}
 	
 	@GET
@@ -83,6 +92,18 @@ public class ManagerController{
 					userUpdateDTO.getDateOfBirth().getDay()));
 		} catch (Exception e) {return false;}
 		
+		return managerService.update(manager);
+	}
+	@PUT
+	@Path("/updateFacility")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateFacility(ManagerFacilityUpdateDTO newManager) {
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		Manager manager = managerService.get(newManager.getManagerId());
+		
+		manager.setSportsFacilityId(newManager.getFacilityId());
+
 		return managerService.update(manager);
 	}
 	

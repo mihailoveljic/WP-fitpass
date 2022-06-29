@@ -42,7 +42,9 @@ Vue.component("newSportFacility-page", {
 					},
 				activePicker: null,
 		        registrationErrorMessages : "",
-		        registrationFormHasErrors : false
+				registrationFormHasErrors: false,
+				fromThePickerOpen: false,
+				toThePickerOpen: false,
 		    }
 	},
 	template: 
@@ -202,7 +204,7 @@ Vue.component("newSportFacility-page", {
 			<v-col cols="4">
 			</v-col>
 			<v-col cols="4">
-				<v-file-input counter prepend-icon="mdi-camera" show-size truncate-length="25"></v-file-input>
+				<v-file-input counter v-model="sportFacilityDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
 			</v-col>
 			<v-col cols="4">
 			</v-col>
@@ -211,14 +213,65 @@ Vue.component("newSportFacility-page", {
 			<v-col cols="4">
 			</v-col>
 			<v-col cols="2">
-				<v-text-field ref="fromThe" label="Opens at:" required v-model="sportFacilityDTO.fromThe"
-					:rules="[() => !!sportFacilityDTO.fromThe || 'This field is required!']" :error-messages="updateErrorMessages">
-				</v-text-field>
+					<v-menu
+						ref="fromThePicker"
+						v-model="fromThePickerOpen"
+						:close-on-content-click="false"
+						:nudge-right="40"
+						:return-value.sync="sportFacilityDTO.fromThe"
+						transition="scale-transition"
+						offset-y
+						max-width="290px"
+						min-width="290px"
+					>
+					<template v-slot:activator="{ on, attrs }">
+					<v-text-field
+						v-model="sportFacilityDTO.fromThe"
+						label="Opens at:"
+						prepend-icon="mdi-clock-time-four-outline"
+						readonly
+						v-bind="attrs"
+						v-on="on"
+						:rules="[() => !!sportFacilityDTO.fromThe || 'This field is required!']" :error-messages="updateErrorMessages"
+					></v-text-field>
+					</template>
+					<v-time-picker
+					v-if="fromThePickerOpen"
+					v-model="sportFacilityDTO.fromThe"
+					full-width
+					@click:minute="$refs.fromThePicker.save(sportFacilityDTO.fromThe)"
+					></v-time-picker>
+				</v-menu>
 			</v-col>
 			<v-col cols="2">
-				<v-text-field ref="toThe" label="Closes at:" required v-model="sportFacilityDTO.toThe"
-					:rules="[() => !!sportFacilityDTO.toThe || 'This field is required!']" :error-messages="updateErrorMessages">
-				</v-text-field>
+				<v-menu
+						ref="toThePicker"
+						v-model="toThePickerOpen"
+						:close-on-content-click="false"
+						:nudge-right="40"
+						:return-value.sync="sportFacilityDTO.toThe"
+						transition="scale-transition"
+						offset-y
+						max-width="290px"
+						min-width="290px"
+					>
+					<template v-slot:activator="{ on, attrs }">
+					<v-text-field
+						v-model="sportFacilityDTO.toThe"
+						label="Closes at:"
+						prepend-icon="mdi-clock-time-four-outline"
+						readonly
+						v-bind="attrs"
+						v-on="on"
+					></v-text-field>
+					</template>
+					<v-time-picker
+					v-if="toThePickerOpen"
+					v-model="sportFacilityDTO.toThe"
+					full-width
+					@click:minute="$refs.toThePicker.save(sportFacilityDTO.toThe)"
+					></v-time-picker>
+				</v-menu>
 			</v-col>
 			<v-col cols="4">
 			</v-col>
@@ -259,7 +312,70 @@ Vue.component("newSportFacility-page", {
                     return this.isUsernameUnique
 		},
 		createNewSportFacility(){
-			
+			//validacija
+			axios.post('rest/SportsFacilityController/uploadImage', this.sportFacilityDTO.image , 
+			{
+				headers:{
+					'Content-Type': 'image/jpeg'
+				}
+			})
+              .then(response => {
+				let parts = response.headers.location.split('/');
+				let imageName = parts[3];
+	            console.log(imageName);
+	            let sportFacility = {
+					id: -1,
+					name:  this.sportFacilityDTO.name,
+					sportsFacilityTypeId:  this.sportFacilityDTO.sportsFacilityType.id,
+					facilityContentIds:  this.sportFacilityDTO.facilityContent.map(fc => fc.id),
+					openStatus:  this.sportFacilityDTO.openStatus,
+					location: {
+						latitude: -1,
+						longitude: -1,
+						address: {
+							country: this.sportFacilityDTO.country,
+							street: this.sportFacilityDTO.street,
+							number: this.sportFacilityDTO.number,
+							city: this.sportFacilityDTO.city,
+							zipCode: -1
+						}
+					},
+					image: imageName,
+					averageRating: 0,
+					workingHours:{
+						fromThe:  this.sportFacilityDTO.fromThe,
+						toThe: this.sportFacilityDTO.toThe
+					}
+				}
+	            
+	            axios.post('rest/SportsFacilityController', sportFacility)
+	              .then(response => {
+					this.sportFacilityDTO.id = response.data.id;
+					this.manager.sportsFacilityId = this.sportFacilityDTO.id;
+					let managerFacilityDTO = {
+						managerId: this.manager.id,
+						facilityId: this.sportFacilityDTO.id
+					}
+					axios.put('rest/managers/updateFacility', managerFacilityDTO)
+		              .then(response => {
+						
+						
+		              }
+	              )
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	              });
+					
+	              }
+	              )
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	              });
+              }
+              )
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
 		},
 		register(){
 			this.registrationFormHasErrors = false
@@ -327,7 +443,7 @@ Vue.component("newSportFacility-page", {
         }
 	},
 	mounted () {
-		axios.get('rest/managers')
+		axios.get('rest/managers/free')
               .then(response => {
 					this.managers = response.data;
 					for(var i = 0; i<this.managers.length; i++){

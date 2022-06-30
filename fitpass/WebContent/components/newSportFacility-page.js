@@ -46,7 +46,9 @@ Vue.component("newSportFacility-page", {
 				fromThePickerOpen: false,
 				toThePickerOpen: false,
 				imageAdded: false,
-				image: ""
+				image: "",
+				imagePreview: "",
+				inputStarted: false
 		    }
 	},
 	template: 
@@ -206,10 +208,12 @@ Vue.component("newSportFacility-page", {
 			<v-col cols="4">
 			</v-col>
 			<v-col cols="2">
-				<v-img class="ma-4" v-if="imageAdded" :src="image" height="150" width="150" dark></v-img>
+				
+				<v-img class="ma-4" v-if="imageAdded" :src="imagePreview" height="150" width="150" dark></v-img>
+				<v-progress-circular v-if="!imageAdded && inputStarted" :size="50" color="primary" indeterminate></v-progress-circular>
 			</v-col>
 			<v-col cols="2">
-				<v-file-input @change="uploadImage()" counter v-model="sportFacilityDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
+				<v-file-input @click:clear="hideImageLoading()" @change="uploadImage()" counter v-model="sportFacilityDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
 			</v-col>
 			<v-col cols="4">
 			</v-col>
@@ -316,7 +320,14 @@ Vue.component("newSportFacility-page", {
                     });
                     return this.isUsernameUnique
 		},
+		hideImageLoading(){
+			this.imageAdded = false;
+			this.inputStarted = false;
+		},
 		uploadImage(){
+			if(!this.sportFacilityDTO.image) return;
+			this.imageAdded = false;
+			this.inputStarted = true;
 			let promiseImageUploaded = axios.post('rest/SportsFacilityController/uploadImage', this.sportFacilityDTO.image , 
 			{
 				headers:{
@@ -325,20 +336,20 @@ Vue.component("newSportFacility-page", {
 			})
               .then(response => {
 				let parts = response.headers.location.split('/');
-				this.image = "\\fitpass\\data\\img\\sports-facilities\\" + parts[3];
+				this.imagePreview = "\\fitpass\\data\\img\\sports-facilities\\" + parts[3];
+				this.image = parts[3];
               })
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-             let s = new Promise(r => setTimeout(r, 2000));
+             let s = new Promise(r => setTimeout(r, 5000));
              Promise.all([promiseImageUploaded, s]).then(() =>{
-				
 				this.imageAdded = true
+				this.inputStarted = false;
 			 });
 		},
 		createNewSportFacility(){
 			//validacija
-			
 	            let sportFacility = {
 					id: -1,
 					name:  this.sportFacilityDTO.name,

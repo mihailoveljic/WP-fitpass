@@ -12,3 +12,8 @@
 .appBar {
   margin-top: 15px !important;
 }
+
+.map{
+	height: 400px !important;
+	width: 400px !important;
+}

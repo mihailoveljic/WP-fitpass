@@ -14,7 +14,11 @@ Vue.component("sports-facilities", {
 				requiredRating: 0.0,
 				sportsFacilityCountrySearched: "",
 				sportsFacilityCitySearched: "",
-				isOpenCheckbox: false
+				isOpenCheckbox: false,
+				sortNameAsc : false,
+				sortCountryAsc : false,
+				sortCityAsc : false,
+				sortRatingAsc : false
 		    }
 	},
 	props: ["mode"],
@@ -55,14 +59,34 @@ Vue.component("sports-facilities", {
 			</v-col>
 			<v-col cols="2">
 				<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" label="Sport facility name" outlined clearable></v-text-field>
+					<v-btn class="mx-4"  @click="sortByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+				</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCountrySearched" label="Country" outlined clearable></v-text-field>
+					<v-btn class="mx-4"  @click="sortByCountry" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+				</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCitySearched" label="City" outlined clearable></v-text-field>
+					<v-btn class="mx-4"  @click="sortByCity" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+				</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-combobox @change="filterSportsFacility" v-model="sportsFacilityTypesSearched" :items="sportsFacilityTypeNames" label="Sport facility types" clearable multiple outlined small-chips></v-combobox>
+				</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-combobox @change="filterSportsFacility" v-model="facilityContentsSearched" :items="facilityContentNames" label="Programs" clearable multiple outlined small-chips></v-combobox>
+				</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<label>Required rating:</label>
-					<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
+				</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
+						<v-btn class="mx-4"  @click="sortByRating" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+					</v-card>
+				<v-card class="justify-center align-center text-center d-flex">
 					<v-checkbox class="justify-center" @change="filterSportsFacility" v-model="isOpenCheckbox" label="Opened"></v-checkbox>
+				</v-card>
 				</v-card>
 			</v-col>
 		</v-row>
@@ -70,6 +94,47 @@ Vue.component("sports-facilities", {
 `
 	, 
 	methods : {
+		
+		sortByName(){
+			if(this.sortNameAsc){
+				this.sportsFacilities.sort((a, b) => a.name.localeCompare(b.name));
+			}else{				
+				this.sportsFacilities.sort((a, b) => a.name.localeCompare(b.name));
+				this.sportsFacilities.reverse();
+			}
+			this.sortNameAsc = !this.sortNameAsc;
+		},
+		sortByCountry(){
+			if(this.sortCountryAsc){
+				this.sportsFacilities.sort((a, b) => a.location.address.country.localeCompare(b.location.address.country));
+			}else{				
+				this.sportsFacilities.sort((a, b) => a.location.address.country.localeCompare(b.location.address.country));
+				this.sportsFacilities.reverse();
+			}
+			this.sortCountryAsc = !this.sortCountryAsc;
+		},
+		sortByCity(){
+			if(this.sortCityAsc){
+				this.sportsFacilities.sort((a, b) => a.location.address.city.localeCompare(b.location.address.city));
+			}else{				
+				this.sportsFacilities.sort((a, b) => a.location.address.city.localeCompare(b.location.address.city));
+				this.sportsFacilities.reverse();
+			}
+			this.sortCityAsc = !this.sortCityAsc;
+		},
+		sortByRating(){
+			if(this.sortRatingAsc){
+				this.sportsFacilities.sort((a, b) => {
+					return a.rating - b.rating;
+				});
+			}else{				
+				this.sportsFacilities.sort((a, b) => {
+					return a.rating - b.rating;
+				});
+				this.sportsFacilities.reverse();
+			}
+			this.sortRatingAsc = !this.sortRatingAsc;
+		},
 		filterSportsFacilityByRating(){
 			if(this.requiredRating <= 0.0) return false;
 			this.sportsFacilities = this.sportsFacilities.filter(sportsFacility => {

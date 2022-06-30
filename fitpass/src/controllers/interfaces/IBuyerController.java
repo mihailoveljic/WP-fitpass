@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.BuyerDTO;
 import beans.dtos.UserUpdateDTO;
 import beans.models.Buyer;
 
@@ -19,7 +20,7 @@ public interface IBuyerController {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Buyer> getAll();
+	public Collection<BuyerDTO> getAll();
 	
 	@GET
 	@Path("/{id}")

@@ -12,7 +12,10 @@ Vue.component("users-list", {
 				userSurnameSearched : "",
 				usernameSearched : "",
 				userRoles : ['KUPAC', 'TRENER', 'MENADZER', 'ADMINISTRATOR'],
-				userRoleSearched : []
+				userRoleSearched : [],
+				sortUsersBySurnameAsc : false,
+				sortUsersByNameAsc : false,
+				sortUsersByUsernameAsc : false
 				
 			}
 	},
@@ -30,15 +33,15 @@ Vue.component("users-list", {
 				    <template v-slot:default>
 				      	<thead>
 					        <tr>
-					          <th class="text-left">
-					            Name
-					          </th>
-					          <th class="text-left">
-					            Surname
-					          </th>
-					          <th class="text-left">
-					            Username
-					          </th>
+					         	<th class="text-left text-h6 flex-row-reverse">
+						        	Name<v-btn class="mx-4"  @click="sortUsersByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						        </th>
+						        <th class="text-left text-h6 flex-row-reverse">
+						            Surname<v-btn class="mx-4" @click="sortUsersBySurname" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						        </th>
+						        <th class="text-left text-h6 flex-row-reverse">
+						            Username<v-btn class="mx-4" @click="sortUsersByUsername" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						    	</th>
 					        </tr>
 				      	</thead>
 				      	<tbody>
@@ -68,6 +71,34 @@ Vue.component("users-list", {
 `
 , 
 	methods : {
+		
+		sortUsersBySurname(){
+			if(this.sortUsersBySurnameAsc){
+				this.users.sort((a, b) => a.surname.localeCompare(b.surname));
+			}else{				
+				this.users.sort((a, b) => a.surname.localeCompare(b.surname));
+				this.users.reverse();
+			}
+			this.sortUsersBySurnameAsc = !this.sortUsersBySurnameAsc;
+		},
+		sortUsersByName(){
+			if(this.sortUsersByNameAsc){
+				this.users.sort((a, b) => a.name.localeCompare(b.name));
+			}else{				
+				this.users.sort((a, b) => a.name.localeCompare(b.name));
+				this.users.reverse();
+			}
+			this.sortUsersByNameAsc = !this.sortUsersByNameAsc;
+		},
+		sortUsersByUsername(){
+			if(this.sortUsersByUsernameAsc){
+				this.users.sort((a, b) => a.username.localeCompare(b.username));
+			}else{				
+				this.users.sort((a, b) => a.username.localeCompare(b.username));
+				this.users.reverse();
+			}
+			this.sortUsersByUsernameAsc = !this.sortUsersByUsernameAsc;
+		},
 		filterUsers(){
 				this.filterUsersByRole();
 				this.filterUsersByName();

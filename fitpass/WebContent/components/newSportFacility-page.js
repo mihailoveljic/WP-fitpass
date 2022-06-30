@@ -350,7 +350,7 @@ Vue.component("newSportFacility-page", {
 		},
 		createNewSportFacility(){
 			//validacija
-	            let sportFacility = {
+	    let sportFacility = {
 					id: -1,
 					name:  this.sportFacilityDTO.name,
 					sportsFacilityTypeId:  this.sportFacilityDTO.sportsFacilityType.id,
@@ -385,7 +385,7 @@ Vue.component("newSportFacility-page", {
 					}
 					axios.put('rest/managers/updateFacility', managerFacilityDTO)
 		              .then(response => {
-						this.$router.push('/sports-facilities');						
+						        this.$router.push('/sports-facilities');
 		              }
 	              )
 	              .catch(error => {
@@ -429,23 +429,6 @@ Vue.component("newSportFacility-page", {
                     alert(error.message + " GRESKA");
                     });
 		},
-		deleteManager(manager){
-			axios.delete('rest/managers/' + manager.id)
-              .then(response => {
-					if(response.data == false){
-						alert("Failed to delete manager!");
-						return false;
-					} 
-              })
-              .catch(error => {
-                    alert(error.message + " GRESKA");
-                    });
-                    this.reloadPage();
-                    return true;
-		},
-		reloadPage(){
-    		window.location.reload();
-  		},
 	},
 	watch: {
 		menu(val) {

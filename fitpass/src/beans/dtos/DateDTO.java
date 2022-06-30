@@ -7,6 +7,17 @@ public class DateDTO {
 	
 	public DateDTO() { }
 	
+	
+	
+	public DateDTO(int year, int month, int day) {
+		super();
+		this.year = year;
+		this.month = month;
+		this.day = day;
+	}
+
+
+
 	public int getYear() {
 		return year;
 	}

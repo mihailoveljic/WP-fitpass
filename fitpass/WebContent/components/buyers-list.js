@@ -3,7 +3,7 @@ Vue.component("buyers-list", {
 	data: function () {
 		    return {
 				buyers : [],
-				buyersNames : [],
+				buyersBackup : [],
 				createDialog:false,
 				userRegistrationDTO: {
 					username: "",
@@ -27,6 +27,8 @@ Vue.component("buyers-list", {
 		        buyerTypeSearched : null,
 		        buyerTypes : [],
 		        sortBuyersByNameAsc: false,
+		        sortBuyersBySurnameAsc: false,
+		        sortBuyersByCollectedPointsAsc : false
 			}
 	},
 	props:
@@ -132,14 +134,17 @@ Vue.component("buyers-list", {
 	    <template v-slot:default>
 	      <thead>
 	        <tr>
-	          <th class="text-left text-h6">
+	          <th class="text-left text-h6 flex-row-reverse">
 	            Name<v-btn class="mx-4"  @click="sortBuyersByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
-	          <th class="text-left">
-	            Surname
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Surname<v-btn class="mx-4" @click="sortBuyersBySurname" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
-	          <th class="text-left">
-	            Collected points
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Collected points<v-btn class="mx-4" @click="sortBuyersByCollectedPoints" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+	          </th>
+	          <th class="text-left text-h6">
+	          	Buyer type
 	          </th>
 	        </tr>
 	      </thead>
@@ -151,6 +156,7 @@ Vue.component("buyers-list", {
 	          <td>{{ buyer.name }}</td>
 	          <td>{{ buyer.surname }}</td>
 	          <td> {{ buyer.numberOfCollectedPoints }} </td>
+	          <td> {{ buyer.buyerType.typeName }} </td>
 	          <td><v-btn @click="deleteBuyer(buyer)">delete</v-btn></td>
 	        </tr>
 	      </tbody>
@@ -159,7 +165,7 @@ Vue.component("buyers-list", {
 	  </v-col>
 	  <v-col cols="3">
 	  	<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
-			<v-combobox @change="filterBuyers" v-model="buyerTypeSearched" :items="buyerTypes" label="Buyer Type" clearable multiple outlined small-chips></v-combobox>
+			<v-combobox @change="filterBuyersByType" v-model="buyerTypeSearched" item-text="typeName" :items="buyerTypes" label="Buyer Type" clearable outlined small-chips></v-combobox>
 		</v-card>
 	  </v-col>
 	 </v-row>
@@ -168,6 +174,29 @@ Vue.component("buyers-list", {
 , 
 	methods : {
 		
+		sortBuyersByCollectedPoints(){
+			if(this.sortBuyersByCollectedPointsAsc){
+				this.buyers.sort((a, b) => {
+					return a.numberOfCollectedPoints - b.numberOfCollectedPoints;
+				});
+			}else{				
+				this.buyers.sort((a, b) => {
+					return a.numberOfCollectedPoints - b.numberOfCollectedPoints;
+				});
+				this.buyers.reverse();
+			}
+			this.sortBuyersByCollectedPointsAsc = !this.sortBuyersByCollectedPointsAsc;
+		},
+		
+		sortBuyersBySurname(){
+			if(this.sortBuyersBySurnameAsc){
+				this.buyers.sort((a, b) => a.surname.localeCompare(b.surname));
+			}else{				
+				this.buyers.sort((a, b) => a.surname.localeCompare(b.surname));
+				this.buyers.reverse();
+			}
+			this.sortBuyersBySurnameAsc = !this.sortBuyersBySurnameAsc;
+		},
 		sortBuyersByName(){
 			if(this.sortBuyersByNameAsc){
 				this.buyers.sort((a, b) => a.name.localeCompare(b.name));
@@ -177,8 +206,14 @@ Vue.component("buyers-list", {
 			}
 			this.sortBuyersByNameAsc = !this.sortBuyersByNameAsc;
 		},
-		filterBuyers(){
+		filterBuyersByType(){
+			this.buyers=JSON.parse(JSON.stringify(this.buyersBackup));
+			if(this.buyerTypeSearched == "" || this.buyerTypeSearched == null) return;
 			
+			this.buyers = this.buyers.filter(buyer => {
+				if(this.buyerTypeSearched.typeName == buyer.buyerType.typeName) return true;
+				return false;
+			});
 		},
 		save(date) {
 				this.$refs.menu.save(date);
@@ -264,13 +299,23 @@ Vue.component("buyers-list", {
         }
 	},
 	mounted () {
-		axios.get('rest/buyers')
+		let promiseBuyers = axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
-					this.buyersName = this.buyers.map(buyer => buyer.name);
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
+                    
+        let promiseBuyerTypes = axios.get('rest/BuyerTypeController')
+               .then(response => {
+					 this.buyerTypes = response.data;
+				 })
+               .catch(error => {
+                     alert(error.message + " GRESKA");
+                     });
+       Promise.all([promiseBuyers, promiseBuyerTypes]).then(() => {
+		this.buyersBackup = JSON.parse(JSON.stringify(this.buyers));
+	});
     }
 });

@@ -3,6 +3,7 @@ const BuyersList = { template : '<buyers-list :mode="$attrs.mode"></buyers-list>
 const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-list>'}
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
+const ManagerFacility = {template : '<manager-facility :userToken="$attrs.usertoken"></manager-facility>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 const NewSportFacilityPage = {template : '<newSportFacility-page :mode="$attrs.mode" :userToken="$attrs.usertoken"></newSportFacility-page>'}
 
@@ -16,10 +17,11 @@ const router = new VueRouter({
 		{path: '/coaches', name:'coaches-list', component: CoachesList},
 		{path: '/account', name:'account-page', component: AccountPage},
 		{path: '/users', name:'users-list', component: UsersList},
-		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage}
+		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage},
+		{path: '/manager-facility', name:'manager-facility', component: ManagerFacility}
 	  ]
 });
-
+								
 var app = new Vue({
 	router,
 	el: '#app',
@@ -74,7 +76,7 @@ var app = new Vue({
 		registrationErrorMessages : '',
 		loginErrorMessages : '',
 		loginFormHasErrors: false,
-		registrationFormHasErrors: false
+		registrationFormHasErrors: false,
 	},
 	created(){
 		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));
@@ -257,7 +259,7 @@ var app = new Vue({
 					},
 					{
 						name:'Sport Facility',
-						link: '/sports-facility'
+						link: '/manager-facility'
 					},
 					{
 						name:'Programs',

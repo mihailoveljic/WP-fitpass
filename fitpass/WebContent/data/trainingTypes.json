@@ -1,0 +1,18 @@
+[
+	{
+		"id" : 1,
+		"name" : "Personalni trening"
+	},
+	{
+		"id" : 2,
+		"name" : "Grupni trening"
+	},
+	{
+		"id" : 3,
+		"name" : "HIIT"
+	},
+	{
+		"id" : 4,
+		"name" : "Trening snage"
+	}
+]

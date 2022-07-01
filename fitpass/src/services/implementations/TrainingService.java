@@ -1,8 +1,8 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import beans.dtos.TrainingDTO;
 import beans.models.Training;
 import daos.interfaces.IDAO;
 import services.interfaces.ITrainingService;
@@ -44,8 +44,14 @@ public class TrainingService implements ITrainingService {
 	}
 
 	@Override
-	public TrainingDTO transformFromTrainingToTrainingDTO(Training training, TrainingDTO trainingDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Training> getAllTrainingsInCertainSportFacility(long id) {
+		Collection<Training> trainings = trainingDAO.getAll();
+		for(Training t : trainings) {
+			if(t.getSportsFacilityId() != id) {
+				trainings.remove(t);
+			}
+		}
+		return trainings;
 	}
+
 }

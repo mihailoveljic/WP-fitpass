@@ -37,7 +37,7 @@ Vue.component("manager-facility", {
 						<v-rating color="primary" class="text-center" half-increments length="5" size="26" :value="sportsFacility.averageRating" readonly></v-rating>
 					</v-col>
 				</v-row>
-				<v-row v-for="training in trainings">
+				<v-row v-for="training in trainings" :key="training.id">
 					<v-card width="100%" class="mx-3" flat outlined>
 						<v-row class="d-flex">
 							<v-col cols="2">
@@ -78,7 +78,7 @@ Vue.component("manager-facility", {
 							<v-container>
 								<v-row>
 									<v-col cols="12" sm="8" md="12">
-										<v-text-field ref="registrationName" label="Name*" required v-model="trainingDTO.name">
+										<v-text-field label="Name*" required >
 										</v-text-field>
 									</v-col>
 								</v-row>
@@ -184,22 +184,23 @@ Vue.component("manager-facility", {
   								});
   								
 								map.addLayer(markers);
+								
+								
 							})
 			              .catch(error => {
 			                    alert(error.message + " GRESKA");
 			              });
+			              axios.get('rest/TrainingController/getAllTrainingsInCertainSportFacility/' + this.manager.sportsFacilityId)
+				              .then(response => {
+									this.trainings = response.data;
+								})
+				              .catch(error => {
+				                    alert(error.message + " GRESKA");
+				                    });
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
               });
-              
-              axios.get('rest/')
-	              .then(response => {
-						this.coaches = response.data;
-					})
-	              .catch(error => {
-	                    alert(error.message + " GRESKA");
-	                    });
 	}
 });
 

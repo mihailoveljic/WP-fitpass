@@ -11,6 +11,7 @@ import beans.models.Manager;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import beans.models.Training;
+import beans.models.TrainingType;
 import daos.implementations.AdministratorDAO;
 import daos.implementations.BuyerDAO;
 import daos.implementations.BuyerTypeDAO;
@@ -20,6 +21,7 @@ import daos.implementations.ManagerDAO;
 import daos.implementations.SportsFacilityDAO;
 import daos.implementations.SportsFacilityTypeDAO;
 import daos.implementations.TrainingDAO;
+import daos.implementations.TrainingTypeDAO;
 import daos.interfaces.IDAO;
 import repositories.implementations.AdministratorRepository;
 import repositories.implementations.BuyerRepository;
@@ -30,6 +32,7 @@ import repositories.implementations.ManagerRepository;
 import repositories.implementations.SportsFacilityRepository;
 import repositories.implementations.SportsFacilityTypeRepository;
 import repositories.implementations.TrainingRepository;
+import repositories.implementations.TrainingTypeRepository;
 import repositories.interfaces.IRepository;
 
 public class ContextInitService {
@@ -139,5 +142,15 @@ public class ContextInitService {
 			ctx.setAttribute("TrainingService", new TrainingService(trainingDAO));
 		}
   }
+	public static void initTrainingTypeService(ServletContext ctx) {
+		if (ctx.getAttribute("TrainingTypeService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<TrainingType> trainingTypeRepository = new TrainingTypeRepository(contextPath);
+	    	
+	    	IDAO<TrainingType> trainingTypeDAO = new TrainingTypeDAO(trainingTypeRepository);
+	    	
+			ctx.setAttribute("TrainingTypeService", new TrainingTypeService(trainingTypeDAO));
+		}
+	}
 
 }

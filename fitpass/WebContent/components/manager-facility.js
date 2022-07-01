@@ -7,9 +7,7 @@ Vue.component("manager-facility", {
 				editDialog: false,
 				editErrorMessages : "",
 				editFormHasErrors: false,
-				trainingDTO: {
-					name: "Naziv",
-				},
+				trainingDTO: null,
 				trainings: [],
 			}				
 	},
@@ -39,32 +37,32 @@ Vue.component("manager-facility", {
 						<v-rating color="primary" class="text-center" half-increments length="5" size="26" :value="sportsFacility.averageRating" readonly></v-rating>
 					</v-col>
 				</v-row>
-				<v-row > <!-- Ovde ide v-for -->
+				<v-row v-for="training in trainings">
 					<v-card width="100%" class="mx-3" flat outlined>
 						<v-row class="d-flex">
 							<v-col cols="2">
-								<v-img class="ma-1" :src="sportsFacility.image" height="150" width="150" dark></v-img>
+								<v-img class="ma-1" :src="training.image" height="150" width="150" dark></v-img>
 							</v-col>
 							<v-col cols="8" align-self="center">
 								<div class="text-h5 gray--text text-center mt-2">
-									Trening snage
+									{{ training.name }}
 								</div>
 								<div class="text-subtitle-1 gray--text text-center">
-									Grupni trening
+									{{ training.trainingType.name }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									Trener: Milena Jelic
+									{{ training.coach.name }} {{ training.coach.surname }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									Trajanje: 90min
+									Duration: {{ training.duration }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									Opis: Ovo je veoma dobar trening treba se trenirati
+									Description: {{ training.description }}
 								</div>
 							</v-col>
 							<v-col cols="2">
 									<v-btn @click="openEditForm(training)" color="primary" class="ma-4" centered width="100" height="50">
-										Edit
+										edit
 									</v-btn>
 								<v-btn class="ma-4" @click="" width="100" height="50">delete</v-btn>
 							</v-col>
@@ -194,6 +192,14 @@ Vue.component("manager-facility", {
               .catch(error => {
                     alert(error.message + " GRESKA");
               });
+              
+              axios.get('rest/')
+	              .then(response => {
+						this.coaches = response.data;
+					})
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	                    });
 	}
 });
 

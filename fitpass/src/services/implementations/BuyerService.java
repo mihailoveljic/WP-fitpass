@@ -1,5 +1,6 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.Buyer;
@@ -51,6 +52,21 @@ public class BuyerService implements IBuyerService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Collection<Buyer> getBuyersWhoVisitedCertainSportFacility(long id) {
+		Collection<Buyer> buyers = buyerDAO.getAll();
+		Collection<Buyer> buyersWhoVisitedCertainSportFacility = new ArrayList<Buyer>();
+		for(Buyer b : buyers) {
+			for(long vsf : b.getVisitedSportsFacilitiesIds()) {
+				if(vsf == id) {
+					buyersWhoVisitedCertainSportFacility.add(b);
+					break;
+				}
+			}
+		}
+		return buyersWhoVisitedCertainSportFacility;
 	}
 
 }

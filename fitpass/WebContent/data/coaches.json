@@ -9,5 +9,27 @@
 		"dateOfBirth": 60908454000000,
 		"role": "TRENER",
 		"trainingHistory": []
+	},
+	{
+		"id": 2,
+		"username": "trener1",
+		"password": "trener1",
+		"name": "Trener1",
+		"surname": "Trener1",
+		"gender": "FEMALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistory": []
+	},
+	{
+		"id": 3,
+		"username": "trener2",
+		"password": "trener2",
+		"name": "Trener2",
+		"surname": "Trener2",
+		"gender": "FEMALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistory": []
 	}
 ]

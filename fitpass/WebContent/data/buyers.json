@@ -9,7 +9,7 @@
         "dateOfBirth": 60908454000000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [],
+        "visitedSportsFacilitiesIds": [1],
         "numberOfCollectedPoints": 90,
         "buyerTypeId": 3
     },
@@ -23,8 +23,22 @@
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [],
+        "visitedSportsFacilitiesIds": [1],
         "numberOfCollectedPoints": 5,
         "buyerTypeId": 2
+    },
+    {
+        "id": 3,
+        "username": "kupac1",
+        "password": "kupac1",
+        "name": "Kupac1",
+        "surname": "Kupac1",
+        "gender": "MALE",
+        "dateOfBirth": 60920373600000,
+        "role": "KUPAC",
+        "membershipId": -1,
+        "visitedSportsFacilitiesIds": [],
+        "numberOfCollectedPoints": 5,
+        "buyerTypeId": 1
     }
 ]

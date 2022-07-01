@@ -1,6 +1,5 @@
 package services.implementations;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.Training;

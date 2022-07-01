@@ -23,6 +23,11 @@ public interface IBuyerController {
 	public Collection<BuyerDTO> getAll();
 	
 	@GET
+	@Path("/getBuyersWhoVisitedCertainSportFacility/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<BuyerDTO> getBuyersWhoVisitedCertainSportFacility(@PathParam("id") long id);
+	
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Buyer get(@PathParam("id") long id);

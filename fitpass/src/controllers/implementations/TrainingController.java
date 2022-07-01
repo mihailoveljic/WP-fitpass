@@ -17,9 +17,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.dtos.TrainingDTO;
+import beans.models.Coach;
 import beans.models.Training;
 import beans.models.TrainingType;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 import services.interfaces.ICoachService;
@@ -92,6 +92,21 @@ public class TrainingController {
 				trainingDTOs.add(trainingDTO);
 			}
 			return trainingDTOs;
+		}
+		
+		@GET
+		@Path("/getAllCoachesInCertainSportFacility/{id}")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Collection<Coach> getAllCoachesInCertainSportFacility(@PathParam("id") long id) {
+			Collection<TrainingDTO> trainingDTOs = getAllTrainingsInCertainSportFacility(id);
+			Collection<Coach> coaches = new ArrayList<Coach>();
+			for(TrainingDTO td : trainingDTOs) {
+				if(!coaches.contains(td.getCoach())) {
+					coaches.add(td.getCoach());
+				}
+			}
+			
+			return coaches;
 		}
 		
 		@GET

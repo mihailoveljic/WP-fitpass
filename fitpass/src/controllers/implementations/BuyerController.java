@@ -80,6 +80,40 @@ public class BuyerController implements IBuyerController {
 	}
 	
 	@GET
+	@Path("/getBuyersWhoVisitedCertainSportFacility/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<BuyerDTO> getBuyersWhoVisitedCertainSportFacility(@PathParam("id") long id) {
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		ICRUDService<BuyerType> buyerTypesService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		Collection<Buyer> buyers = buyerService.getBuyersWhoVisitedCertainSportFacility(id);
+		Collection<BuyerDTO> buyersDTOs = new ArrayList<BuyerDTO>();
+		
+		for(Buyer b : buyers) {
+			BuyerDTO buyerDTO = new BuyerDTO();
+			buyerDTO.setId(b.getId());
+			buyerDTO.setUsername(b.getUsername());
+			buyerDTO.setPassword(b.getPassword());
+			buyerDTO.setName(b.getName());
+			buyerDTO.setSurname(b.getSurname());
+			buyerDTO.setGender(b.getGender());
+			try {
+				buyerDTO.setDateOfBirth(new DateDTO(
+						b.getDateOfBirth().getYear() - 1900,
+						b.getDateOfBirth().getMonth() + 1,
+						b.getDateOfBirth().getDate()));
+			} catch (Exception e) {return null;}
+			buyerDTO.setRole(b.getRole());
+			buyerDTO.setMembership(null);
+			buyerDTO.setVisitedSportsFacilities(sportsFacilityService.getByIds(b.getVisitedSportsFacilitiesIds()));
+			buyerDTO.setNumberOfCollectedPoints(b.getNumberOfCollectedPoints());
+			buyerDTO.setBuyerType(buyerTypesService.get(b.getBuyerTypeId()));
+			buyersDTOs.add(buyerDTO);
+		}
+		return buyersDTOs;
+	}
+	
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override

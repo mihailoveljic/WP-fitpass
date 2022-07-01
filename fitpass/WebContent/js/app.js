@@ -6,6 +6,10 @@ const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></a
 const ManagerFacility = {template : '<manager-facility :userToken="$attrs.usertoken"></manager-facility>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 const NewSportFacilityPage = {template : '<newSportFacility-page :mode="$attrs.mode" :userToken="$attrs.usertoken"></newSportFacility-page>'}
+const ManagerFacilityCoaches = {template : '<manager-facility-coaches :userToken="$attrs.usertoken"></manager-facility-coaches>'}
+const ManagerFacilityBuyers = {template : '<manager-facility-buyers :userToken="$attrs.usertoken"></manager-facility-buyers>'}
+
+
 
 
 const router = new VueRouter({
@@ -18,7 +22,9 @@ const router = new VueRouter({
 		{path: '/account', name:'account-page', component: AccountPage},
 		{path: '/users', name:'users-list', component: UsersList},
 		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage},
-		{path: '/manager-facility', name:'manager-facility', component: ManagerFacility}
+		{path: '/manager-facility', name:'manager-facility', component: ManagerFacility},
+		{path: '/manager-facility-coaches', name:'manager-facility-coaches', component: ManagerFacilityCoaches},
+		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers}
 	  ]
 });
 								
@@ -262,13 +268,21 @@ var app = new Vue({
 						link: '/manager-facility'
 					},
 					{
+						name:'Coaches',
+						link:'/manager-facility-coaches'
+					},
+					{
+						name:'Clients',
+						link:'/manager-facility-buyers'
+					},
+					{
 						name:'Programs',
 						link:'/programs'
 					},
 					{
 							name:'My Account',
 							link:'/account'
-					}
+					},
 				]
 			} else if(this.mode == "TRENER"){
 				this.appBarLinks= [

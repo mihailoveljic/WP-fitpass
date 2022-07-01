@@ -76,7 +76,7 @@ var app = new Vue({
 		registrationErrorMessages : '',
 		loginErrorMessages : '',
 		loginFormHasErrors: false,
-		registrationFormHasErrors: false
+		registrationFormHasErrors: false,
 	},
 	created(){
 		this.userToken = JSON.parse(sessionStorage.getItem('userToken'));

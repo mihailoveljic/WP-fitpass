@@ -15,12 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import beans.models.BuyerType;
 import beans.models.Membership;
 import beans.models.MembershipDTO;
 import controllers.interfaces.IMembershipController;
 import services.implementations.ContextInitService;
-import services.interfaces.ICRUDService;
 import services.interfaces.IMembershipService;
 
 public class MembershipController implements IMembershipController {
@@ -41,8 +39,8 @@ public class MembershipController implements IMembershipController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Collection<MembershipDTO> getAll(){
-		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
-		Collection<Membership> memberships = membershipService.getAll();
+		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		//Collection<Membership> memberships = membershipService.getAll();
 		return null;
 	}
 	
@@ -51,8 +49,8 @@ public class MembershipController implements IMembershipController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public MembershipDTO get(@PathParam("id") long id) {
-		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
-		Membership membership = membershipService.get(id);
+		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		//Membership membership = membershipService.get(id);
 		return null;
 	}
 	
@@ -62,8 +60,8 @@ public class MembershipController implements IMembershipController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public MembershipDTO create(Membership membership) {
-		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
-		Membership membership1 = membershipService.create(membership);
+		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		//Membership membership1 = membershipService.create(membership);
 		return null;
 	}
 	

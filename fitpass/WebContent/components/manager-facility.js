@@ -97,6 +97,8 @@ Vue.component("manager-facility", {
 					</v-card>
 				</v-dialog>
 			</div>
+		<v-divider></v-divider>
+		<comments-carousel v-if="!!manager" :userToken="userToken" :sportsFacilityId="manager.sportsFacilityId"></comments-carousel>
 		<div ref="map" class="map my-4"></div>
 		</v-card>
 	</div>

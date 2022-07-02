@@ -29,8 +29,9 @@ private String contextPath;
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 		    List<Manager> managers = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\managers.json").toFile(), Manager[].class));
-		    for(Manager m : managers){
-		    	map.put(String.valueOf(m.getId()), m);
+		    for(Manager element : managers){
+		    	if(element.getIsDeleted()) continue;
+		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
 		    ex.printStackTrace();

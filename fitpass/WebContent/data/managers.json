@@ -8,7 +8,8 @@
 		"gender": "MALE",
 		"dateOfBirth": 60908454000000,
 		"role": "MENADZER",
-		"sportsFacilityId": 1
+		"sportsFacilityId": 1,
+		"isDeleted" : false
 	},
 	{
 		"id": 2,
@@ -19,7 +20,8 @@
 		"gender": "MALE",
 		"dateOfBirth": 60908454000000,
 		"role": "MENADZER",
-		"sportsFacilityId": -1
+		"sportsFacilityId": -1,
+		"isDeleted" : false
 	},
 	{
 		"id": 3,
@@ -30,6 +32,7 @@
 		"gender": "MALE",
 		"dateOfBirth": 60908454000000,
 		"role": "MENADZER",
-		"sportsFacilityId": -1
+		"sportsFacilityId": -1,
+		"isDeleted" : false
 	}
 ]

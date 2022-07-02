@@ -11,15 +11,17 @@ public class BuyerType implements Serializable {
 	private String typeName;
 	private double discount;
 	private double requiredPointsForUpgrade;
+	private boolean isDeleted;
 	
 	public BuyerType() {}
 
-	public BuyerType(long id, String typeName, double discount, double collectedPoints) {
+	public BuyerType(long id, String typeName, double discount, double collectedPoints, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.typeName = typeName;
 		this.discount = discount;
 		this.requiredPointsForUpgrade = collectedPoints;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -53,7 +55,12 @@ public class BuyerType implements Serializable {
 	public void setRequiredPointsForUpgrade(double requiredPointsForUpgrade) {
 		this.requiredPointsForUpgrade = requiredPointsForUpgrade;
 	}
-	
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 		
 }

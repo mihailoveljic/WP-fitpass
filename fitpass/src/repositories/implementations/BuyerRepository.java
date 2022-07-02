@@ -33,6 +33,7 @@ public class BuyerRepository implements IRepository<Buyer> {
 		    		Paths.get(contextPath + "data\\buyers.json").toFile(), Buyer[].class));
 		    
 		    for(Buyer element : list){
+		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

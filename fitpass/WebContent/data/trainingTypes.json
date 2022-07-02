@@ -1,18 +1,22 @@
 [
 	{
 		"id" : 1,
-		"name" : "Personalni trening"
+		"name" : "Personalni trening",
+		"isDeleted" : false
 	},
 	{
 		"id" : 2,
-		"name" : "Grupni trening"
+		"name" : "Grupni trening",
+		"isDeleted" : false
 	},
 	{
 		"id" : 3,
-		"name" : "HIIT"
+		"name" : "HIIT",
+		"isDeleted" : false
 	},
 	{
 		"id" : 4,
-		"name" : "Trening snage"
+		"name" : "Trening snage",
+		"isDeleted" : false
 	}
 ]

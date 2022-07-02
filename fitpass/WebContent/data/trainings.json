@@ -7,7 +7,9 @@
 		"duration" : 50,
 		"coachId" : 1,
 		"description" : "Kompletan trening donjeg dela tela.",
-		"image" : "PersonalniTrening.jpg"
+		"image" : "PersonalniTrening.jpg",
+		"additionalPrice": 0,
+		"isDeleted" : false
 	},
 	{
 		"id" : 2,
@@ -17,7 +19,9 @@
 		"duration" : 40,
 		"coachId" : 1,
 		"description" : "Trening za stomak uz dodatak rada na donjim ledjima.",
-		"image" : "GrupniTrening.jpg"
+		"image" : "GrupniTrening.jpg",
+		"additionalPrice": 0,
+		"isDeleted" : false
 	},
 	{
 		"id" : 3,
@@ -27,7 +31,9 @@
 		"duration" : 20,
 		"coachId" : 2,
 		"description" : "Ubaci svoje telo u anaerobno stanje i uzivaj u procesu skidanja viska masnih naslaga! ",
-		"image" : "HIIT.jpg"
+		"image" : "HIIT.jpg",
+		"additionalPrice": 0,
+		"isDeleted" : false
 	},
 	{
 		"id" : 4,
@@ -37,7 +43,9 @@
 		"duration" : 60,
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
-		"image" : "TreningSnage.jpg"
+		"image" : "TreningSnage.jpg",
+		"additionalPrice": 0,
+		"isDeleted" : false
 	},
 	{
 		"id" : 5,
@@ -47,6 +55,8 @@
 		"duration" : 60,
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
-		"image" : "TreningSnage.jpg"
+		"image" : "TreningSnage.jpg",
+		"additionalPrice": 0,
+		"isDeleted" : false
 	}
 ]

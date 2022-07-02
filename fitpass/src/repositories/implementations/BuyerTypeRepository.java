@@ -29,8 +29,9 @@ public class BuyerTypeRepository implements IRepository<BuyerType>{
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 		    List<BuyerType> buyerTypes = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\buyerTypes.json").toFile(), BuyerType[].class));
-		    for(BuyerType bt : buyerTypes){
-		    	map.put(String.valueOf(bt.getId()), bt);
+		    for(BuyerType element : buyerTypes){
+		    	if(element.getIsDeleted()) continue;
+		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
 		    ex.printStackTrace();

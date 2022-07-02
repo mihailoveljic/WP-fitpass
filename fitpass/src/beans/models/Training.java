@@ -16,11 +16,12 @@ public class Training implements Serializable {
 	private long coachId;
 	private String description;
 	private String image;
+	private boolean isDeleted;
 	
 	public Training() {}
 
 	public Training(long id, String name, long trainingTypeId, long sportsFacilityId, int duration, long coachId, String image,
-			String description) {
+			String description, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,6 +31,7 @@ public class Training implements Serializable {
 		this.coachId = coachId;
 		this.description = description;
 		this.image = image;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -95,6 +97,11 @@ public class Training implements Serializable {
 	public void setImage(String image) {
 		this.image = image;
 	}
-
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 }

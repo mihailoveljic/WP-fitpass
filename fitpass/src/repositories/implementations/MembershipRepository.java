@@ -8,31 +8,31 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import beans.models.Administrator;
+import beans.models.Membership;
 import repositories.interfaces.IRepository;
 
-public class AdministratorRepository implements IRepository<Administrator> {
-	
+public class MembershipRepository implements IRepository<Membership>{
+
 	private String contextPath;
 	
-	public AdministratorRepository(String contextPath) {
+	public MembershipRepository(String contextPath) {
 		super();
 		this.contextPath = contextPath;
 	}
 
 
 	@Override
-	public Map<String, Administrator> load() {
+	public Map<String, Membership> load() {
 		
-		HashMap<String, Administrator> map = new HashMap<String, Administrator>();
+		HashMap<String, Membership> map = new HashMap<String, Membership>();
 		
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 
-		    List<Administrator> list = Arrays.asList(mapper.readValue(
-		    		Paths.get(contextPath + "data\\administrators.json").toFile(), Administrator[].class));
+		    List<Membership> list = Arrays.asList(mapper.readValue(
+		    		Paths.get(contextPath + "data\\memberships.json").toFile(), Membership[].class));
 		    
-		    for(Administrator element : list){
+		    for(Membership element : list){
 		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
@@ -42,13 +42,14 @@ public class AdministratorRepository implements IRepository<Administrator> {
 
 	    return map;
 	}
+		
 
 	@Override
-	public boolean save(Map<String, Administrator> map) {
+	public boolean save(Map<String, Membership> map) {
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 		    
-		    mapper.writeValue(Paths.get(contextPath + "data\\administrators.json").toFile(), map.values());
+		    mapper.writeValue(Paths.get(contextPath + "data\\memberships.json").toFile(), map.values());
 
 		} catch (Exception ex) {
 		    ex.printStackTrace();

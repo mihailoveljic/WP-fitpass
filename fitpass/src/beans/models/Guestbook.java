@@ -12,16 +12,18 @@ public class Guestbook implements Serializable {
 	private long sportsFacilityId;
 	private String comment;
 	private int rating;
+	private boolean approved;
 	
 	public Guestbook() {}
 
-	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating) {
+	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating, boolean approved) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
 		this.sportsFacilityId = sportsFacilityId;
 		this.comment = comment;
 		this.rating = rating;
+		this.approved = approved;
 	}
 
 	public long getId() {
@@ -62,6 +64,14 @@ public class Guestbook implements Serializable {
 
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 
 	

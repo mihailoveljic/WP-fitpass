@@ -7,24 +7,28 @@ import beans.models.Buyer;
 import beans.models.BuyerType;
 import beans.models.Coach;
 import beans.models.FacilityContent;
+import beans.models.Guestbook;
 import beans.models.Manager;
 import beans.models.Membership;
 import beans.models.MembershipType;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import beans.models.Training;
+import beans.models.TrainingHistory;
 import beans.models.TrainingType;
 import daos.implementations.AdministratorDAO;
 import daos.implementations.BuyerDAO;
 import daos.implementations.BuyerTypeDAO;
 import daos.implementations.CoachDAO;
 import daos.implementations.FacilityContentDAO;
+import daos.implementations.GuestbookDAO;
 import daos.implementations.ManagerDAO;
 import daos.implementations.MembershipDAO;
 import daos.implementations.MembershipTypeDAO;
 import daos.implementations.SportsFacilityDAO;
 import daos.implementations.SportsFacilityTypeDAO;
 import daos.implementations.TrainingDAO;
+import daos.implementations.TrainingHistoryDAO;
 import daos.implementations.TrainingTypeDAO;
 import daos.interfaces.IDAO;
 import repositories.implementations.AdministratorRepository;
@@ -32,16 +36,40 @@ import repositories.implementations.BuyerRepository;
 import repositories.implementations.BuyerTypeRepository;
 import repositories.implementations.CoachRepository;
 import repositories.implementations.FacilityContentRepository;
+import repositories.implementations.GuestbookRepository;
 import repositories.implementations.ManagerRepository;
 import repositories.implementations.MembershipRepository;
 import repositories.implementations.MembershipTypeRepository;
 import repositories.implementations.SportsFacilityRepository;
 import repositories.implementations.SportsFacilityTypeRepository;
+import repositories.implementations.TrainingHistoryRepository;
 import repositories.implementations.TrainingRepository;
 import repositories.implementations.TrainingTypeRepository;
 import repositories.interfaces.IRepository;
 
 public class ContextInitService {
+	
+	public static void initTrainingHistoryService(ServletContext ctx) {
+		if (ctx.getAttribute("TrainingHistoryService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<TrainingHistory> trainingHistoryRepository = new TrainingHistoryRepository(contextPath);
+	    	
+	    	IDAO<TrainingHistory> trainingHistoryDAO = new TrainingHistoryDAO(trainingHistoryRepository);
+	    	
+			ctx.setAttribute("TrainingHistoryService", new TrainingHistoryService(trainingHistoryDAO));
+		}
+	}
+	
+	public static void initGuesbookService(ServletContext ctx) {
+		if (ctx.getAttribute("GuestbookService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<Guestbook> guestbookRepository = new GuestbookRepository(contextPath);
+	    	
+	    	IDAO<Guestbook> guestbookDAO = new GuestbookDAO(guestbookRepository);
+	    	
+			ctx.setAttribute("GuestbookService", new GuestbookService(guestbookDAO));
+		}
+	}
 	
 	public static void initAdministratorService(ServletContext ctx) {
 		if (ctx.getAttribute("AdministratorService") == null) {

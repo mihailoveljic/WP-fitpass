@@ -9,18 +9,15 @@ public class Coach extends User implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4143166464460969899L;
-	private ArrayList<TrainingHistory> trainingHistory;
+	private ArrayList<Long> trainingHistoryIds;
 	
 	public Coach() {}
 
-	public ArrayList<TrainingHistory> getTrainingHistory() {
-		return trainingHistory;
+	public ArrayList<Long> getTrainingHistoryIds() {
+		return trainingHistoryIds;
 	}
 
-	public void setTrainingHistory(ArrayList<TrainingHistory> trainingHistory) {
-		this.trainingHistory = trainingHistory;
+	public void setTrainingHistoryIds(ArrayList<Long> trainingHistoryIds) {
+		this.trainingHistoryIds = trainingHistoryIds;
 	}
-
-	
-	
 }

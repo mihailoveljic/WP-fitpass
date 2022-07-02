@@ -8,7 +8,6 @@ import beans.enums.Role;
 import beans.models.Buyer;
 import beans.models.Coach;
 import beans.models.Manager;
-import beans.models.TrainingHistory;
 import services.interfaces.ICRUDService;
 import services.interfaces.IRegisterService;
 
@@ -65,7 +64,7 @@ public class RegisterService implements IRegisterService {
 		coach.setRole(Role.TRENER);
 		coach.setSurname(userRegistrationDTO.getSurname());
 		coach.setUsername(userRegistrationDTO.getUsername());
-		coach.setTrainingHistory(new ArrayList<TrainingHistory>());
+		coach.setTrainingHistoryIds(new ArrayList<Long>());
 		return service.create(coach);
 	}
 

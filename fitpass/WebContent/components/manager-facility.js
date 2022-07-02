@@ -14,6 +14,10 @@ Vue.component("manager-facility", {
 	template: 
 ` 
 	<div>
+		<v-row>
+		<v-col cols="2">
+		</v-col>
+		<v-col cols="8">
 		<v-card width="1200" class="mx-auto mt-8" outlined rounded="8">
 			<div v-if="!!sportsFacility">
 				<v-row class="d-flex flex-row justify-space-between">
@@ -99,6 +103,16 @@ Vue.component("manager-facility", {
 			</div>
 		<div ref="map" class="map my-4"></div>
 		</v-card>
+		</v-col>
+			<v-col cols="2">
+				<v-btn @click="newTrainingForm" color="primary" class="ma-4" centered width="200" height="50">
+										Add new training
+				</v-btn>
+				<v-btn color="primary" class="ma-4" centered width="200" height="50">
+										Add new content
+				</v-btn>
+			</v-col>
+		</v-row>
 	</div>
 `
 	, 
@@ -133,8 +147,10 @@ Vue.component("manager-facility", {
 				this.editDialog = true;
 			},
 			editTraining: function(){
-				
-			}
+			},
+		newTrainingForm() {
+   			this.$router.push('/manager-facility/new-training'); 
+   			}
 	},
 	created(){
 		if(!this.userToken){

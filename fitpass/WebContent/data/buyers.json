@@ -1,11 +1,11 @@
 [
     {
         "id": 1,
-        "username": "velja",
-        "password": "velja",
-        "name": "Mihailo",
-        "surname": "Veljic",
-        "gender": "MALE",
+        "username": "milena",
+        "password": "milena",
+        "name": "Milena",
+        "surname": "Jelic",
+        "gender": "FEMALE",
         "dateOfBirth": 60908454000000,
         "role": "KUPAC",
         "membershipId": -1,

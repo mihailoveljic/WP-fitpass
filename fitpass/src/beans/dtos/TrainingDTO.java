@@ -12,12 +12,13 @@ public class TrainingDTO {
 	private int duration;
 	private Coach coach;
 	private String description;
+	private double additionalPrice;
 	private String image;
 	
 	public TrainingDTO() {}
 
 	public TrainingDTO(long id, String name, TrainingType trainingType, long sportsFacilityId, int duration,
-			Coach coach, String description, String image) {
+			Coach coach, String description, String image, double additionalPrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -27,6 +28,7 @@ public class TrainingDTO {
 		this.coach = coach;
 		this.description = description;
 		this.image = image;
+		this.additionalPrice = additionalPrice;
 	}
 
 	public long getId() {
@@ -92,6 +94,12 @@ public class TrainingDTO {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
+	public double getAdditionalPrice() {
+		return additionalPrice;
+	}
+
+	public void setAdditionalPrice(double additionalPrice) {
+		this.additionalPrice = additionalPrice;
+	}
 	
 }

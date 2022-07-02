@@ -113,9 +113,9 @@ public class TrainingController {
 		@Path("/{id}")
 		@Produces(MediaType.APPLICATION_JSON)
 		public TrainingDTO get(@PathParam("id") long id) {
-			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
-			Training training = trainingService.get(id);
-			TrainingDTO trainingDTO = new TrainingDTO();
+			//ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			//Training training = trainingService.get(id);
+			//TrainingDTO trainingDTO = new TrainingDTO();
 			//return trainingService.transformFromTrainingToTrainingDTO(training, trainingDTO); //IMPLEMENT THIS METHOD IN SERVICE
 			return null;
 		}
@@ -125,9 +125,9 @@ public class TrainingController {
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.APPLICATION_JSON)
 		public TrainingDTO create(Training training) {
-			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
-			Training training2 = trainingService.create(training);
-			TrainingDTO trainingDTO = new TrainingDTO();
+			//ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			//Training training2 = trainingService.create(training);
+			//TrainingDTO trainingDTO = new TrainingDTO();
 			//return trainingService.transformFromTrainingToTrainingDTO(training2, trainingDTO);
 			return null;
 		}

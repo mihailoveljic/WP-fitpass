@@ -3,19 +3,22 @@
 		"id": 1,
 		"typeName": "Bronzani",
 		"discount": "5",
-		"requiredPointsForUpgrade": "100"
+		"requiredPointsForUpgrade": "100",
+		"isDeleted" : false
 	},
 	{
 		"id": 2,
 		"typeName": "Srebrni",
 		"discount": "10",
-		"requiredPointsForUpgrade": "100"
+		"requiredPointsForUpgrade": "100",
+		"isDeleted" : false
 	},
 	{
 		"id": 3,
 		"typeName": "Zlatni",
 		"discount": "20",
-		"requiredPointsForUpgrade": "100"
+		"requiredPointsForUpgrade": "100",
+		"isDeleted" : false
 	}
 	
 ]

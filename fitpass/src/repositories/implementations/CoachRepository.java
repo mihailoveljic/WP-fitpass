@@ -31,6 +31,7 @@ public class CoachRepository implements IRepository<Coach> {
 
 		    List<Coach> list = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\coaches.json").toFile(), Coach[].class));
 		    for(Coach element : list){
+		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

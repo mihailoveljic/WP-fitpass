@@ -24,7 +24,8 @@
         "workingHours": {
             "fromThe": "20:00",
             "toThe": "21:00"
-        }
+        },
+        "isDeleted" : false
     },
     {
         "id": 2,
@@ -51,7 +52,8 @@
         "workingHours": {
             "fromThe": "09:00",
             "toThe": "21:00"
-        }
+        },
+        "isDeleted" : false
     },
     {
         "id": 3,
@@ -79,6 +81,7 @@
         "workingHours": {
             "fromThe": "20:00",
             "toThe": "22:00"
-        }
+        },
+        "isDeleted" : false
     }
 ]

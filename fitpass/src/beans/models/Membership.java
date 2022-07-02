@@ -1,7 +1,7 @@
 package beans.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 public class Membership implements Serializable {
 	/**
@@ -11,17 +11,18 @@ public class Membership implements Serializable {
 	private long id;
 	private double membershipNumber;
 	private long membershipTypeId;
-	private LocalDate paymentDate;
-	private LocalDate expirationDate;
+	private Date paymentDate;
+	private Date expirationDate;
 	private double price;
 	private long buyerId;
 	private boolean active;
 	private int numberOfDailyTraining;
+	private boolean isDeleted;
 	
 	public Membership() {}
 
-	public Membership(long id, double membershipNumber, long membershipTypeId, LocalDate paymentDate,
-			LocalDate expirationDate, double price, long buyerId, boolean active, int numberOfDailyTraining) {
+	public Membership(long id, double membershipNumber, long membershipTypeId, Date paymentDate,
+			Date expirationDate, double price, long buyerId, boolean active, int numberOfDailyTraining, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.membershipNumber = membershipNumber;
@@ -32,6 +33,7 @@ public class Membership implements Serializable {
 		this.buyerId = buyerId;
 		this.active = active;
 		this.numberOfDailyTraining = numberOfDailyTraining;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -58,19 +60,19 @@ public class Membership implements Serializable {
 		this.membershipTypeId = membershipTypeId;
 	}
 
-	public LocalDate getPaymentDate() {
+	public Date getPaymentDate() {
 		return paymentDate;
 	}
 
-	public void setPaymentDate(LocalDate paymentDate) {
+	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
 
-	public LocalDate getExpirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(LocalDate expirationDate) {
+	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
@@ -105,6 +107,11 @@ public class Membership implements Serializable {
 	public void setNumberOfDailyTraining(int numberOfDailyTraining) {
 		this.numberOfDailyTraining = numberOfDailyTraining;
 	}
-
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 		
 }

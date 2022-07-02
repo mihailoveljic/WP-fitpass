@@ -9,6 +9,8 @@ import beans.models.Coach;
 import beans.models.FacilityContent;
 import beans.models.Guestbook;
 import beans.models.Manager;
+import beans.models.Membership;
+import beans.models.MembershipType;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import beans.models.Training;
@@ -21,6 +23,8 @@ import daos.implementations.CoachDAO;
 import daos.implementations.FacilityContentDAO;
 import daos.implementations.GuestbookDAO;
 import daos.implementations.ManagerDAO;
+import daos.implementations.MembershipDAO;
+import daos.implementations.MembershipTypeDAO;
 import daos.implementations.SportsFacilityDAO;
 import daos.implementations.SportsFacilityTypeDAO;
 import daos.implementations.TrainingDAO;
@@ -34,6 +38,8 @@ import repositories.implementations.CoachRepository;
 import repositories.implementations.FacilityContentRepository;
 import repositories.implementations.GuestbookRepository;
 import repositories.implementations.ManagerRepository;
+import repositories.implementations.MembershipRepository;
+import repositories.implementations.MembershipTypeRepository;
 import repositories.implementations.SportsFacilityRepository;
 import repositories.implementations.SportsFacilityTypeRepository;
 import repositories.implementations.TrainingHistoryRepository;
@@ -178,6 +184,27 @@ public class ContextInitService {
 	    	IDAO<TrainingType> trainingTypeDAO = new TrainingTypeDAO(trainingTypeRepository);
 	    	
 			ctx.setAttribute("TrainingTypeService", new TrainingTypeService(trainingTypeDAO));
+		}
+	}
+	
+	public static void initMembershipService(ServletContext ctx) {
+		if (ctx.getAttribute("MembershipService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<Membership> membershipRepository = new MembershipRepository(contextPath);
+	    	
+	    	IDAO<Membership> membershipDAO = new MembershipDAO(membershipRepository);
+	    	
+			ctx.setAttribute("MembershipService", new MembershipService(membershipDAO));
+		}
+	}
+	public static void initMembershipTypeService(ServletContext ctx) {
+		if (ctx.getAttribute("MembershipTypeService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<MembershipType> membershipTypeRepository = new MembershipTypeRepository(contextPath);
+	    	
+	    	IDAO<MembershipType> membershipTypeDAO = new MembershipTypeDAO(membershipTypeRepository);
+	    	
+			ctx.setAttribute("MembershipTypeService", new MembershipTypeService(membershipTypeDAO));
 		}
 	}
 

@@ -1,18 +1,22 @@
 [
     {
         "id": 1,
-        "name": "Personal training"
+        "name": "Personal training",
+        "isDeleted" : false
     },
     {
         "id": 2,
-        "name": "Group training"
+        "name": "Group training",
+        "isDeleted" : false
     },
     {
         "id": 3,
-        "name": "Sauna"
+        "name": "Sauna",
+        "isDeleted" : false
     },
     {
         "id": 4,
-        "name": "Massage"
+        "name": "Massage",
+        "isDeleted" : false
     }
 ]

@@ -1,5 +1,6 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.Training;
@@ -44,12 +45,9 @@ public class TrainingService implements ITrainingService {
 
 	@Override
 	public Collection<Training> getAllTrainingsInCertainSportFacility(long id) {
-		Collection<Training> trainings = trainingDAO.getAll();
-		for(Training t : trainings) {
-			if(t.getSportsFacilityId() != id) {
-				trainings.remove(t);
-			}
-		}
+		Collection<Training> trainings = new ArrayList<Training>(trainingDAO.getAll());
+		trainings.removeIf(t -> (t.getSportsFacilityId() != id));
+		
 		return trainings;
 	}
 

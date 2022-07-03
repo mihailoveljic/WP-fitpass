@@ -33,7 +33,7 @@ Vue.component("sports-facilities", {
 								</v-btn>
 			</v-col>
 			<v-col cols="6">
-				<v-card v-for="sportsFacility in sportsFacilities" :key="sportsFacility.id" width="800" height="252" class="mx-auto mt-8" outlined  rounded="8" hover>
+				<v-card v-for="sportsFacility in sportsFacilities" :key="sportsFacility.id" @click="openSportFacility(sportsFacility)" width="800" height="252" class="mx-auto mt-8" outlined  rounded="8" hover>
 					<v-row class="d-flex flex-row justify-space-between">
 						<v-col cols="5">
 							<v-img class="ma-4" :src="sportsFacility.image" height="220" width="220" dark></v-img>
@@ -94,7 +94,9 @@ Vue.component("sports-facilities", {
 `
 	, 
 	methods : {
-		
+		openSportFacility(sportsFacility){
+			this.$router.push('/sports-facility-buyers/' + sportsFacility.id);
+		},
 		sortByName(){
 			if(this.sortNameAsc){
 				this.sportsFacilities.sort((a, b) => a.name.localeCompare(b.name));

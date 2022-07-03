@@ -77,6 +77,7 @@ public class TrainingController {
 				trainingDTO.setCoach(coachService.get(t.getCoachId()));
 				trainingDTO.setDescription(t.getDescription());
 				trainingDTO.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + t.getImage());
+				trainingDTO.setAdditionalPrice(t.getAdditionalPrice());
 				trainingDTOs.add(trainingDTO);
 			}
 			return trainingDTOs;
@@ -102,6 +103,7 @@ public class TrainingController {
 				trainingDTO.setCoach(coachService.get(t.getCoachId()));
 				trainingDTO.setDescription(t.getDescription());
 				trainingDTO.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + t.getImage());
+				trainingDTO.setAdditionalPrice(t.getAdditionalPrice());
 				trainingDTOs.add(trainingDTO);
 			}
 			return trainingDTOs;

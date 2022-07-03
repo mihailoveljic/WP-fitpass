@@ -32,7 +32,7 @@ const router = new VueRouter({
 		{path: '/manager-facility-coaches', name:'manager-facility-coaches', component: ManagerFacilityCoaches},
 		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers},
 		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining},
-		{path: '/my-trainings-buyers', name:'my-trainings-buyers', component: MyTrainingsBuyers}
+		{path: '/my-trainings-buyers', name:'my-trainings-buyers', component: MyTrainingsBuyers},
 		{path: '/manager-facility/new-facilityContent', name:'new-facilityContent', component: NewFacilityContent}
 	  ]
 });

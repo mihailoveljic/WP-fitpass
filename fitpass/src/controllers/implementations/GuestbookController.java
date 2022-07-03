@@ -135,7 +135,7 @@ public class GuestbookController {
 			sportsFacilityDTO.setAverageRating(sportFacility.getAverageRating());
 			sportsFacilityDTO.setWorkingHours(sportFacility.getWorkingHours());
 			
-			
+			dto.setId(guestbook.getId());
 			dto.setBuyer(buyerDTO);
 			dto.setSportsFacility(sportsFacilityDTO);
 			dto.setComment(guestbook.getComment());

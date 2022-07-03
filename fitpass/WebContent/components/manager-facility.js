@@ -24,8 +24,8 @@ Vue.component("manager-facility", {
 					<v-col cols="4">
 						<v-img class="ma-4" :src="sportsFacility.image" height="300" width="300" dark></v-img>
 					</v-col>
-					<v-col cols="3" class="mx-auto mt-6">
-						<v-card hover>
+					<v-col cols="3" class="mx-auto my-6">
+						<v-card hover @click = "redirectToContentReviewPage">
 							<v-list dense outlined >
 						        <v-subheader class="text-h6">Content of the facility</v-subheader>
 						      	<v-divider></v-divider>
@@ -130,6 +130,9 @@ Vue.component("manager-facility", {
 	, 
 	props:['userToken'],
 	methods : {
+			redirectToContentReviewPage(){
+				this.$router.push('manager-facility/new-facilityContent');
+			},
 			checkIfIsOpen: function(sportsFacility){
 				let from = sportsFacility.workingHours.fromThe.split(':');
 				let to = sportsFacility.workingHours.toThe.split(':');

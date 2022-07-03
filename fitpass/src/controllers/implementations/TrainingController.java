@@ -170,18 +170,24 @@ public class TrainingController {
 		@Produces(MediaType.APPLICATION_JSON)
 		public Training create(TrainingDTO trainingDTO) {
 			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>)ctx.getAttribute("TrainingTypeService");
 			//Training training2 = trainingService.create(training);
 			//TrainingDTO trainingDTO = new TrainingDTO();
 			//return trainingService.transformFromTrainingToTrainingDTO(training2, trainingDTO);
 			Training training = new Training();
 			training.setId(trainingDTO.getId());
 			training.setName(trainingDTO.getName());
-			training.setTrainingTypeId(trainingDTO.getTrainingType().getId());
+			if(trainingDTO.getTrainingType().getId() == -1) {
+				training.setTrainingTypeId((trainingTypeService.create(trainingDTO.getTrainingType())).getId());
+			}
+			else {
+				training.setTrainingTypeId(trainingDTO.getTrainingType().getId());
+			}
 			training.setSportsFacilityId(trainingDTO.getSportsFacilityId());
 			training.setDuration(trainingDTO.getDuration());
 			training.setCoachId(trainingDTO.getCoach().getId());
 			training.setDescription(trainingDTO.getDescription());
-			training.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + trainingDTO.getImage());
+			training.setImage(trainingDTO.getImage());
 			training.setAdditionalPrice(trainingDTO.getAdditionalPrice());
 			training.setIsDeleted(false);
 			return trainingService.create(training);

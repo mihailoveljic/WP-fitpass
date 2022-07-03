@@ -21,10 +21,23 @@ Vue.component("manager-facility", {
 		<v-card width="1200" class="mx-auto mt-8" outlined rounded="8">
 			<div v-if="!!sportsFacility">
 				<v-row class="d-flex flex-row justify-space-between">
-					<v-col cols="5">
+					<v-col cols="4">
 						<v-img class="ma-4" :src="sportsFacility.image" height="300" width="300" dark></v-img>
 					</v-col>
-					<v-col cols="7" align-self="center">
+					<v-col cols="3" class="mx-auto mt-6">
+						<v-card hover>
+							<v-list dense outlined >
+						        <v-subheader class="text-h6">Content of the facility</v-subheader>
+						      	<v-divider></v-divider>
+						        <v-list-item v-for="content in sportsFacility.facilityContents" :key="content.id">
+						            <v-list-item-content>
+							            <v-list-item-title v-text="content"></v-list-item-title>
+						            </v-list-item-content>
+					        	</v-list-item>
+							</v-list>
+						</v-card>
+					</v-col>
+					<v-col cols="5" align-self="center">
 						<div class="text-h3 gray--text text-center mt-2">
 							{{sportsFacility.name}}
 						</div>
@@ -109,9 +122,6 @@ Vue.component("manager-facility", {
 			<v-col cols="2">
 				<v-btn @click="newTrainingForm" color="primary" class="ma-4" centered width="200" height="50">
 										Add new training
-				</v-btn>
-				<v-btn color="primary" class="ma-4" centered width="200" height="50">
-										Add new content
 				</v-btn>
 			</v-col>
 		</v-row>

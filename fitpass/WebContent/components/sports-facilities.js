@@ -59,34 +59,34 @@ Vue.component("sports-facilities", {
 			</v-col>
 			<v-col cols="2">
 				<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" label="Sport facility name" outlined clearable></v-text-field>
-					<v-btn class="mx-4"  @click="sortByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
-				</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCountrySearched" label="Country" outlined clearable></v-text-field>
-					<v-btn class="mx-4"  @click="sortByCountry" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
-				</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCitySearched" label="City" outlined clearable></v-text-field>
-					<v-btn class="mx-4"  @click="sortByCity" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
-				</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-combobox @change="filterSportsFacility" v-model="sportsFacilityTypesSearched" :items="sportsFacilityTypeNames" label="Sport facility types" clearable multiple outlined small-chips></v-combobox>
-				</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-combobox @change="filterSportsFacility" v-model="facilityContentsSearched" :items="facilityContentNames" label="Programs" clearable multiple outlined small-chips></v-combobox>
-				</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<label>Required rating:</label>
-				</v-card>
 					<v-card class="justify-center align-center text-center d-flex">
-						<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
-						<v-btn class="mx-4"  @click="sortByRating" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" label="Sport facility name" outlined clearable></v-text-field>
+						<v-btn class="mx-4"  @click="sortByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 					</v-card>
-				<v-card class="justify-center align-center text-center d-flex">
-					<v-checkbox class="justify-center" @change="filterSportsFacility" v-model="isOpenCheckbox" label="Opened"></v-checkbox>
-				</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCountrySearched" label="Country" outlined clearable></v-text-field>
+						<v-btn class="mx-4"  @click="sortByCountry" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+					</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityCitySearched" label="City" outlined clearable></v-text-field>
+						<v-btn class="mx-4"  @click="sortByCity" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+					</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-combobox @change="filterSportsFacility" v-model="sportsFacilityTypesSearched" :items="sportsFacilityTypeNames" label="Sport facility types" clearable multiple outlined small-chips></v-combobox>
+					</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-combobox @change="filterSportsFacility" v-model="facilityContentsSearched" :items="facilityContentNames" label="Programs" clearable multiple outlined small-chips></v-combobox>
+					</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<label>Required rating:</label>
+					</v-card>
+						<v-card class="justify-center align-center text-center d-flex">
+							<v-rating @input="filterSportsFacility" outlined color="primary" half-increments hover clearable length="5" v-model="requiredRating"></v-rating>
+							<v-btn class="mx-4"  @click="sortByRating" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						</v-card>
+					<v-card class="justify-center align-center text-center d-flex">
+						<v-checkbox class="justify-center" @change="filterSportsFacility" v-model="isOpenCheckbox" label="Opened"></v-checkbox>
+					</v-card>
 				</v-card>
 			</v-col>
 		</v-row>
@@ -95,7 +95,7 @@ Vue.component("sports-facilities", {
 	, 
 	methods : {
 		openSportFacility(sportsFacility){
-			this.$router.push('/sports-facility-buyers/' + sportsFacility.id);
+			this.$router.push('/sports-facility/' + sportsFacility.id);
 		},
 		sortByName(){
 			if(this.sortNameAsc){

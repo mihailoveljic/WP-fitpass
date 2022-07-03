@@ -4,12 +4,14 @@ const ManagersList = {template : '<managers-list :mode="$attrs.mode"></managers-
 const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-list>'}
 const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
 const ManagerFacility = {template : '<manager-facility :userToken="$attrs.usertoken"></manager-facility>'}
-const SportsFacilityBuyers = {template : '<sports-facility-buyers :userToken="$attrs.usertoken"></sports-facility-buyers>'}
+const SportsFacility = {template : '<sports-facility :userToken="$attrs.usertoken"></sports-facility>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 const NewSportFacilityPage = {template : '<newSportFacility-page :mode="$attrs.mode" :userToken="$attrs.usertoken"></newSportFacility-page>'}
 const ManagerFacilityCoaches = {template : '<manager-facility-coaches :userToken="$attrs.usertoken"></manager-facility-coaches>'}
 const ManagerFacilityBuyers = {template : '<manager-facility-buyers :userToken="$attrs.usertoken"></manager-facility-buyers>'}
 const NewTraining = {template : '<new-training :userToken="$attrs.usertoken"></new-training>'}
+const MyTrainingsBuyers = {template : '<my-trainings-buyers :userToken="$attrs.usertoken"></my-trainings-buyers>'}
+
 
 
 
@@ -26,10 +28,11 @@ const router = new VueRouter({
 		{path: '/users', name:'users-list', component: UsersList},
 		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage},
 		{path: '/manager-facility', name:'manager-facility', component: ManagerFacility},
-		{path: '/sports-facility-buyers/:sportsFacilityId', name:'sports-facility-buyers', component: SportsFacilityBuyers},
+		{path: '/sports-facility/:sportsFacilityId', name:'sports-facility', component: SportsFacility},
 		{path: '/manager-facility-coaches', name:'manager-facility-coaches', component: ManagerFacilityCoaches},
 		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers},
-		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining}
+		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining},
+		{path: '/my-trainings-buyers', name:'my-trainings-buyers', component: MyTrainingsBuyers}
 	  ]
 });
 								
@@ -225,6 +228,10 @@ var app = new Vue({
 					{
 						name:'Trainers',
 						link: '/trainers'
+					},
+					{
+						name:'My Trainings',
+						link:'/my-trainings-buyers'
 					},
 					{
 						name:'My Account',

@@ -21,6 +21,7 @@ import controllers.interfaces.IMembershipController;
 import services.implementations.ContextInitService;
 import services.interfaces.IMembershipService;
 
+@Path("/MembershipController")
 public class MembershipController implements IMembershipController {
 
 	@Context

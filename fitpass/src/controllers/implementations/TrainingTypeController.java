@@ -20,7 +20,7 @@ import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 
-@Path ("TrainingTypeController")
+@Path ("/TrainingTypeController")
 public class TrainingTypeController implements ICRUDController<TrainingType, TrainingType> {
 
 	@Context

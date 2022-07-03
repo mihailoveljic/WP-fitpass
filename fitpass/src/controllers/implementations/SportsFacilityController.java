@@ -1,6 +1,7 @@
 package controllers.implementations;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -27,16 +28,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import beans.dtos.SportsFacilityDTO;
+import beans.models.FacilityContent;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 import services.interfaces.IFacilityContentService;
 import services.interfaces.ISportsFacilityService;
 
 @Path("/SportsFacilityController")
-public class SportsFacilityController implements ICRUDController<SportsFacility, SportsFacilityDTO> {
+public class SportsFacilityController {
 
 	public static int MAX_SIZE_IN_MB = 5;
 	 
@@ -57,7 +58,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<SportsFacilityDTO> getAll(){
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
@@ -86,7 +86,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public SportsFacilityDTO get(@PathParam("id") long id) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService)ctx.getAttribute("SportsFacilityService");
 		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
@@ -136,10 +135,26 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	}
 	
 	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateContentForCertainSportsFacility(@PathParam("id") long id, FacilityContent facilityContent) {
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		SportsFacility sportFacility = sportsFacilityService.get(id);
+		ArrayList<Long> sportFacilityContentsIds = new ArrayList<Long>();
+		for(long id1 : sportFacility.getFacilityContentIds()) {
+			sportFacilityContentsIds.add(id1);
+		}
+		if(sportFacilityContentsIds.contains(facilityContent.getId())) return true;
+		sportFacilityContentsIds.add(facilityContent.getId());
+		sportFacility.setFacilityContentIds(sportFacilityContentsIds);
+		return sportsFacilityService.update(sportFacility);
+	}
+	
+	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean update(SportsFacility sportsFacility) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.update(sportsFacility);
@@ -148,7 +163,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean delete(@PathParam("id") long id) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.delete(id);

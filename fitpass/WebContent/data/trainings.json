@@ -44,7 +44,7 @@
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
 		"image" : "veljaBiceps.jpg",
-		"additionalPrice": 0,
+		"additionalPrice": 1000,
 		"isDeleted" : false
 	},
 	{
@@ -56,7 +56,7 @@
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
 		"image" : "veljaBiceps.jpg",
-		"additionalPrice": 0,
+		"additionalPrice": 1000,
 		"isDeleted" : false
 	}
 ]

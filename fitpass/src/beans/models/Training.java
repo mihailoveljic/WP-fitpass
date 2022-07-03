@@ -16,7 +16,7 @@ public class Training implements Serializable {
 	private long coachId;
 	private String description;
 	private String image;
-  private double additionalPrice;
+	private double additionalPrice;
 	private boolean isDeleted;
   
 	public Training() {}
@@ -91,7 +91,7 @@ public class Training implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 
-	public double isAdditionalPrice() {
+	public double getAdditionalPrice() {
 		return additionalPrice;
 	}
 

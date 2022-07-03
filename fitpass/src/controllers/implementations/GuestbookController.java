@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -15,6 +16,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.UserToken;
+import beans.enums.Role;
 import beans.models.Guestbook;
 import services.implementations.ContextInitService;
 import services.interfaces.IGuestbookService;
@@ -36,10 +39,23 @@ public class GuestbookController {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Guestbook> getAll(){
+	public Collection<Guestbook> getAll(@Context HttpServletRequest request){
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
 		
-		return guestbookService.getAll();
+		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
+		
+		if(userIsAdministratorOrManager(userToken)) return guestbookService.getAll();
+		
+		return guestbookService.getAllApproved();
+	}
+
+	private boolean userIsAdministratorOrManager(UserToken userToken) {
+		if (userToken != null) {
+			if(userToken.getRole() == Role.ADMINISTRATOR || userToken.getRole() == Role.MENADZER) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@GET

@@ -1,7 +1,9 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import beans.enums.ApprovalStatus;
 import beans.models.Guestbook;
 import daos.interfaces.IDAO;
 import services.interfaces.IGuestbookService;
@@ -39,6 +41,13 @@ public class GuestbookService implements IGuestbookService {
 	@Override
 	public boolean delete(long id) {
 		return guestbookDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public Collection<Guestbook> getAllApproved() {
+		Collection<Guestbook> guestbooks = new ArrayList<>(guestbookDAO.getAll());
+		guestbooks.removeIf(gb -> (gb.getApprovalStatus() != ApprovalStatus.APPROVED));
+		return guestbooks;
 	}
 
 }

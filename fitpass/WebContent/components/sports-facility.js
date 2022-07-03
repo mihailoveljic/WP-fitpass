@@ -1,5 +1,5 @@
-Vue.component("sports-facility-buyers", {
-	name: "sports-facility-buyers",
+Vue.component("sports-facility", {
+	name: "sports-facility",
 	data: function () {
 		    return {
 				sportsFacility: null,
@@ -20,7 +20,7 @@ Vue.component("sports-facility-buyers", {
 					<v-col cols="4">
 						<v-img class="ma-4" :src="sportsFacility.image" height="300" width="300" dark></v-img>
 					</v-col>
-					<v-col cols="3" class="mx-auto mt-6">
+					<v-col cols="3" class="mx-auto my-6">
 						<v-card flat>
 							<v-list dense outlined >
 						        <v-subheader class="text-h6">Content of the facility</v-subheader>
@@ -77,7 +77,7 @@ Vue.component("sports-facility-buyers", {
 								</div>
 							</v-col>
 							<v-col cols="2" class="ma-auto">
-									<v-btn @click="enrollTraining(training)" color="primary"  centered width="100" height="50">
+									<v-btn @click="enrollTraining(training)" v-if="!!userToken" color="primary"  centered width="100" height="50">
 										Enroll
 									</v-btn>
 							</v-col>
@@ -91,6 +91,7 @@ Vue.component("sports-facility-buyers", {
 		</v-card>
 		</v-col>
 			<v-col cols="2">
+				
 			</v-col>
 		</v-row>
 	</div>
@@ -124,15 +125,7 @@ Vue.component("sports-facility-buyers", {
 			},
 	},
 	created(){
-		if(!this.userToken){
-			this.$router.push('/');
-			}
 		this.sportsFacilityId = this.$route.params.sportsFacilityId;
-	},
-	beforeUpdate(){
-		if(!this.userToken){
-			this.$router.push('/');
-			}
 	},
 	mounted () {              
       	axios.get('rest/SportsFacilityController/' + this.sportsFacilityId)

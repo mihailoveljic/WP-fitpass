@@ -1,0 +1,23 @@
+[
+	{
+		"id": 1,
+		"dateTime": 60908454000000,
+		"trainingId": 1,
+		"buyerId": 2,
+		"coachId": 1
+	},
+	{
+		"id": 2,
+		"dateTime": 60908454000000,
+		"trainingId": 2,
+		"buyerId": 2,
+		"coachId": 1
+	},
+	{
+		"id": 3,
+		"dateTime": 60908454000000,
+		"trainingId": 3,
+		"buyerId": 2,
+		"coachId": 2
+	}
+]

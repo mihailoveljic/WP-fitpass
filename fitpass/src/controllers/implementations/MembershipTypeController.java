@@ -20,7 +20,7 @@ import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 
-@Path ("MembershipTypeController")
+@Path ("/MembershipTypeController")
 public class MembershipTypeController implements ICRUDController<MembershipType, MembershipType>{
 
 

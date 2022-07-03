@@ -8,7 +8,7 @@
 		"gender": "MALE",
 		"dateOfBirth": 60908454000000,
 		"role": "TRENER",
-		"trainingHistoryIds": [],
+		"trainingHistoryIds": [1, 2],
 		"isDeleted" : false
 	},
 	{
@@ -20,7 +20,7 @@
 		"gender": "FEMALE",
 		"dateOfBirth": 60908454000000,
 		"role": "TRENER",
-		"trainingHistoryIds": [],
+		"trainingHistoryIds": [3],
 		"isDeleted" : false
 	},
 	{

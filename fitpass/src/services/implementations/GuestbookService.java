@@ -50,4 +50,18 @@ public class GuestbookService implements IGuestbookService {
 		return guestbooks;
 	}
 
+	@Override
+	public Collection<Guestbook> getAllForSportsFacilityId(long sportsFacilityId) {
+		Collection<Guestbook> guestbooks = new ArrayList<>(guestbookDAO.getAll());
+		guestbooks.removeIf(gb -> (gb.getSportsFacilityId() != sportsFacilityId));
+		return guestbooks;
+	}
+
+	@Override
+	public Collection<Guestbook> getAllApprovedForSportsFacilityId(long sportsFacilityId) {
+		Collection<Guestbook> guestbooks = new ArrayList<>(guestbookDAO.getAll());
+		guestbooks.removeIf(gb -> (gb.getApprovalStatus() != ApprovalStatus.APPROVED || gb.getSportsFacilityId() != sportsFacilityId));
+		return guestbooks;
+	}
+
 }

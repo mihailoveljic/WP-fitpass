@@ -17,7 +17,7 @@ Vue.component("comments-carousel", {
     			<v-container fill-height fluid>
 		        	<v-row align="center" justify="center">
 		        		<v-col class="my-auto" align="center" justify="center">
-		        			<div v-if="userToken.role == 'MENADZER' || userToken.role == 'ADMINISTRATOR'">
+		        			<div v-if="(!!userToken) && (userToken.role == 'MENADZER' || userToken.role == 'ADMINISTRATOR')">
 			        			<div v-if="comment.approvalStatus == 'APPROVED'" class="text-overline green--text">
 					          		odobren
 				            	</div>
@@ -49,34 +49,12 @@ Vue.component("comments-carousel", {
 		
 	},
 	mounted () {
-         	axios.get('rest/GuestbookController/')
-              .then(response => {
-					let comments = response.data;
-					axios.get('rest/buyers/getBuyersWhoVisitedCertainSportFacility/' + this.sportsFacilityId)
-			              .then(response => {
-							let buyers = response.data;
-							comments.forEach(comment => {
-								comment.buyer = buyers.find(buyer => buyer.id == comment.buyerId);
-								
-							});
-							this.comments = comments;
-							})
-			              .catch(error => {
-			                    alert(error.message + " GRESKA");
-			              });
-			})
-            .catch(error => {
-                alert(error.message + " GRESKA");
-		    });
-	},
-	created(){
-		if(!this.userToken){
-			this.$router.push('/');
-			}
-	},
-	beforeUpdate(){
-		if(!this.userToken){
-			this.$router.push('/');
-			}
-	}
+         	axios.get('rest/GuestbookController/GetAllForSportFacility/' + this.sportsFacilityId)
+      			.then(response => {
+			  		this.comments = response.data;	
+				})
+	            .catch(error => {
+	                alert(error.message + " GRESKA");
+			    });
+		},
 });

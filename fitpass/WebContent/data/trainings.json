@@ -43,7 +43,7 @@
 		"duration" : 60,
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
-		"image" : "TreningSnage.jpg",
+		"image" : "veljaBiceps.jpg",
 		"additionalPrice": 0,
 		"isDeleted" : false
 	},
@@ -55,7 +55,7 @@
 		"duration" : 60,
 		"coachId" : 1,
 		"description" : "Zelis porast u vidu misicne mase? Ovaj trening snage je pravi izbor za tebe.",
-		"image" : "TreningSnage.jpg",
+		"image" : "veljaBiceps.jpg",
 		"additionalPrice": 0,
 		"isDeleted" : false
 	}

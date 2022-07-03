@@ -29,6 +29,12 @@ public class TrainingTypeService implements ICRUDService<TrainingType> {
 
 	@Override
 	public TrainingType create(TrainingType trainingType) {
+		Collection<TrainingType> trainingTypes = trainingTypeDAO.getAll();
+		for(TrainingType tp : trainingTypes) {
+			if(tp.getName() == trainingType.getName()) {
+				return trainingType;
+			}
+		}
 		return trainingTypeDAO.create(trainingType);
 	}
 

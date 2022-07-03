@@ -15,11 +15,13 @@ Vue.component("new-training", {
 				additionalPrice : 0,
 				image : []
 			},
+			enteredTrainingType : null,
 			saving : false,
 			imageAdded : false,
 			inputStarted : false,
 			selectedCoach: null,
-			imagePreview: ""
+			imagePreview: "",
+			image: null
 		}
 	},
 	template:
@@ -51,19 +53,19 @@ Vue.component("new-training", {
 		          label="Additional price"
 	          		required>
 	        </v-text-field>
-	 		<v-combobox v-model="trainingDTO.trainingType" :items="trainingTypes" item-text="name" label="Training Type" clearable outlined small-chips class="my-4"></v-combobox>
+	 		<v-combobox v-model="enteredTrainingType" :items="trainingTypes" item-text="name" label="Training Type" clearable outlined small-chips class="my-4"></v-combobox>
 	        <v-combobox v-model="selectedCoach" label="Coach" item-text="fullName" :items="coaches" clearable outlined small-chips></v-combobox>
 	        <v-row>
 				<v-img class="ma-4" v-if="imageAdded" :src="imagePreview" height="150" width="150" dark></v-img>
 				<v-progress-circular v-if="!imageAdded && inputStarted" :size="50" color="primary" indeterminate></v-progress-circular>
 			</v-row>
-	        <v-file-input @click:clear="hideImageLoading()" @change="uploadImage()" counter v-model="trainingDTO.image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
+	        <v-file-input @click:clear="hideImageLoading()" @change="uploadImage()" counter v-model="image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
 	      <v-btn
 	        class="mr-4"
 	        @click="createNewTraining" :loading="saving">
 	        submit
 	      </v-btn>
-	      <v-btn to="/manager-facility">
+	      <v-btn @click="backToManagerFacilityRoute">
 	        cancel
 	      </v-btn>
 	    </form>
@@ -81,7 +83,14 @@ Vue.component("new-training", {
 			this.trainingDTO.coach = {
 				id: this.selectedCoach.id,
 			}
-			
+			if(!this.enteredTrainingType.hasOwnProperty('id'))
+			{
+				this.trainingDTO.trainingType = {
+					id : -1,
+					name : this.enteredTrainingType,
+					isDeleted: false
+				}
+			} else this.trainingDTO.trainingType = enteredTrainingType;
 			axios.get('rest/managers/' + this.userToken.id)
 			.then(response => {
 				this.trainingDTO.sportsFacilityId = response.data.sportsFacilityId;
@@ -105,10 +114,10 @@ Vue.component("new-training", {
 			this.inputStarted = false;
 		},
 		uploadImage(){
-			if(!this.trainingDTO.image) return;
+			if(!this.image) return;
 			this.imageAdded = false;
 			this.inputStarted = true;
-			let promiseImageUploaded = axios.post('rest/TrainingController/uploadImage', this.trainingDTO.image , 
+			let promiseImageUploaded = axios.post('rest/TrainingController/uploadImage', this.image , 
 			{
 				headers:{
 					'Content-Type': 'image/jpeg'
@@ -128,6 +137,9 @@ Vue.component("new-training", {
 				this.inputStarted = false;
 			 });
 		},
+		backToManagerFacilityRoute() {
+			this.$router.push('/manager-facility');
+		}
 	},
 	mounted() {
 		

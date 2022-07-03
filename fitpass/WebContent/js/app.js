@@ -11,7 +11,7 @@ const ManagerFacilityCoaches = {template : '<manager-facility-coaches :userToken
 const ManagerFacilityBuyers = {template : '<manager-facility-buyers :userToken="$attrs.usertoken"></manager-facility-buyers>'}
 const NewTraining = {template : '<new-training :userToken="$attrs.usertoken"></new-training>'}
 const MyTrainingsBuyers = {template : '<my-trainings-buyers :userToken="$attrs.usertoken"></my-trainings-buyers>'}
-
+const NewFacilityContent = {template : '<new-facilityContent :userToken="$attrs.usertoken"></new-facilityContent>'}
 
 
 
@@ -33,6 +33,7 @@ const router = new VueRouter({
 		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers},
 		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining},
 		{path: '/my-trainings-buyers', name:'my-trainings-buyers', component: MyTrainingsBuyers}
+		{path: '/manager-facility/new-facilityContent', name:'new-facilityContent', component: NewFacilityContent}
 	  ]
 });
 								

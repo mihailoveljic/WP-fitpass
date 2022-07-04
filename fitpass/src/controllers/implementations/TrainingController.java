@@ -128,11 +128,23 @@ public class TrainingController {
 		@Path("/{id}")
 		@Produces(MediaType.APPLICATION_JSON)
 		public TrainingDTO get(@PathParam("id") long id) {
-			//ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
-			//Training training = trainingService.get(id);
-			//TrainingDTO trainingDTO = new TrainingDTO();
-			//return trainingService.transformFromTrainingToTrainingDTO(training, trainingDTO); //IMPLEMENT THIS METHOD IN SERVICE
-			return null;
+			ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>) ctx.getAttribute("TrainingTypeService");
+			
+			Training t = trainingService.get(id);
+			
+			TrainingDTO trainingDTO = new TrainingDTO();
+			trainingDTO.setId(t.getId());
+			trainingDTO.setName(t.getName());
+			trainingDTO.setTrainingType(trainingTypeService.get(t.getTrainingTypeId()));
+			trainingDTO.setSportsFacilityId(t.getSportsFacilityId());
+			trainingDTO.setDuration(t.getDuration());
+			trainingDTO.setCoach(coachService.get(t.getCoachId()));
+			trainingDTO.setDescription(t.getDescription());
+			trainingDTO.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + t.getImage());
+			trainingDTO.setAdditionalPrice(t.getAdditionalPrice());
+			return trainingDTO;
 		}
 		
 		@POST
@@ -199,8 +211,25 @@ public class TrainingController {
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.APPLICATION_JSON)
-		public boolean update(Training training) {
+		public boolean update(TrainingDTO trainingDTO) {
 			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>)ctx.getAttribute("TrainingTypeService");
+			Training training = new Training();
+			training.setId(trainingDTO.getId());
+			training.setName(trainingDTO.getName());
+			if(trainingDTO.getTrainingType().getId() == -1) {
+				training.setTrainingTypeId((trainingTypeService.create(trainingDTO.getTrainingType())).getId());
+			}
+			else {
+				training.setTrainingTypeId(trainingDTO.getTrainingType().getId());
+			}
+			training.setSportsFacilityId(trainingDTO.getSportsFacilityId());
+			training.setDuration(trainingDTO.getDuration());
+			training.setCoachId(trainingDTO.getCoach().getId());
+			training.setDescription(trainingDTO.getDescription());
+			training.setImage(trainingDTO.getImage());
+			training.setAdditionalPrice(trainingDTO.getAdditionalPrice());
+			training.setIsDeleted(false);
 			return trainingService.update(training);
 		}
 		

@@ -15,6 +15,7 @@ const NewFacilityContent = {template : '<new-facilityContent :userToken="$attrs.
 const MyTrainings = {template : '<my-trainings :userToken="$attrs.usertoken"></my-trainings>'}
 const PersonalTrainings = {template : '<personal-trainings :userToken="$attrs.usertoken"></personal-trainings>'}
 const GroupTrainings = {template : '<group-trainings :userToken="$attrs.usertoken"></group-trainings>'}
+const EditTraining = {template : '<edit-training :userToken="$attrs.usertoken"></edit-training>'}
 
 
 
@@ -42,6 +43,7 @@ const router = new VueRouter({
 		{path: '/my-trainings', name:'my-trainings', component: MyTrainings},
 		{path: '/personal-trainings', name:'personal-trainings', component: PersonalTrainings},
 		{path: '/group-trainings', name:'group-trainings', component: GroupTrainings},
+		{path: '/manager-facility/edit-training/:trainingId', name:'edit-training', component: EditTraining}
 
 	  ]
 });

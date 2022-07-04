@@ -8,7 +8,7 @@
 		"coachId" : 1,
 		"description" : "Kompletan trening donjeg dela tela.",
 		"image" : "PersonalniTrening.jpg",
-		"additionalPrice": 0,
+		"additionalPrice": 200,
 		"isDeleted" : false
 	},
 	{
@@ -20,7 +20,7 @@
 		"coachId" : 1,
 		"description" : "Trening za stomak uz dodatak rada na donjim ledjima.",
 		"image" : "GrupniTrening.jpg",
-		"additionalPrice": 0,
+		"additionalPrice": 800,
 		"isDeleted" : false
 	},
 	{

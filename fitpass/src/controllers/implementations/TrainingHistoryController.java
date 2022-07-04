@@ -84,6 +84,36 @@ public class TrainingHistoryController {
 				trainingHistory, trainingHistoryDTOs);
 		return trainingHistoryDTOs;
 	}
+	@GET
+	@Path("/getAllTrainingsHistoryByCertainCoach/{id}/{trainingTypeId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<TrainingHistoryDTO> getAllTrainingsHistoryByCertainCoach(@PathParam("id") long id, @PathParam("trainingTypeId") long trainingTypeId){
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+		ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>) ctx.getAttribute("TrainingTypeService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>) ctx.getAttribute("SportsFacilityTypeService");
+		ICRUDService<BuyerType> buyerTypeService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		
+		Collection<TrainingHistory> trainingHistory = new ArrayList<TrainingHistory>();
+		if(trainingTypeId == -1) {
+			trainingHistory = trainingHistoryService.getAllTrainingsHistoryByCertainCoach(id);
+		} else if(trainingTypeId == 1) {
+			trainingHistory = trainingHistoryService.getAllPersonalTrainingsHistoryByCertainCoach(id, trainingService);
+		} else {
+			trainingHistory = trainingHistoryService.getAllGroupTrainingsHistoryByCertainCoach(id, trainingService);
+		}
+		
+		Collection<TrainingHistoryDTO> trainingHistoryDTOs = new ArrayList<TrainingHistoryDTO>();
+		
+		convertTrainingHistoryToDTO(trainingService, trainingTypeService, coachService, buyerService,
+				sportsFacilityService, facilityContentService, sportsFacilityTypeService, buyerTypeService,
+				trainingHistory, trainingHistoryDTOs);
+		return trainingHistoryDTOs;
+	}
 	
 	@GET
 	@Path("/GetForBuyerInLast30Days")
@@ -214,6 +244,13 @@ public class TrainingHistoryController {
 	public boolean delete(@PathParam("id") long id) {
 		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
 		
+		return trainingHistoryService.delete(id);
+	}
+	@DELETE
+	@Path("/cancelPersonalTraining/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean cancelPersonalTraining(@PathParam("id") long id) {
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
 		return trainingHistoryService.delete(id);
 	}
 }

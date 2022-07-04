@@ -78,7 +78,7 @@ Vue.component("manager-facility", {
 								</div>
 							</v-col>
 							<v-col cols="2">
-									<v-btn @click="openEditForm(training)" color="primary" class="ma-4" centered width="100" height="50">
+									<v-btn @click="openEditTrainingFormPage(training)" color="primary" class="ma-4" centered width="100" height="50">
 										edit
 									</v-btn>
 								<v-btn class="ma-4" @click="" width="100" height="50">delete</v-btn>
@@ -130,6 +130,9 @@ Vue.component("manager-facility", {
 	, 
 	props:['userToken'],
 	methods : {
+			openEditTrainingFormPage(training) {
+				this.$router.push('manager-facility/edit-training/' + training.id);
+			},
 			redirectToContentReviewPage(){
 				this.$router.push('manager-facility/new-facilityContent');
 			},

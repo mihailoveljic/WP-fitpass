@@ -1,38 +1,32 @@
-Vue.component("new-training", {
-	name:"new-training",
-	data:function(){
-		return {
-			trainingTypes : [],
-			coaches : [],
-			trainingDTO : {
-				id : -1,
-				name : null,
-				trainingType : null,
-				sportsFacilityId : null,
-				duration : null,
-				coach : null,
-				description : null,
-				additionalPrice : 0,
-				image : []
-			},
-			enteredTrainingType : null,
-			saving : false,
-			imageAdded : false,
-			inputStarted : false,
-			selectedCoach: null,
-			imagePreview: "",
-			image: null
-		}
+Vue.component("edit-training", {
+	name: "edit-training",
+	data: function () {
+		    return {
+				trainingId : -1,
+				trainingTypes : [],
+				coaches : [],
+				trainingDTO : null,
+				enteredTrainingType : null,
+				saving : false,
+				imageAdded : false,
+				inputStarted : false,
+				selectedCoach: null,
+				imagePreview: "",
+				image: null
+			}
 	},
-	template:
-`
-<div>
+	props:
+		['userToken']
+	,
+	template: 
+` 
+	<div>
 	<v-row>
 	<v-col cols="4">
 	</v-col>
 	<v-col cols="4">
 	<template>
-	    <form @submit.prevent="submit">
+	    <form @submit.prevent="submit" v-if="!!trainingDTO">
 	        <v-text-field class=""
 		          v-model="trainingDTO.name"
 		          label="Name"
@@ -62,10 +56,10 @@ Vue.component("new-training", {
 	        <v-file-input @click:clear="hideImageLoading()" @change="uploadImage()" counter v-model="image" prepend-icon="mdi-camera" required show-size truncate-length="25"></v-file-input>
 	      <v-btn
 	        class="mr-4"
-	        @click="createNewTraining" :loading="saving">
+	        @click="editTraining" :loading="saving">
 	        submit
 	      </v-btn>
-	      <v-btn @click="backToManagerFacilityRoute">
+	      <v-btn @click="redirectBack">
 	        cancel
 	      </v-btn>
 	    </form>
@@ -75,11 +69,13 @@ Vue.component("new-training", {
 	</v-col>
 </v-row>
 </div>
-`,
-
-	props:['userToken'],
-	methods: {
-		createNewTraining() {
+`
+	,
+	methods : {
+		redirectBack(){
+			this.$router.push('/manager-facility');
+		},
+		editTraining() {
 			this.trainingDTO.coach = {
 				id: this.selectedCoach.id,
 			}
@@ -94,9 +90,9 @@ Vue.component("new-training", {
 			axios.get('rest/managers/' + this.userToken.id)
 			.then(response => {
 				this.trainingDTO.sportsFacilityId = response.data.sportsFacilityId;
-				axios.post('rest/TrainingController/', this.trainingDTO)
+				axios.put('rest/TrainingController/', this.trainingDTO)
 	              .then(response => {
-						alert(response.data.name + " uspesno dodat!");
+						alert(this.trainingDTO.name + " uspesno izmenjen!");
 						this.$router.push('/manager-facility');	              
 					}
 	              )
@@ -136,14 +132,10 @@ Vue.component("new-training", {
 				this.imageAdded = true
 				this.inputStarted = false;
 			 });
-		},
-		backToManagerFacilityRoute() {
-			this.$router.push('/manager-facility');
 		}
 	},
-	mounted() {
-		
-		axios.get('rest/coaches')
+	mounted () {
+         axios.get('rest/coaches')
               .then(response => {
 					this.coaches = response.data;
 					this.coaches.forEach((coach) =>{
@@ -160,5 +152,30 @@ Vue.component("new-training", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
+        axios.get('rest/TrainingController/' + this.trainingId)
+              .then(response => {
+					this.trainingDTO = response.data;
+					this.enteredTrainingType = this.trainingDTO.trainingType;
+					this.selectedCoach = this.trainingDTO.coach;
+					this.selectedCoach.fullName = this.selectedCoach.name + " " + this.selectedCoach.surname;
+					this.imagePreview = this.trainingDTO.image;
+					let imageInFormatForBakcEnd = this.imagePreview.split('\\');
+					this.trainingDTO.image = imageInFormatForBakcEnd[4];
+					this.imageAdded = true;
+				})
+              .catch(error => {
+                    alert(error.message + " GRESKA");
+                    });
+    },
+	created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+		this.trainingId = this.$route.params.trainingId;
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
 	}
 });

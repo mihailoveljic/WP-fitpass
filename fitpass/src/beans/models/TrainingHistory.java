@@ -13,16 +13,18 @@ public class TrainingHistory implements Serializable {
 	private long trainingId;
 	private long buyerId;
 	private long coachId;
+	private boolean isDeleted;
 	
 	public TrainingHistory() {}
 
-	public TrainingHistory(long id, Date dateTime, long trainingId, long buyerId, long coachId) {
+	public TrainingHistory(long id, Date dateTime, long trainingId, long buyerId, long coachId, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
 		this.trainingId = trainingId;
 		this.buyerId = buyerId;
 		this.coachId = coachId;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -64,6 +66,12 @@ public class TrainingHistory implements Serializable {
 	public void setCoachId(long coachId) {
 		this.coachId = coachId;
 	}
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
 
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 }

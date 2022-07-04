@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import beans.models.Training;
 import beans.models.TrainingHistory;
 import daos.interfaces.IDAO;
 import services.interfaces.ITrainingHistoryService;
+import services.interfaces.ITrainingService;
 
 public class TrainingHistoryService implements ITrainingHistoryService {
 
@@ -54,4 +56,37 @@ public class TrainingHistoryService implements ITrainingHistoryService {
 		return trainingHistory;
 	}
 
+	@Override
+	public Collection<TrainingHistory> getAllTrainingsHistoryByCertainCoach(long id) {
+		Collection<TrainingHistory> trainingHistory = new ArrayList<TrainingHistory>(trainingHistoryDAO.getAll());
+		trainingHistory.removeIf(t -> (t.getCoachId() != id));
+		return trainingHistory;
+	}
+
+	@Override
+	public Collection<TrainingHistory> getAllPersonalTrainingsHistoryByCertainCoach(long id,
+			ITrainingService trainingService) {
+		
+		Collection<TrainingHistory> trainingHistory = getAllTrainingsHistoryByCertainCoach(id);
+		Collection<TrainingHistory> personalTrainingHistory = new ArrayList<TrainingHistory>();
+		for(TrainingHistory th : trainingHistory) {
+			Training training = trainingService.get(th.getTrainingId());
+			if(training.getTrainingTypeId() == 1) personalTrainingHistory.add(th);
+		}
+		return personalTrainingHistory;
+	}
+
+	@Override
+	public Collection<TrainingHistory> getAllGroupTrainingsHistoryByCertainCoach(long id,
+			ITrainingService trainingService) {
+		
+		Collection<TrainingHistory> trainingHistory = getAllTrainingsHistoryByCertainCoach(id);
+		Collection<TrainingHistory> groupTrainingHistory = new ArrayList<TrainingHistory>();
+		for(TrainingHistory th : trainingHistory) {
+			Training training = trainingService.get(th.getTrainingId());
+			if(training.getTrainingTypeId() == 2) groupTrainingHistory.add(th);
+		}
+		return groupTrainingHistory;
+	}
+	
 }

@@ -12,6 +12,11 @@ const ManagerFacilityBuyers = {template : '<manager-facility-buyers :userToken="
 const NewTraining = {template : '<new-training :userToken="$attrs.usertoken"></new-training>'}
 const MyTrainingsBuyers = {template : '<my-trainings-buyers :userToken="$attrs.usertoken"></my-trainings-buyers>'}
 const NewFacilityContent = {template : '<new-facilityContent :userToken="$attrs.usertoken"></new-facilityContent>'}
+const MyTrainings = {template : '<my-trainings :userToken="$attrs.usertoken"></my-trainings>'}
+const PersonalTrainings = {template : '<personal-trainings :userToken="$attrs.usertoken"></personal-trainings>'}
+const GroupTrainings = {template : '<group-trainings :userToken="$attrs.usertoken"></group-trainings>'}
+
+
 
 
 
@@ -33,7 +38,11 @@ const router = new VueRouter({
 		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers},
 		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining},
 		{path: '/my-trainings-buyers', name:'my-trainings-buyers', component: MyTrainingsBuyers},
-		{path: '/manager-facility/new-facilityContent', name:'new-facilityContent', component: NewFacilityContent}
+		{path: '/manager-facility/new-facilityContent', name:'new-facilityContent', component: NewFacilityContent},
+		{path: '/my-trainings', name:'my-trainings', component: MyTrainings},
+		{path: '/personal-trainings', name:'personal-trainings', component: PersonalTrainings},
+		{path: '/group-trainings', name:'group-trainings', component: GroupTrainings},
+
 	  ]
 });
 								
@@ -306,6 +315,18 @@ var app = new Vue({
 					{
 						name:'Sport Facilities',
 						link: '/sports-facilities'
+					},
+					{
+						name:'My trainings',
+						link: '/my-trainings'
+					},
+					{
+						name:'Personal trainings',
+						link: '/personal-trainings'
+					},
+					{
+						name:'Group trainings',
+						link: '/group-trainings'
 					},
 					{
 							name:'My Account',

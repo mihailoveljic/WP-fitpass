@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,6 +22,8 @@ import beans.dtos.DateDTO;
 import beans.dtos.FullTrainingDTO;
 import beans.dtos.SportsFacilityDTO;
 import beans.dtos.TrainingHistoryDTO;
+import beans.dtos.UserToken;
+import beans.enums.Role;
 import beans.models.Buyer;
 import beans.models.BuyerType;
 import beans.models.SportsFacility;
@@ -75,6 +78,47 @@ public class TrainingHistoryController {
 		
 		Collection<TrainingHistory> trainingHistory = trainingHistoryService.getAll();
 		Collection<TrainingHistoryDTO> trainingHistoryDTOs = new ArrayList<TrainingHistoryDTO>();
+		
+		convertTrainingHistoryToDTO(trainingService, trainingTypeService, coachService, buyerService,
+				sportsFacilityService, facilityContentService, sportsFacilityTypeService, buyerTypeService,
+				trainingHistory, trainingHistoryDTOs);
+		return trainingHistoryDTOs;
+	}
+	
+	@GET
+	@Path("/GetForBuyerInLast30Days")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<TrainingHistoryDTO> GetForBuyerInLast30Days(@Context HttpServletRequest request){
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+		ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>) ctx.getAttribute("TrainingTypeService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>) ctx.getAttribute("SportsFacilityTypeService");
+		ICRUDService<BuyerType> buyerTypeService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		
+		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
+		
+		if(userToken == null) return null;
+		if(userToken.getRole() != Role.KUPAC) return null;
+		
+		Collection<TrainingHistory> trainingHistory = trainingHistoryService.GetForBuyerInLast30Days(userToken.getId());
+		Collection<TrainingHistoryDTO> trainingHistoryDTOs = new ArrayList<TrainingHistoryDTO>();
+		
+		convertTrainingHistoryToDTO(trainingService, trainingTypeService, coachService, buyerService,
+				sportsFacilityService, facilityContentService, sportsFacilityTypeService, buyerTypeService,
+				trainingHistory, trainingHistoryDTOs);
+		return trainingHistoryDTOs;
+	}
+
+	private void convertTrainingHistoryToDTO(ITrainingService trainingService,
+			ICRUDService<TrainingType> trainingTypeService, ICoachService coachService, IBuyerService buyerService,
+			ISportsFacilityService sportsFacilityService, IFacilityContentService facilityContentService,
+			ICRUDService<SportsFacilityType> sportsFacilityTypeService, ICRUDService<BuyerType> buyerTypeService,
+			Collection<TrainingHistory> trainingHistory, Collection<TrainingHistoryDTO> trainingHistoryDTOs) {
+		
 		trainingHistory.forEach(th -> {
 			TrainingHistoryDTO dto = new TrainingHistoryDTO();
 			FullTrainingDTO fullTrainingDTO = new FullTrainingDTO();
@@ -106,7 +150,7 @@ public class TrainingHistoryController {
 			fullTrainingDTO.setDuration(t.getDuration());
 			fullTrainingDTO.setCoach(coachService.get(t.getCoachId()));
 			fullTrainingDTO.setDescription(t.getDescription());
-			fullTrainingDTO.setImage(t.getImage());
+			fullTrainingDTO.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + t.getImage());
 			fullTrainingDTO.setAdditionalPrice(t.getAdditionalPrice());
 			
 			buyerDTO.setId(b.getId());
@@ -126,13 +170,13 @@ public class TrainingHistoryController {
 			buyerDTO.setNumberOfCollectedPoints(b.getNumberOfCollectedPoints());
 			buyerDTO.setBuyerType(buyerTypeService.get(b.getBuyerTypeId()));
 			
+			dto.setId(th.getId());
 			dto.setDate(th.getDateTime());
 			dto.setTraining(fullTrainingDTO);
 			dto.setBuyer(buyerDTO);
 			dto.setCoach(coachService.get(th.getCoachId()));
 			trainingHistoryDTOs.add(dto);
 		});
-		return trainingHistoryDTOs;
 	}
 	
 	@GET

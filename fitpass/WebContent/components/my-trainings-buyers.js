@@ -17,34 +17,43 @@ Vue.component("my-trainings-buyers", {
 		
 		<v-col cols="6">
 			<v-card class="mx-auto mt-8" outlined rounded="8">
-				<v-row v-for="training in trainingHistory" :key="training.id">
+				<v-row v-for="th in trainingHistory" :key="th.id">
 					<v-card width="100%" class="mx-3" flat outlined>
 						<v-row class="d-flex">
-							<v-col cols="2">
-
+							<v-col cols="3">
+								<v-img class="ma-1" :src="th.training.image" height="150" width="150" dark></v-img>
 							</v-col>
-							<v-col cols="8" align-self="center">
+							<v-col cols="6" align-self="center">
 								<div class="text-h5 gray--text text-center mt-2">
-									{{ training }}
+									{{ th.training.name }}
 								</div>
 								<div class="text-subtitle-1 gray--text text-center">
-									
+									{{ th.trainingType }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									
+									{{ th.coach.name }} {{ th.coach.surname }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									
+									Duration: {{ th.training.duration }}
 								</div>
-								<div v-if="training.additionalPrice > 0" class="text-body-1 gray--text text-center">
-									
+								<div v-if="th.training.additionalPrice > 0" class="text-body-1 gray--text text-center">
+									Aditional price: {{ th.training.additionalPrice }}
 								</div>
 								<div class="text-body-1 gray--text text-center">
-									
+									Description: {{ th.training.description }}
 								</div>
 							</v-col>
-							<v-col cols="2" class="ma-auto">
-									
+							<v-col cols="3" class="ma-auto" align-self="center">
+									<div class="text-h6 gray--text text-center">
+									{{ th.training.sportsFacility.name }}
+								</div>
+								<v-divider></v-divider>
+								<div class="text-body-1 gray--text text-center">
+									Date: {{ th.day }}.{{ th.month }}.{{ th.year }}.
+								</div>
+								<div class="text-body-1 gray--text text-center">
+									Time: {{ th.hour }}:{{ th.minute }}
+								</div>
 							</v-col>
 						</v-row>
 					</v-card>
@@ -62,9 +71,20 @@ Vue.component("my-trainings-buyers", {
 		
 	},
 	mounted () {
-             axios.get('rest/TrainingHistoryController')
+             axios.get('rest/TrainingHistoryController/GetForBuyerInLast30Days')
               .then(response => {
 					this.trainingHistory = response.data;
+					this.trainingHistory.forEach(th =>{
+						let date = new Date(th.date);
+						th.date = date;
+						th.day = date.getDate();
+						th.month = date.getMonth();
+						th.year = date.getYear();
+						let time = date.toTimeString().split(' ')[0];
+						time = time.split(':');
+						th.hour = time[0];
+						th.minute = time[0];
+					});
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

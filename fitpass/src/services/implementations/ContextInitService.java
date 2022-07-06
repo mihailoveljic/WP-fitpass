@@ -11,6 +11,7 @@ import beans.models.Guestbook;
 import beans.models.Manager;
 import beans.models.Membership;
 import beans.models.MembershipType;
+import beans.models.PromoCode;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import beans.models.Training;
@@ -25,6 +26,7 @@ import daos.implementations.GuestbookDAO;
 import daos.implementations.ManagerDAO;
 import daos.implementations.MembershipDAO;
 import daos.implementations.MembershipTypeDAO;
+import daos.implementations.PromoCodeDAO;
 import daos.implementations.SportsFacilityDAO;
 import daos.implementations.SportsFacilityTypeDAO;
 import daos.implementations.TrainingDAO;
@@ -40,6 +42,7 @@ import repositories.implementations.GuestbookRepository;
 import repositories.implementations.ManagerRepository;
 import repositories.implementations.MembershipRepository;
 import repositories.implementations.MembershipTypeRepository;
+import repositories.implementations.PromoCodeRepository;
 import repositories.implementations.SportsFacilityRepository;
 import repositories.implementations.SportsFacilityTypeRepository;
 import repositories.implementations.TrainingHistoryRepository;
@@ -205,6 +208,16 @@ public class ContextInitService {
 	    	IDAO<MembershipType> membershipTypeDAO = new MembershipTypeDAO(membershipTypeRepository);
 	    	
 			ctx.setAttribute("MembershipTypeService", new MembershipTypeService(membershipTypeDAO));
+		}
+	}
+	public static void initPromoCodeService(ServletContext ctx) {
+		if (ctx.getAttribute("PromoCodeService") == null) {
+	    	String contextPath = ctx.getRealPath("");
+	    	IRepository<PromoCode> promoCodeRepository = new PromoCodeRepository(contextPath);
+	    	
+	    	IDAO<PromoCode> promoCodeDAO = new PromoCodeDAO(promoCodeRepository);
+	    	
+			ctx.setAttribute("PromoCodeService", new PromoCodeService(promoCodeDAO));
 		}
 	}
 

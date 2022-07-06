@@ -16,6 +16,8 @@ const MyTrainings = {template : '<my-trainings :userToken="$attrs.usertoken"></m
 const PersonalTrainings = {template : '<personal-trainings :userToken="$attrs.usertoken"></personal-trainings>'}
 const GroupTrainings = {template : '<group-trainings :userToken="$attrs.usertoken"></group-trainings>'}
 const EditTraining = {template : '<edit-training :userToken="$attrs.usertoken"></edit-training>'}
+const PromoCodes = {template : '<promo-codes :userToken="$attrs.usertoken"></promo-codes>'}
+const CommentsAdministrator = {template : '<comments-administrator :userToken="$attrs.usertoken"></comments-administrator>'}
 
 
 
@@ -43,7 +45,9 @@ const router = new VueRouter({
 		{path: '/my-trainings', name:'my-trainings', component: MyTrainings},
 		{path: '/personal-trainings', name:'personal-trainings', component: PersonalTrainings},
 		{path: '/group-trainings', name:'group-trainings', component: GroupTrainings},
-		{path: '/manager-facility/edit-training/:trainingId', name:'edit-training', component: EditTraining}
+		{path: '/manager-facility/edit-training/:trainingId', name:'edit-training', component: EditTraining},
+		{path: '/promo-codes', name:'promo-codes', component: PromoCodes},
+		{path: '/comments-administrator', name:'comments-administrator', component: CommentsAdministrator}
 
 	  ]
 });
@@ -275,6 +279,14 @@ var app = new Vue({
 			{
 				name:'All users',
 				link:'/users'
+			},
+			{
+				name: 'All comments',
+				link: '/comments-administrator'
+			},
+			{
+				name: 'Promo Codes',
+				link: '/promo-codes'
 			},
 			{
 					name:'My Account',

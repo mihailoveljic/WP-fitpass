@@ -19,13 +19,13 @@ Vue.component("comments-carousel", {
 		        		<v-col class="my-auto" align="center" justify="center">
 		        			<div v-if="(!!userToken) && (userToken.role == 'MENADZER' || userToken.role == 'ADMINISTRATOR')">
 			        			<div v-if="comment.approvalStatus == 'APPROVED'" class="text-overline green--text">
-					          		odobren
+					          		approved
 				            	</div>
 				            	<div v-else-if="comment.approvalStatus == 'DISAPPROVED'" class="text-overline red--text">
-					          		neodobren
+					          		disapproved
 				            	</div>
 				            	<div v-else class="text-overline blue--text">
-					          		ceka na odobrenje
+					          		waiting for approval
 				            	</div>
 			            	</div>
 		        			<div class="text-h5">

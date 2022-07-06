@@ -22,6 +22,7 @@ import beans.dtos.DateDTO;
 import beans.dtos.GuestbookDTO;
 import beans.dtos.SportsFacilityDTO;
 import beans.dtos.UserToken;
+import beans.enums.ApprovalStatus;
 import beans.enums.Role;
 import beans.models.Buyer;
 import beans.models.BuyerType;
@@ -57,14 +58,75 @@ public class GuestbookController {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Guestbook> getAll(@Context HttpServletRequest request){
+	public Collection<GuestbookDTO> getAll(@Context HttpServletRequest request){
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
+		
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ICRUDService<BuyerType> buyerTypeService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
+		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>) ctx.getAttribute("SportsFacilityTypeService");
 		
 		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
 		
-		if(userIsAdministratorOrManager(userToken)) return guestbookService.getAll();
+
+		Collection<Guestbook> guestbooks;
 		
-		return guestbookService.getAllApproved();
+		if(userIsAdministratorOrManager(userToken)) guestbooks = guestbookService.getAll();
+		else guestbooks = guestbookService.getAllApproved();
+		
+		Collection<GuestbookDTO> guestbookDTOs = new ArrayList<GuestbookDTO>();
+		
+		guestbooks.forEach(guestbook -> {
+			GuestbookDTO dto = new GuestbookDTO();
+			BuyerDTO buyerDTO = new BuyerDTO();
+			SportsFacilityDTO sportsFacilityDTO = new SportsFacilityDTO();
+			
+
+			Buyer b = buyerService.get(guestbook.getBuyerId());
+			buyerDTO.setId(b.getId());
+			buyerDTO.setUsername(b.getUsername());
+			buyerDTO.setName(b.getName());
+			buyerDTO.setSurname(b.getSurname());
+			buyerDTO.setGender(b.getGender());
+			try {
+				buyerDTO.setDateOfBirth(new DateDTO(
+						b.getDateOfBirth().getYear() - 1900,
+						b.getDateOfBirth().getMonth() + 1,
+						b.getDateOfBirth().getDate()));
+			} catch (Exception e) {return;}
+			
+			buyerDTO.setRole(b.getRole());
+			buyerDTO.setMembership(null);
+			buyerDTO.setVisitedSportsFacilities(sportsFacilityService.getByIds(b.getVisitedSportsFacilitiesIds()));
+			buyerDTO.setNumberOfCollectedPoints(b.getNumberOfCollectedPoints());
+			buyerDTO.setBuyerType(buyerTypeService.get(b.getBuyerTypeId()));
+			
+			
+			SportsFacility sportFacility = sportsFacilityService.get(guestbook.getSportsFacilityId());
+			sportsFacilityDTO.setId(sportFacility.getId());
+			sportsFacilityDTO.setName(sportFacility.getName());
+			sportsFacilityDTO.setSportsFacilityType(
+					sportsFacilityTypeService.get(sportFacility.getSportsFacilityTypeId()).getName());
+			sportsFacilityDTO.setFacilityContents(
+					facilityContentService.getByIds(sportFacility.getFacilityContentIds()));
+			sportsFacilityDTO.setOpenStatus(sportFacility.isOpenStatus());
+			sportsFacilityDTO.setLocation(sportFacility.getLocation());
+			sportsFacilityDTO.setImage(ctx.getContextPath() + "\\data\\img\\sports-facilities\\" + sportFacility.getImage());
+			sportsFacilityDTO.setAverageRating(sportFacility.getAverageRating());
+			sportsFacilityDTO.setWorkingHours(sportFacility.getWorkingHours());
+			
+			dto.setId(guestbook.getId());
+			dto.setBuyer(buyerDTO);
+			dto.setSportsFacility(sportsFacilityDTO);
+			dto.setComment(guestbook.getComment());
+			dto.setRating(guestbook.getRating());
+			dto.setApprovalStatus(guestbook.getApprovalStatus());
+			
+			guestbookDTOs.add(dto);
+		});
+		return guestbookDTOs;
 	}
 
 	@GET
@@ -155,6 +217,14 @@ public class GuestbookController {
 		}
 		return false;
 	}
+	private boolean userIsAdministrator(UserToken userToken) {
+		if (userToken != null) {
+			if(userToken.getRole() == Role.ADMINISTRATOR) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	@GET
 	@Path("/{id}")
@@ -181,6 +251,40 @@ public class GuestbookController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean update(Guestbook guestbook) {
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
+		
+		return guestbookService.update(guestbook);
+	}
+	
+	@PUT
+	@Path("/approve/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean approve(@Context HttpServletRequest request, @PathParam("id") long id) {
+		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
+		
+		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
+		
+		if(!userIsAdministrator(userToken)) return false;
+		
+		Guestbook guestbook = guestbookService.get(id);
+		
+		guestbook.setApprovalStatus(ApprovalStatus.APPROVED);
+		
+		return guestbookService.update(guestbook);
+	}
+	
+	@PUT
+	@Path("/disapprove/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean disapprove(@Context HttpServletRequest request, @PathParam("id") long id) {
+		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
+		
+		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
+		
+		if(!userIsAdministrator(userToken)) return false;
+		
+		Guestbook guestbook = guestbookService.get(id);
+		
+		guestbook.setApprovalStatus(ApprovalStatus.DISAPPROVED);
 		
 		return guestbookService.update(guestbook);
 	}

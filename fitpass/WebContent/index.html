@@ -2,16 +2,18 @@
 <html>
 
 <head>
-		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-		<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-		<link href="css/style.css" rel="stylesheet"></link>
-	  	<meta charset="UTF-8">
-	  	    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
-	  	
-	</head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/css/ol.css" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+	<link href="css/style.css" rel="stylesheet">
+	</link>
+	<meta charset="UTF-8">
+	<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+
+</head>
 
 <body>
 	<div id="app">
@@ -36,8 +38,8 @@
 						Login
 					</v-btn>
 				</div>
-				
-				
+
+
 
 			</v-navigation-drawer>
 
@@ -69,21 +71,27 @@
 									<v-container>
 										<v-row>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field ref="registrationName" label="Name*" required v-model="userRegistrationDTO.name"
-												:rules="[() => !!userRegistrationDTO.name || 'This field is required!']" :error-messages="registrationErrorMessages">
+												<v-text-field ref="registrationName" label="Name*" required
+													v-model="userRegistrationDTO.name"
+													:rules="[() => !!userRegistrationDTO.name || 'This field is required!']"
+													:error-messages="registrationErrorMessages">
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field ref="registrationSurname" label="Surname*" required v-model="userRegistrationDTO.surname"
-												:rules="[() => !!userRegistrationDTO.surname || 'This field is required!']" :error-messages="registrationErrorMessages">
+												<v-text-field ref="registrationSurname" label="Surname*" required
+													v-model="userRegistrationDTO.surname"
+													:rules="[() => !!userRegistrationDTO.surname || 'This field is required!']"
+													:error-messages="registrationErrorMessages">
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
 												<template>
 													<v-container fluid>
 														<p>Gender:</p>
-														<v-radio-group ref="registrationGender" v-model="userRegistrationDTO.gender" mandatory
-														 :rules="[() => !!userRegistrationDTO.gender || 'This field is required!']" :error-messages="registrationErrorMessages">
+														<v-radio-group ref="registrationGender"
+															v-model="userRegistrationDTO.gender" mandatory
+															:rules="[() => !!userRegistrationDTO.gender || 'This field is required!']"
+															:error-messages="registrationErrorMessages">
 															<v-radio label="Male" value="MALE"></v-radio>
 															<v-radio label="Female" value="FEMALE"></v-radio>
 														</v-radio-group>
@@ -91,14 +99,17 @@
 												</template>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field ref="registrationUsername" label="Username*" required v-model="userRegistrationDTO.username"
-												  :rules="[  () => !!userRegistrationDTO.username || 'This field is required!',
-												 			 checkIfUsernameIsUnique()  || 'Must be unique']" :error-messages="registrationErrorMessages"> <!--:class="{error : '!isUsernameUnique'}" v-on:blur="checkIfUsernameIsUnique"-->
+												<v-text-field ref="registrationUsername" label="Username*" required
+													v-model="userRegistrationDTO.username" :rules="[  () => !!userRegistrationDTO.username || 'This field is required!',
+												 			 checkIfUsernameIsUnique()  || 'Must be unique']" :error-messages="registrationErrorMessages">
+													<!--:class="{error : '!isUsernameUnique'}" v-on:blur="checkIfUsernameIsUnique"-->
 												</v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
-												<v-text-field ref="registrationPassword" label="Password" type="password" v-model="userRegistrationDTO.password"
-													:rules="[() => !!userRegistrationDTO.password || 'This field is required!']" :error-messages="registrationErrorMessages"></v-text-field>
+												<v-text-field ref="registrationPassword" label="Password"
+													type="password" v-model="userRegistrationDTO.password"
+													:rules="[() => !!userRegistrationDTO.password || 'This field is required!']"
+													:error-messages="registrationErrorMessages"></v-text-field>
 											</v-col>
 											<v-col cols="12" sm="8" md="12">
 												<template>
@@ -112,11 +123,13 @@
 																	v-on="on">
 																</v-text-field>
 															</template>
-															<v-date-picker ref="registrationDate" v-model="date" required
-																:active-picker.sync="activePicker"
+															<v-date-picker ref="registrationDate" v-model="date"
+																required :active-picker.sync="activePicker"
 																:max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
 																min="1950-01-01" @change="save"
-																:rules="[() => !!date || 'This field is required!']" :error-messages="registrationErrorMessages"></v-date-picker>
+																:rules="[() => !!date || 'This field is required!']"
+																:error-messages="registrationErrorMessages">
+															</v-date-picker>
 														</v-menu>
 													</div>
 
@@ -143,8 +156,8 @@
 					<v-row justify="center" class="ma-0">
 						<v-dialog v-model="loginDialog" persistent max-width="600px">
 							<template v-slot:activator="{ on, attrs }">
-								<v-btn color="primary" v-bind="attrs" v-on="on" 
-									class="ma-0 d-none d-lg-flex" centered x-large>
+								<v-btn color="primary" v-bind="attrs" v-on="on" class="ma-0 d-none d-lg-flex" centered
+									x-large>
 									Login
 								</v-btn>
 							</template>
@@ -156,14 +169,16 @@
 									<v-container>
 										<v-row>
 											<v-col cols="12">
-												<v-text-field ref="loginUsername" label="Username*" v-model="userLoginDTO.username"
-												:rules="[() => !!userLoginDTO.username || 'This field is required!']" :error-messages="loginErrorMessages"
-												 required></v-text-field>
+												<v-text-field ref="loginUsername" label="Username*"
+													v-model="userLoginDTO.username"
+													:rules="[() => !!userLoginDTO.username || 'This field is required!']"
+													:error-messages="loginErrorMessages" required></v-text-field>
 											</v-col>
 											<v-col cols="12">
-												<v-text-field ref="loginPassword" label="Password*" v-model="userLoginDTO.password" type="password"
-												:rules="[() => !!userLoginDTO.password || 'This field is required!']" :error-messages="loginErrorMessages"
-												required></v-text-field>
+												<v-text-field ref="loginPassword" label="Password*"
+													v-model="userLoginDTO.password" type="password"
+													:rules="[() => !!userLoginDTO.password || 'This field is required!']"
+													:error-messages="loginErrorMessages" required></v-text-field>
 											</v-col>
 										</v-row>
 									</v-container>
@@ -195,7 +210,7 @@
 					<!-- If using vue-router -->
 					<router-view :mode="mode" :userToken="userToken"></router-view>
 				</v-container>
-				
+
 			</v-main>
 			<v-footer padless>
 				<v-card flat tile class="indigo lighten-1 white--text text-center">
@@ -243,8 +258,10 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 	<script src="js/vue-router.js"></script>
-	
+
 	<script src="components/comments-carousel.js"></script>
+	<script src="components/comments-administrator.js"></script>
+	<script src="components/promo-codes.js"></script>
 	<script src="components/sports-facilities.js"></script>
 	<script src="components/my-trainings-buyers.js"></script>
 	<script src="components/sports-facility.js"></script>
@@ -264,7 +281,7 @@
 	<script src="components/group-trainings.js"></script>
 	<script src="components/edit-training.js"></script>
 	<script src="js/app.js"></script>
-	
+
 </body>
 
 </html>

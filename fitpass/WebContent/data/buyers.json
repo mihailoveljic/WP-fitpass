@@ -9,7 +9,7 @@
         "dateOfBirth": 60908454000000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [1],
+        "visitedSportsFacilitiesIds": [1, 2],
         "numberOfCollectedPoints": 90,
         "buyerTypeId": 3,
         "isDeleted" : false
@@ -24,7 +24,7 @@
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [1],
+        "visitedSportsFacilitiesIds": [1, 2],
         "numberOfCollectedPoints": 5,
         "buyerTypeId": 2,
         "isDeleted" : false
@@ -39,7 +39,7 @@
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [1],
+        "visitedSportsFacilitiesIds": [1, 2],
         "numberOfCollectedPoints": 5,
         "buyerTypeId": 1,
         "isDeleted" : false
@@ -54,7 +54,7 @@
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [1],
+        "visitedSportsFacilitiesIds": [1, 2],
         "numberOfCollectedPoints": 5,
         "buyerTypeId": 1,
         "isDeleted" : false

@@ -1,5 +1,6 @@
 package services.implementations;
 
+import java.lang.reflect.Member;
 import java.util.Collection;
 
 import beans.models.Membership;
@@ -40,6 +41,15 @@ private IDAO<Membership> membershipDAO;
 	@Override
 	public boolean delete(long id) {
 		return membershipDAO.delete(String.valueOf(id));
+	}
+
+	@Override
+	public Membership getByBuyer(long id) {
+		Collection<Membership> memberships = membershipDAO.getAll();
+		for(Membership m : memberships) {
+			if(m.getBuyerId()==id) return m;
+		}
+		return null;
 	}
 
 }

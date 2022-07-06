@@ -1,0 +1,15 @@
+[
+	{
+		"id" : 1,
+		"membershipNumber": 1234567899,
+		"membershipTypeId": 1,
+		"paymentDate": 1657132282154,
+		"expirationDate": 1659736800000,
+		"price": 2000,
+		"buyerId": 2,
+		"isActive": true,
+		"numberOfRemainingTrainings": 20,
+		"isUnlimited": false,
+		"isDeleted": false
+	}
+]

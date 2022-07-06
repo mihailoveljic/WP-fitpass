@@ -18,6 +18,7 @@ const GroupTrainings = {template : '<group-trainings :userToken="$attrs.usertoke
 const EditTraining = {template : '<edit-training :userToken="$attrs.usertoken"></edit-training>'}
 const PromoCodes = {template : '<promo-codes :userToken="$attrs.usertoken"></promo-codes>'}
 const CommentsAdministrator = {template : '<comments-administrator :userToken="$attrs.usertoken"></comments-administrator>'}
+const MembershipBuyer = {template : '<membership-buyers :userToken="$attrs.usertoken"></membership-buyers>'}
 
 
 
@@ -47,8 +48,8 @@ const router = new VueRouter({
 		{path: '/group-trainings', name:'group-trainings', component: GroupTrainings},
 		{path: '/manager-facility/edit-training/:trainingId', name:'edit-training', component: EditTraining},
 		{path: '/promo-codes', name:'promo-codes', component: PromoCodes},
-		{path: '/comments-administrator', name:'comments-administrator', component: CommentsAdministrator}
-
+		{path: '/comments-administrator', name:'comments-administrator', component: CommentsAdministrator},
+		{path: '/membership-buyers', name:'membership-buyers', component: MembershipBuyer}
 	  ]
 });
 								
@@ -232,6 +233,10 @@ var app = new Vue({
 					{
 						name:'Home',
 						link: '/'
+					},
+					{
+						name:'Membership',
+						link:'/membership-buyers'
 					},
 					{
 						name:'Sport Facilities',

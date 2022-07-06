@@ -2,6 +2,8 @@ package controllers.implementations;
 
 import java.util.Collection;
 
+
+
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -16,13 +18,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.models.Membership;
-import beans.models.MembershipDTO;
-import controllers.interfaces.IMembershipController;
 import services.implementations.ContextInitService;
 import services.interfaces.IMembershipService;
 
 @Path("/MembershipController")
-public class MembershipController implements IMembershipController {
+public class MembershipController {
 
 	@Context
 	ServletContext ctx;
@@ -38,8 +38,7 @@ public class MembershipController implements IMembershipController {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public Collection<MembershipDTO> getAll(){
+	public Collection<Membership> getAll(){
 		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		//Collection<Membership> memberships = membershipService.getAll();
 		return null;
@@ -48,19 +47,26 @@ public class MembershipController implements IMembershipController {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public MembershipDTO get(@PathParam("id") long id) {
+	public Membership get(@PathParam("id") long id) {
 		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		//Membership membership = membershipService.get(id);
 		return null;
+	}
+	
+	@GET
+	@Path("/byBuyer/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Membership getByBuyer(@PathParam("id") long id) {
+		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		Membership membership = membershipService.getByBuyer(id);
+		return membership;
 	}
 	
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public MembershipDTO create(Membership membership) {
+	public Membership create(Membership membership) {
 		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		//Membership membership1 = membershipService.create(membership);
 		return null;
@@ -70,7 +76,6 @@ public class MembershipController implements IMembershipController {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean update(Membership membership) {
 		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		return membershipService.update(membership);
@@ -79,7 +84,6 @@ public class MembershipController implements IMembershipController {
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean delete(@PathParam("id") long id) {
 		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		return membershipService.delete(id);

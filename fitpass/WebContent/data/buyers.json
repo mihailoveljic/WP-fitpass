@@ -23,7 +23,7 @@
         "gender": "MALE",
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
-        "membershipId": -1,
+        "membershipId": 1,
         "visitedSportsFacilitiesIds": [1, 2],
         "numberOfCollectedPoints": 5,
         "buyerTypeId": 2,

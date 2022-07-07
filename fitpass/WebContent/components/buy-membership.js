@@ -110,13 +110,14 @@ Vue.component("buy-membership", {
 					isUnlimited : false,
 					isDeleted : false
 				}
-				axios.post('rest/MembershipController', membership)
+				axios.post('rest/MembershipController/' + this.promoCode.mark , membership)
 		              .then(response => {
 							alert("uspesno kupljena clanarina");
 						})
 		              .catch(error => {
 		                    alert(error.message + " GRESKA u pretrazi promokoda");
 		                    });
+	
 		},
 		checkIfPromoCodeExists(){
 			if(this.promoCodeMark == ""){

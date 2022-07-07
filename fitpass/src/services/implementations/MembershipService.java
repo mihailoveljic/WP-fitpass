@@ -1,6 +1,6 @@
 package services.implementations;
 
-import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.Membership;
@@ -50,6 +50,16 @@ private IDAO<Membership> membershipDAO;
 			if(m.getBuyerId()==id) return m;
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<Long> getAllMembershipNumbers() {
+		ArrayList<Long> membershipNumbers = new ArrayList<Long>();
+		Collection<Membership> memberships = membershipDAO.getAll();
+		for(Membership m : memberships) {
+			membershipNumbers.add((long)m.getMembershipNumber());
+		}
+		return membershipNumbers;
 	}
 
 }

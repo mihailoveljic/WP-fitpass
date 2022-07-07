@@ -197,8 +197,8 @@ Vue.component("promo-codes", {
 					this.promoCodes.forEach(promoCode =>{
 									let date = new Date(promoCode.expirationDate);
 									promoCode.day = date.getDate();
-									promoCode.month = date.getMonth();
-									promoCode.year = date.getYear();
+									promoCode.month = date.getMonth()+1;
+									promoCode.year = date.getYear()+1900;
 								});
 				})
               .catch(error => {

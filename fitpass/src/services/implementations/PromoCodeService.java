@@ -1,6 +1,7 @@
 package services.implementations;
 
 import java.util.Collection;
+import java.util.Date;
 
 import beans.models.PromoCode;
 import daos.interfaces.IDAO;
@@ -51,5 +52,19 @@ public class PromoCodeService implements IPromoCodeService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isPromoCodeValid(PromoCode promocode) {
+		promocode = this.checkIfPromoCodeExists(promocode.getMark());
+		Date currentDate = new Date();
+		if(promocode != null) {
+			if(promocode.getExpirationDate().compareTo(currentDate) > 0) {
+				if(promocode.getHowManyTimeCanBeUsed() > 0) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

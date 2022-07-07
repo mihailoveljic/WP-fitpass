@@ -1,5 +1,6 @@
 package controllers.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -18,9 +19,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.models.Membership;
+import beans.models.PromoCode;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
 import services.interfaces.IMembershipService;
+import services.interfaces.IPromoCodeService;
 
 @Path("/MembershipController")
 public class MembershipController {
@@ -33,6 +36,8 @@ public class MembershipController {
 	@PostConstruct
 	public void init() {
 		ContextInitService.initMembershipService(ctx);
+		ContextInitService.initBuyerService(ctx);
+		ContextInitService.initPromoCodeService(ctx);
 	}
 	
 	
@@ -64,17 +69,31 @@ public class MembershipController {
 	}
 	
 	@POST
-	@Path("/")
+	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Membership create(Membership membership) {
+	public Membership create(Membership membership, @PathParam("id") String id) {
 		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		IPromoCodeService promoCodeService = (IPromoCodeService)ctx.getAttribute("PromoCodeService");
 		
+		if(id!="") {
+			PromoCode promoCode = promoCodeService.checkIfPromoCodeExists(id);
+			if(promoCodeService.isPromoCodeValid(promoCode)) {
+				promoCode.setHowManyTimeCanBeUsed(promoCode.getHowManyTimeCanBeUsed()-1);
+				promoCodeService.update(promoCode);
+			}
+		}
 		long membershipId = buyerService.invalidateMembershipIfExists(membership.getBuyerId());
 		if(membershipId != -1) {
 			membershipService.delete(membershipId);
 		}
+		ArrayList<Long> membershipNumbers = membershipService.getAllMembershipNumbers();
+		long number = 0;
+		do {
+			number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+		}while(membershipNumbers.contains(number));
+		membership.setMembershipNumber(number);
 		membership = membershipService.create(membership);
 		return membership;
 	}

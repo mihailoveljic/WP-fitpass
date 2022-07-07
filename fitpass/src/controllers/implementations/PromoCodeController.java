@@ -56,7 +56,11 @@ public class PromoCodeController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public PromoCode getByMark(@PathParam("id") String id) {
 		IPromoCodeService promoCodeService = (IPromoCodeService) ctx.getAttribute("PromoCodeService");
-		return promoCodeService.checkIfPromoCodeExists(id);
+		PromoCode promoCode = promoCodeService.checkIfPromoCodeExists(id);
+		if(promoCodeService.isPromoCodeValid(promoCode)) {
+			return promoCode;
+		}
+		return null;
 	}
 	
 	@POST

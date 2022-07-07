@@ -69,4 +69,15 @@ public class BuyerService implements IBuyerService {
 		return buyersWhoVisitedCertainSportFacility;
 	}
 
+	@Override
+	public long invalidateMembershipIfExists(long buyerId) {
+		long retVal = -1;
+		Buyer buyer = buyerDAO.get(String.valueOf(buyerId));
+		if(buyer.getMembershipId() != -1) {
+			retVal = buyer.getMembershipId();
+			buyer.setMembershipId(-1);
+		}
+		return retVal;
+	}
+
 }

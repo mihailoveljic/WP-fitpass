@@ -9,7 +9,7 @@ public class Membership implements Serializable {
 	 */
 	private static final long serialVersionUID = 8271414579636648057L;
 	private long id;
-	private double membershipNumber;
+	private long membershipNumber;
 	private long membershipTypeId;
 	private Date paymentDate;
 	private Date expirationDate;
@@ -22,7 +22,7 @@ public class Membership implements Serializable {
 	
 	public Membership() {}
 
-	public Membership(long id, double membershipNumber, long membershipTypeId, Date paymentDate, Date expirationDate,
+	public Membership(long id, long membershipNumber, long membershipTypeId, Date paymentDate, Date expirationDate,
 			double price, long buyerId, boolean isActive, int numberOfRemainingTrainings, boolean isUnlimited,
 			boolean isDeleted) {
 		super();
@@ -51,7 +51,7 @@ public class Membership implements Serializable {
 		return membershipNumber;
 	}
 
-	public void setMembershipNumber(double membershipNumber) {
+	public void setMembershipNumber(long membershipNumber) {
 		this.membershipNumber = membershipNumber;
 	}
 

@@ -19,6 +19,8 @@ const EditTraining = {template : '<edit-training :userToken="$attrs.usertoken"><
 const PromoCodes = {template : '<promo-codes :userToken="$attrs.usertoken"></promo-codes>'}
 const CommentsAdministrator = {template : '<comments-administrator :userToken="$attrs.usertoken"></comments-administrator>'}
 const MembershipBuyer = {template : '<membership-buyers :userToken="$attrs.usertoken"></membership-buyers>'}
+const BuyMembership = {template : '<buy-membership :userToken="$attrs.usertoken"></buy-membership>'}
+
 
 
 
@@ -49,7 +51,8 @@ const router = new VueRouter({
 		{path: '/manager-facility/edit-training/:trainingId', name:'edit-training', component: EditTraining},
 		{path: '/promo-codes', name:'promo-codes', component: PromoCodes},
 		{path: '/comments-administrator', name:'comments-administrator', component: CommentsAdministrator},
-		{path: '/membership-buyers', name:'membership-buyers', component: MembershipBuyer}
+		{path: '/membership-buyers', name:'membership-buyers', component: MembershipBuyer},
+		{path: '/membership-buyers/buy-membership/:membershipTypeId', name:'buy-membership', component: BuyMembership}
 	  ]
 });
 								

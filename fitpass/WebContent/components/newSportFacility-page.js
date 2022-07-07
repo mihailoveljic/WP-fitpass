@@ -13,7 +13,7 @@ Vue.component("newSportFacility-page", {
 					street : "",
 					number : "",
 					city : "",
-					zipCode : -1,
+					zipCode : "",
 					image : null,
 					fromThe : null,
 					toThe : null
@@ -48,7 +48,15 @@ Vue.component("newSportFacility-page", {
 				imageAdded: false,
 				image: "",
 				imagePreview: "",
-				inputStarted: false
+				inputStarted: false,
+				mapInitCenter: {
+					longitude: 20.2821717,
+					latitude: 44.8154029
+				},
+				mapPosition: null,
+				markers: null,
+				marker: null,
+				coords: null
 		    }
 	},
 	template: 
@@ -171,20 +179,30 @@ Vue.component("newSportFacility-page", {
 			<v-col cols="4">
 			</v-col>
 		</v-row>
-		
 		<v-row>
 			<v-col cols="4">
 			</v-col>
-			<v-col cols="2">
+			<v-col cols="4">
 				<v-text-field ref="country" label="Country" required v-model="sportFacilityDTO.country"
 					:rules="[() => !!sportFacilityDTO.country || 'This field is required!']" :error-messages="updateErrorMessages">
 				</v-text-field>
+			</v-col>
+			<v-col cols="4">
+			</v-col>	
+		</v-row>
+		<v-row>
+			<v-col cols="4">
 			</v-col>
 			<v-col cols="2">
 				<v-text-field ref="city" label="City" required v-model="sportFacilityDTO.city"
 					:rules="[() => !!sportFacilityDTO.city || 'This field is required!']" :error-messages="updateErrorMessages">
 				</v-text-field>
 			</v-col>	
+			<v-col cols="2">
+				<v-text-field ref="zipCode" label="Zip Code" required v-model="sportFacilityDTO.zipCode"
+					:rules="[() => !!sportFacilityDTO.zipCode || 'This field is required!']" :error-messages="updateErrorMessages">
+				</v-text-field>
+			</v-col>
 			<v-col cols="4">
 			</v-col>	
 		</v-row>
@@ -203,6 +221,16 @@ Vue.component("newSportFacility-page", {
 			</v-col>
 			<v-col cols="4">
 			</v-col>		
+		</v-row>
+		
+		<v-row>
+			<v-col cols="4">
+			</v-col>
+			<v-col cols="4">
+				<div ref="map" class="map""></div>
+			</v-col>
+			<v-col cols="4">
+			</v-col>
 		</v-row>
 		<v-row>
 			<v-col cols="4">
@@ -350,6 +378,10 @@ Vue.component("newSportFacility-page", {
 		},
 		createNewSportFacility(){
 			//validacija
+		if(this.coords==null){
+			alert('Unesi lokaciju objekta na mapi!');
+			return;
+		}
 	    let sportFacility = {
 					id: -1,
 					name:  this.sportFacilityDTO.name,
@@ -357,14 +389,14 @@ Vue.component("newSportFacility-page", {
 					facilityContentIds:  this.sportFacilityDTO.facilityContent.map(fc => fc.id),
 					openStatus:  this.sportFacilityDTO.openStatus,
 					location: {
-						latitude: -1,
-						longitude: -1,
+						longitude: parseFloat(this.coords[0]),
+						latitude: parseFloat(this.coords[1]),
 						address: {
 							country: this.sportFacilityDTO.country,
 							street: this.sportFacilityDTO.street,
 							number: this.sportFacilityDTO.number,
 							city: this.sportFacilityDTO.city,
-							zipCode: -1
+							zipCode: parseInt(this.sportFacilityDTO.zipCode)
 						}
 					},
 					image: this.image,
@@ -428,7 +460,7 @@ Vue.component("newSportFacility-page", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-		},
+		}
 	},
 	watch: {
 		menu(val) {
@@ -447,6 +479,50 @@ Vue.component("newSportFacility-page", {
         }
 	},
 	mounted () {
+		const mousePositionControl = new ol.control.MousePosition({
+			coordinateFormat: ol.coordinate.createStringXY(4),
+			projection: 'EPSG:4326',
+			// comment the following two lines to have the mouse position
+			// be placed within the map.
+		});
+		this.markers = new ol.layer.Vector({
+					  	source: new ol.source.Vector(),
+					  	style: new ol.style.Style({
+				    	image: new ol.style.Icon({
+					      anchor: [0.5, 1],
+				          anchorXUnits: 'fraction',
+				          anchorYUnits: 'fraction',
+				          opacity: 1,
+				          scale: 0.075,
+					      src: 'img\\marker.png',
+					    })
+					  })
+					});
+		this.map = new ol.Map({
+	        target: this.$refs.map,
+	        controls: ol.control.defaults().extend([mousePositionControl]),
+	        layers: [
+	          new ol.layer.Tile({
+	            source: new ol.source.OSM()
+	          }),
+	 		],
+	        view: new ol.View({
+	          center: ol.proj.fromLonLat([this.mapInitCenter.longitude, this.mapInitCenter.latitude]),
+	          zoom: 8
+	        })
+		});
+		
+		this.map.addLayer(this.markers);
+		
+		this.map.on('click', (evt) =>{
+	   		// Get the pointer coordinate
+   			this.coords = ol.proj.toLonLat(evt.coordinate);
+   			
+   			
+			this.marker = new ol.Feature(new ol.geom.Point(ol.proj.fromLonLat([this.coords[0], this.coords[1]])));
+			this.markers.getSource().clear();
+			this.markers.getSource().addFeature(this.marker);
+		});
 		axios.get('rest/managers/free')
               .then(response => {
 					this.managers = response.data;

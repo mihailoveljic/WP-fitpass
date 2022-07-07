@@ -135,11 +135,11 @@ Vue.component("sports-facility", {
 					  source: new ol.source.Vector(),
 					  style: new ol.style.Style({
 					    image: new ol.style.Icon({
-					      anchor: [0.5, 0.5],
+					      anchor: [0.5, 1],
 				          anchorXUnits: 'fraction',
 				          anchorYUnits: 'fraction',
 				          opacity: 1,
-				          scale: 0.1,
+				          scale: 0.075,
 					      src: 'img\\marker.png',
 					    })
 					  })

@@ -41,4 +41,15 @@ public class PromoCodeService implements IPromoCodeService {
 	public boolean delete(long id) {
 		return promoCodeDAO.delete(String.valueOf(id));
 	}
+
+	@Override
+	public PromoCode checkIfPromoCodeExists(String mark) {
+		Collection<PromoCode> promoCodes = promoCodeDAO.getAll();
+		for(PromoCode pc : promoCodes) {
+			if(pc.getMark().compareTo(mark)==0) {
+				return pc;
+			}
+		}
+		return null;
+	}
 }

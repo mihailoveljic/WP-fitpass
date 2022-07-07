@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.models.Membership;
 import services.implementations.ContextInitService;
+import services.interfaces.IBuyerService;
 import services.interfaces.IMembershipService;
 
 @Path("/MembershipController")
@@ -67,9 +68,15 @@ public class MembershipController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Membership create(Membership membership) {
-		//IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
-		//Membership membership1 = membershipService.create(membership);
-		return null;
+		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		
+		long membershipId = buyerService.invalidateMembershipIfExists(membership.getBuyerId());
+		if(membershipId != -1) {
+			membershipService.delete(membershipId);
+		}
+		membership = membershipService.create(membership);
+		return membership;
 	}
 	
 	@PUT

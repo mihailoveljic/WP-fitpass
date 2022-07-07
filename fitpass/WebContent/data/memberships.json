@@ -8,7 +8,7 @@
 		"price": 2000,
 		"buyerId": 2,
 		"isActive": true,
-		"numberOfRemainingTrainings": 20,
+		"numberOfRemainingTrainings": 2,
 		"isUnlimited": false,
 		"isDeleted": false
 	}

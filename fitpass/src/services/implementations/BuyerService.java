@@ -80,4 +80,33 @@ public class BuyerService implements IBuyerService {
 		return retVal;
 	}
 
+	@Override
+	public Buyer updateBuyerStatus(long buyerId, double pointsForUpdate) {
+		Buyer buyer = buyerDAO.get(String.valueOf(buyerId));
+		double points = buyer.getNumberOfCollectedPoints() + pointsForUpdate;
+		
+		if(points < 500) {
+			buyer.setBuyerTypeId(1);
+			buyer.setNumberOfCollectedPoints(points);
+		}
+		else if(points < 1000) {
+			buyer.setBuyerTypeId(2);
+			buyer.setNumberOfCollectedPoints(points);
+		}
+		else if(points > 1000) {
+			buyer.setBuyerTypeId(3);
+			buyer.setNumberOfCollectedPoints(points);
+		}
+		
+		if(points < 0) { 
+			points = 0;
+			buyer.setNumberOfCollectedPoints(points);
+		}
+		
+		if(buyerDAO.update(buyer)) {
+			return buyer;
+		} return null;
+		
+	}
+
 }

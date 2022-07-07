@@ -25,7 +25,7 @@
         "role": "KUPAC",
         "membershipId": 1,
         "visitedSportsFacilitiesIds": [1, 2],
-        "numberOfCollectedPoints": 5,
+        "numberOfCollectedPoints": 995,
         "buyerTypeId": 2,
         "isDeleted" : false
     },

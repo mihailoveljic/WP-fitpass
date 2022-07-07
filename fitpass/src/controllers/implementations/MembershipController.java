@@ -1,6 +1,7 @@
 package controllers.implementations;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 
 
@@ -18,10 +19,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.models.Buyer;
 import beans.models.Membership;
+import beans.models.MembershipType;
 import beans.models.PromoCode;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
+import services.interfaces.ICRUDService;
 import services.interfaces.IMembershipService;
 import services.interfaces.IPromoCodeService;
 
@@ -38,6 +42,7 @@ public class MembershipController {
 		ContextInitService.initMembershipService(ctx);
 		ContextInitService.initBuyerService(ctx);
 		ContextInitService.initPromoCodeService(ctx);
+		ContextInitService.initMembershipTypeService(ctx);
 	}
 	
 	
@@ -76,18 +81,32 @@ public class MembershipController {
 		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
 		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		IPromoCodeService promoCodeService = (IPromoCodeService)ctx.getAttribute("PromoCodeService");
+		ICRUDService<MembershipType> membershipTypeService = (ICRUDService<MembershipType>)ctx.getAttribute("MembershipTypeService");
 		
-		if(id!="") {
+		if(id.compareTo("-1") != 0) {
 			PromoCode promoCode = promoCodeService.checkIfPromoCodeExists(id);
 			if(promoCodeService.isPromoCodeValid(promoCode)) {
 				promoCode.setHowManyTimeCanBeUsed(promoCode.getHowManyTimeCanBeUsed()-1);
 				promoCodeService.update(promoCode);
 			}
 		}
+		
 		long membershipId = buyerService.invalidateMembershipIfExists(membership.getBuyerId());
 		if(membershipId != -1) {
+			Membership oldMembership = membershipService.get(membershipId);
+			MembershipType oldMembershipType = membershipTypeService.get(oldMembership.getMembershipTypeId());
+			double pointsForUpdate = 0;
+			double numberOfUsedTrainings = (oldMembershipType.getNumberOfDailyTrainings() - oldMembership.getNumberOfRemainingTrainings());
+			if(numberOfUsedTrainings*3 >= oldMembershipType.getNumberOfDailyTrainings()) {
+				pointsForUpdate = (oldMembership.getPrice()/1000)*numberOfUsedTrainings;
+			}
+			else {
+				pointsForUpdate -= (oldMembership.getPrice()/1000)*133*4;
+			}
+			buyerService.updateBuyerStatus(membership.getBuyerId() , pointsForUpdate);
 			membershipService.delete(membershipId);
 		}
+		
 		ArrayList<Long> membershipNumbers = membershipService.getAllMembershipNumbers();
 		long number = 0;
 		do {
@@ -95,6 +114,9 @@ public class MembershipController {
 		}while(membershipNumbers.contains(number));
 		membership.setMembershipNumber(number);
 		membership = membershipService.create(membership);
+		Buyer b = buyerService.get(membership.getBuyerId());
+		b.setMembershipId(membership.getId());
+		buyerService.update(b);
 		return membership;
 	}
 	

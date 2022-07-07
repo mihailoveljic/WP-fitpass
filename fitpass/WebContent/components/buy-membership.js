@@ -110,13 +110,23 @@ Vue.component("buy-membership", {
 					isUnlimited : false,
 					isDeleted : false
 				}
-				axios.post('rest/MembershipController/' + this.promoCode.mark , membership)
+				if(this.promoCodeMark == ""){
+					axios.post('rest/MembershipController/-1' , membership)
 		              .then(response => {
-							alert("uspesno kupljena clanarina");
 						})
 		              .catch(error => {
 		                    alert(error.message + " GRESKA u pretrazi promokoda");
 		                    });
+				} else {
+					axios.post('rest/MembershipController/' + this.promoCodeMark , membership)
+		              .then(response => {
+						})
+		              .catch(error => {
+		                    alert(error.message + " GRESKA u pretrazi promokoda");
+		                    });
+				}
+				
+		       this.$router.push("/membership-buyers");
 	
 		},
 		checkIfPromoCodeExists(){

@@ -123,6 +123,9 @@ Vue.component("sports-facility", {
 				sportsFacility.openStatus = false;
 				return "Closed";
 			},
+			enrollTraining(training){
+				this.$router.push('/sports-facility/' + this.sportsFacilityId + '/training/' + training.id);	
+			}			
 	},
 	created(){
 		this.sportsFacilityId = this.$route.params.sportsFacilityId;

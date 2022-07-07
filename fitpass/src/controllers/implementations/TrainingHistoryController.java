@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import beans.dtos.BuyerDTO;
 import beans.dtos.DateDTO;
+import beans.dtos.EnrollRequestDTO;
 import beans.dtos.FullTrainingDTO;
 import beans.dtos.SportsFacilityDTO;
 import beans.dtos.TrainingHistoryDTO;
@@ -26,6 +27,7 @@ import beans.dtos.UserToken;
 import beans.enums.Role;
 import beans.models.Buyer;
 import beans.models.BuyerType;
+import beans.models.Membership;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
 import beans.models.Training;
@@ -36,6 +38,7 @@ import services.interfaces.IBuyerService;
 import services.interfaces.ICRUDService;
 import services.interfaces.ICoachService;
 import services.interfaces.IFacilityContentService;
+import services.interfaces.IMembershipService;
 import services.interfaces.ISportsFacilityService;
 import services.interfaces.ITrainingHistoryService;
 import services.interfaces.ITrainingService;
@@ -224,6 +227,31 @@ public class TrainingHistoryController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public TrainingHistory create(TrainingHistory trainingHistory) {
 		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		
+		return trainingHistoryService.create(trainingHistory);
+	}
+	
+	@POST
+	@Path("/enroll")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public TrainingHistory create(EnrollRequestDTO enrollRequestDTO) {
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		
+		Membership membership = membershipService.getByBuyer(enrollRequestDTO.getBuyerId());
+		
+		if(membership == null || !membership.isValid()) return null;
+		
+		membership.enroll();
+		membershipService.update(membership);
+		
+		TrainingHistory trainingHistory = new TrainingHistory();
+		trainingHistory.setBuyerId(enrollRequestDTO.getBuyerId());
+		trainingHistory.setCoachId(enrollRequestDTO.getCoachId());
+		trainingHistory.setTrainingId(enrollRequestDTO.getTrainingId());
+		trainingHistory.setDateTime(enrollRequestDTO.getDate());
+		trainingHistory.setIsDeleted(false);
 		
 		return trainingHistoryService.create(trainingHistory);
 	}

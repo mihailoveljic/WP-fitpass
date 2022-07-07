@@ -5,6 +5,7 @@ const CoachesList = {template : '<coaches-list :mode="$attrs.mode"></coaches-lis
 const AccountPage = {template : '<account-page :userToken="$attrs.usertoken"></account-page>'}
 const ManagerFacility = {template : '<manager-facility :userToken="$attrs.usertoken"></manager-facility>'}
 const SportsFacility = {template : '<sports-facility :userToken="$attrs.usertoken"></sports-facility>'}
+const SportsFacilityTraining = {template : '<sports-facility-training :userToken="$attrs.usertoken"></sports-facility-training>'}
 const UsersList = {template : '<users-list :mode="$attrs.mode"></users-list>'}
 const NewSportFacilityPage = {template : '<newSportFacility-page :mode="$attrs.mode" :userToken="$attrs.usertoken"></newSportFacility-page>'}
 const ManagerFacilityCoaches = {template : '<manager-facility-coaches :userToken="$attrs.usertoken"></manager-facility-coaches>'}
@@ -40,6 +41,7 @@ const router = new VueRouter({
 		{path: '/newSportFacility', name:'newSportFacility-page', component: NewSportFacilityPage},
 		{path: '/manager-facility', name:'manager-facility', component: ManagerFacility},
 		{path: '/sports-facility/:sportsFacilityId', name:'sports-facility', component: SportsFacility},
+		{path: '/sports-facility/:sportsFacilityId/training/:trainingId', name:'sports-facility-training', component: SportsFacilityTraining},
 		{path: '/manager-facility-coaches', name:'manager-facility-coaches', component: ManagerFacilityCoaches},
 		{path: '/manager-facility-buyers', name:'manager-facility-buyers', component: ManagerFacilityBuyers},
 		{path: '/manager-facility/new-training', name:'new-training', component: NewTraining},

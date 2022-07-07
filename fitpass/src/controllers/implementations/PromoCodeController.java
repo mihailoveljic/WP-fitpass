@@ -16,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.models.PromoCode;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.IPromoCodeService;
 

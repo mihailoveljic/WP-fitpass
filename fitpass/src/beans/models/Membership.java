@@ -127,5 +127,22 @@ public class Membership implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 
-	
+	public boolean isValid() {
+		if(this.isDeleted == false) {
+			if(this.isActive == true) {
+				if(this.expirationDate.compareTo(new Date()) > 0) {
+					if(this.isUnlimited || this.numberOfRemainingTrainings > 0) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public void enroll() {
+		if(this.isUnlimited) {
+			return;
+		}
+		this.numberOfRemainingTrainings--;
+	}
 }

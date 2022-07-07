@@ -53,7 +53,6 @@ Vue.component("newSportFacility-page", {
 					longitude: 20.2821717,
 					latitude: 44.8154029
 				},
-				mapPosition: null,
 				markers: null,
 				marker: null,
 				coords: null
@@ -479,12 +478,6 @@ Vue.component("newSportFacility-page", {
         }
 	},
 	mounted () {
-		const mousePositionControl = new ol.control.MousePosition({
-			coordinateFormat: ol.coordinate.createStringXY(4),
-			projection: 'EPSG:4326',
-			// comment the following two lines to have the mouse position
-			// be placed within the map.
-		});
 		this.markers = new ol.layer.Vector({
 					  	source: new ol.source.Vector(),
 					  	style: new ol.style.Style({
@@ -500,7 +493,6 @@ Vue.component("newSportFacility-page", {
 					});
 		this.map = new ol.Map({
 	        target: this.$refs.map,
-	        controls: ol.control.defaults().extend([mousePositionControl]),
 	        layers: [
 	          new ol.layer.Tile({
 	            source: new ol.source.OSM()

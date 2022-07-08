@@ -269,10 +269,8 @@ Vue.component("my-trainings-buyers", {
 						th.day = date.getDate();
 						th.month = date.getMonth() + 1;
 						th.year = date.getYear() + 1900;
-						let time = date.toTimeString().split(' ')[0];
-						time = time.split(':');
-						th.hour = time[0];
-						th.minute = time[0];
+						th.hour = date.getHours();
+						th.minute = date.getMinutes();
 						
 						if(th.training.additionalPrice > this.max) {							
 							this.max = th.training.additionalPrice;

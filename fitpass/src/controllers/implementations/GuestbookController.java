@@ -241,7 +241,7 @@ public class GuestbookController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Guestbook create(Guestbook guestbook) {
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
-		
+		guestbook.setApprovalStatus(ApprovalStatus.WAITING_FOR_APPROVAL);
 		return guestbookService.create(guestbook);
 	}
 	

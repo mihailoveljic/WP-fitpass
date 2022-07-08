@@ -13,15 +13,20 @@ Vue.component("sports-facility-training", {
 				time: null,
 				timePicker: null,
 				timePickerOpen: false,
-				buyer: null,
-				membership: null
+				membership: null,
+				trainingHistory : null,
+				dialogShow : false,
+				guestbook : {
+					comment: "",
+					rating : 0
+				}
 			}
 	},
 	props:
 		['userToken']
 	,
 	template: 
-` 
+` <div>
 	<v-row>
 		<v-col cols="3">
 		
@@ -118,25 +123,91 @@ Vue.component("sports-facility-training", {
 		
 		</v-col>
 	</v-row>
+	
+	
+	
+	<v-dialog v-model="dialogShow" persistent max-width="600px">
+							<v-card>
+								<v-card-title>
+									<span class="text-h5">Leave your comment</span>
+								</v-card-title>
+								<v-card-text>
+									<v-container>
+										<v-row>
+											<v-col cols="12" sm="8" md="12">
+												<v-text-field label="Comment*" v-model="guestbook.comment">
+												</v-text-field>
+											</v-col>
+											<v-col cols="12" sm="8" md="12">
+												<v-rating color="primary" class="text-center" half-increments length="5" size="26" v-model="guestbook.rating"></v-rating>
+											</v-col>
+										</v-row>
+									</v-container>
+								</v-card-text>
+								<v-card-actions>
+									<v-spacer></v-spacer>
+									<v-btn color="blue darken-1" text @click="cancelComment()">
+										Cancel
+									</v-btn>
+									<v-btn color="blue darken-1" text @click="submitComment()">
+										Submit
+									</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-dialog>
+</div>
 `
 	,
 	methods : {
+		submitComment(){
+			this.guestbook.buyerId = this.userToken.id;
+			this.guestbook.sportsFacilityId = this.sportsFacilityId;
+			axios.post('rest/GuestbookController/' , this.guestbook)
+      			.then(() => {
+					this.$router.push("/my-trainings-buyers");
+				})
+	            .catch(error => {
+	                alert(error.message + " GRESKA");
+			    });
+		},
+		cancelCommect(){
+			this.$router.push("/my-trainings-buyers");
+		},
 		save(date) {
 				this.$refs.menu.save(date);
 		},
 		enroll(){
+			if(this.membership == ""){
+				alert("Nemate aktivnu clanarinu!");
+				this.$router.push('/membership-buyers');
+				return;
+			}
 			let date = this.date.split('-');
 			let time = this.time.split(':');
-			let formattedDate = new Date(date[0], date[1]-1, date[2], time[0], time[1]);
 			let enrollRequestDTO ={
-				buyerId: this.buyer.id,
+				buyerId: this.userToken.id,
 				trainingId: this.training.id,
 				coachId: this.training.coach.id,
-				date: formattedDate.getTime()
+				year : date[0],
+				month : date[1],
+				day : date[2],
+				hour : time[0],
+				minutes : time[1]
 			}
 			axios.post('rest/TrainingHistoryController/enroll', enrollRequestDTO)
               .then(response => {
-					this.managers = response.data;
+					this.trainingHisotry = response.data;
+					if(this.trainingHisotry == ""){
+						alert("Nemate aktivnu clanarinu!");
+						this.$router.push('/membership-buyers');
+						return;
+					}
+					if(response.data == "COMMENT_NEEDED"){
+						this.dialogShow = true;
+						return;
+					}
+					this.$router.push("/my-trainings-buyers");
+					return;
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");
@@ -161,13 +232,14 @@ Vue.component("sports-facility-training", {
 	          .then(response => {
 					this.training = response.data;
 			  });
-           axios.get('rest/buyers/'+ this.userToken.id)
+			  
+			axios.get('rest/MembershipController/byBuyer/'+ this.userToken.id)
               .then(response => {
-					this.buyer = response.data;
-					axios.get('rest/MembershipController/'+ this.buyer.membershipId)
-		              .then(response => {
-							this.membership = response.data;
-					  }); 
+					this.membership = response.data;
+					if(this.membership == "") {
+						alert("Nemate aktivnu clanarinu!");
+						this.$router.push('/membership-buyers');
+					}
 			  });   
     },
 	created(){

@@ -24,7 +24,7 @@
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
         "membershipId": 1,
-        "visitedSportsFacilitiesIds": [1, 2],
+        "visitedSportsFacilitiesIds": [1],
         "numberOfCollectedPoints": 995,
         "buyerTypeId": 2,
         "isDeleted" : false

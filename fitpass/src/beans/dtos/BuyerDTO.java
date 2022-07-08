@@ -19,7 +19,7 @@ public class BuyerDTO{
 	private Role role;
 	private Membership membership;
 	private ArrayList<SportsFacility> visitedSportsFacilities;
-	private int numberOfCollectedPoints;
+	private double numberOfCollectedPoints;
 	private BuyerType buyerType;
 	
 	public BuyerDTO() {}
@@ -104,11 +104,11 @@ public class BuyerDTO{
 		this.visitedSportsFacilities = visitedSportsFacilities;
 	}
 
-	public int getNumberOfCollectedPoints() {
+	public double getNumberOfCollectedPoints() {
 		return numberOfCollectedPoints;
 	}
 
-	public void setNumberOfCollectedPoints(int numberOfCollectedPoints) {
+	public void setNumberOfCollectedPoints(double numberOfCollectedPoints) {
 		this.numberOfCollectedPoints = numberOfCollectedPoints;
 	}
 

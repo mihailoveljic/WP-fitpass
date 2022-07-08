@@ -2,6 +2,7 @@ package controllers.implementations;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -27,6 +28,7 @@ import beans.dtos.UserToken;
 import beans.enums.Role;
 import beans.models.Buyer;
 import beans.models.BuyerType;
+import beans.models.Coach;
 import beans.models.Membership;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
@@ -235,13 +237,16 @@ public class TrainingHistoryController {
 	@Path("/enroll")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public TrainingHistory create(EnrollRequestDTO enrollRequestDTO) {
+	public String create(EnrollRequestDTO enrollRequestDTO) {
 		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
 		IMembershipService membershipService = (IMembershipService)ctx.getAttribute("MembershipService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
 		
 		Membership membership = membershipService.getByBuyer(enrollRequestDTO.getBuyerId());
 		
-		if(membership == null || !membership.isValid()) return null;
+		if(membership == null || !membership.isValid()) return "";
 		
 		membership.enroll();
 		membershipService.update(membership);
@@ -250,10 +255,34 @@ public class TrainingHistoryController {
 		trainingHistory.setBuyerId(enrollRequestDTO.getBuyerId());
 		trainingHistory.setCoachId(enrollRequestDTO.getCoachId());
 		trainingHistory.setTrainingId(enrollRequestDTO.getTrainingId());
-		trainingHistory.setDateTime(enrollRequestDTO.getDate());
+		trainingHistory.setDateTime(
+					new Date(
+								Integer.parseInt(enrollRequestDTO.getYear()) - 1900,
+								Integer.parseInt(enrollRequestDTO.getMonth()) - 1,
+								Integer.parseInt(enrollRequestDTO.getDay()),
+								Integer.parseInt(enrollRequestDTO.getHour()),
+								Integer.parseInt(enrollRequestDTO.getMinutes()),
+								0
+							)
+				);
 		trainingHistory.setIsDeleted(false);
 		
-		return trainingHistoryService.create(trainingHistory);
+		trainingHistory = trainingHistoryService.create(trainingHistory);
+		
+		Coach coach = coachService.get(trainingHistory.getCoachId());
+		coach.getTrainingHistoryIds().add(trainingHistory.getId());
+	    coachService.update(coach);
+	    
+	    Buyer buyer = buyerService.get(trainingHistory.getBuyerId());
+	    
+	    Training training = trainingService.get(trainingHistory.getTrainingId());
+	    
+	    if(buyer.getVisitedSportsFacilitiesIds().contains(training.getSportsFacilityId())) {
+	    	return "OK";
+	    }
+	    buyer.getVisitedSportsFacilitiesIds().add(training.getSportsFacilityId());
+	    buyerService.update(buyer);
+	    return "COMMENT_NEEDED";    
 	}
 	
 	@PUT

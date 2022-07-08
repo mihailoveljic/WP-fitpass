@@ -48,7 +48,7 @@ public class TrainingHistoryService implements ITrainingHistoryService {
 	@Override
 	public Collection<TrainingHistory> GetForBuyerInLast30Days(long id) {
 		
-		Date now = new Date(System.currentTimeMillis() + DAY_IN_MILISECONDS * 30);
+		Date now = new Date(System.currentTimeMillis() - DAY_IN_MILISECONDS * 30);
 		
 		Collection<TrainingHistory> trainingHistory = new ArrayList<TrainingHistory>(trainingHistoryDAO.getAll());
 		trainingHistory.removeIf(training ->(training.getBuyerId() != id || training.getDateTime().compareTo(now) < 0));

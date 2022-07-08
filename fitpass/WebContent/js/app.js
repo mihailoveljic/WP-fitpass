@@ -184,6 +184,23 @@ var app = new Vue({
                     });
 		},
 		checkForLogout(isLoggedout){
+			this.userLoginDTO = {
+	        username: "",
+	        password: "",
+			};
+			this.userRegistrationDTO = {
+				username: "",
+				password:"",
+				name:"",
+				surname:"",
+				gender: null,
+				dateOfBirth : {
+					year: null,
+					month: null,
+					day: null
+				}
+			};
+			this.date = null;
 			this.$router.push('/');
 			if(!isLoggedout) return;
              sessionStorage.removeItem('userToken');

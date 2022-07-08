@@ -21,6 +21,7 @@ public class AdministratorDAO implements IDAO<Administrator> {
 
 	@Override
 	public Collection<Administrator> getAll() {
+		administrators.values().removeIf(a -> (a.getIsDeleted()));
 		return administrators.values();
 	}
 
@@ -57,7 +58,8 @@ public class AdministratorDAO implements IDAO<Administrator> {
 
 	@Override
 	public boolean delete(String id) {
-		if(administrators.remove(id) != null) {
+		if(administrators.containsKey(id)) {
+			administrators.get(id).setIsDeleted(true);
 			administratorRepository.save(administrators);
 			return true;
 		}

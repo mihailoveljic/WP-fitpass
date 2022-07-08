@@ -21,6 +21,7 @@ public class FacilityContentDAO implements IDAO<FacilityContent>{
 
 	@Override
 	public Collection<FacilityContent> getAll() {
+		facilityContents.values().removeIf(fc -> (fc.getIsDeleted()));
 		return facilityContents.values();
 	}
 
@@ -57,7 +58,8 @@ public class FacilityContentDAO implements IDAO<FacilityContent>{
 
 	@Override
 	public boolean delete(String id) {
-		if(facilityContents.remove(id) != null) {
+		if(facilityContents.containsKey(id)) {
+			facilityContents.get(id).setIsDeleted(true);
 			facilityContentRepository.save(facilityContents);
 			return true;
 		}

@@ -15,10 +15,11 @@ public class Guestbook implements Serializable {
 	private String comment;
 	private int rating;
 	private ApprovalStatus approvalStatus;
+	private boolean isDeleted;
 	
 	public Guestbook() {}
 
-	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating, ApprovalStatus approvalStatus) {
+	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating, ApprovalStatus approvalStatus, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
@@ -26,6 +27,15 @@ public class Guestbook implements Serializable {
 		this.comment = comment;
 		this.rating = rating;
 		this.approvalStatus = approvalStatus;
+		this.isDeleted = isDeleted;
+	}
+
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {

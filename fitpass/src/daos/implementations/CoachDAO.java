@@ -21,6 +21,7 @@ public class CoachDAO implements IDAO<Coach> {
 
 	@Override
 	public Collection<Coach> getAll() {
+		coaches.values().removeIf(coach -> (coach.getIsDeleted()));
 		return coaches.values();
 	}
 
@@ -57,7 +58,8 @@ public class CoachDAO implements IDAO<Coach> {
 
 	@Override
 	public boolean delete(String id) {
-		if(coaches.remove(id) != null) {
+		if(coaches.containsKey(id)) {
+			coaches.get(id).setIsDeleted(true);
 			coachRepository.save(coaches);
 			return true;
 		}

@@ -21,6 +21,7 @@ public class GuestbookDAO implements IDAO<Guestbook> {
 
 	@Override
 	public Collection<Guestbook> getAll() {
+		guestbooks.values().removeIf(gb -> (gb.getIsDeleted()));
 		return guestbooks.values();
 	}
 
@@ -57,7 +58,8 @@ public class GuestbookDAO implements IDAO<Guestbook> {
 
 	@Override
 	public boolean delete(String id) {
-		if(guestbooks.remove(id) != null) {
+		if(guestbooks.containsKey(id)) {
+			guestbooks.get(id).setIsDeleted(true);
 			guestbookRepository.save(guestbooks);
 			return true;
 		}

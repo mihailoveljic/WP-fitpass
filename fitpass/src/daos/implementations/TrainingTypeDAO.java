@@ -21,6 +21,7 @@ public class TrainingTypeDAO implements IDAO<TrainingType> {
 
 	@Override
 	public Collection<TrainingType> getAll() {
+		trainingTypes.values().removeIf(tt -> (tt.getIsDeleted()));
 		return trainingTypes.values();
 	}
 
@@ -57,7 +58,8 @@ public class TrainingTypeDAO implements IDAO<TrainingType> {
 
 	@Override
 	public boolean delete(String id) {
-		if(trainingTypes.remove(id) != null) {
+		if(trainingTypes.containsKey(id)) {
+			trainingTypes.get(id).setIsDeleted(true);
 			trainingTypeRepository.save(trainingTypes);
 			return true;
 		}

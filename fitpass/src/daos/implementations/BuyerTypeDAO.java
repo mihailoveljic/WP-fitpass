@@ -21,6 +21,7 @@ public class BuyerTypeDAO implements IDAO<BuyerType>{
 
 	@Override
 	public Collection<BuyerType> getAll() {
+		buyerTypes.values().removeIf(bt -> (bt.getIsDeleted()));
 		return buyerTypes.values();
 	}
 
@@ -57,7 +58,8 @@ public class BuyerTypeDAO implements IDAO<BuyerType>{
 
 	@Override
 	public boolean delete(String id) {
-		if(buyerTypes.remove(id) != null) {
+		if(buyerTypes.containsKey(id)) {
+			buyerTypes.get(id).setIsDeleted(true);
 			buyerTypeRepository.save(buyerTypes);
 			return true;
 		}

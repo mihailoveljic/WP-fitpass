@@ -21,6 +21,7 @@ public class TrainingHistoryDAO implements IDAO<TrainingHistory> {
 
 	@Override
 	public Collection<TrainingHistory> getAll() {
+		trainingHistory.values().removeIf(t -> (t.getIsDeleted()));
 		return trainingHistory.values();
 	}
 
@@ -57,7 +58,8 @@ public class TrainingHistoryDAO implements IDAO<TrainingHistory> {
 
 	@Override
 	public boolean delete(String id) {
-		if(trainingHistory.remove(id) != null) {
+		if(trainingHistory.containsKey(id)) {
+			trainingHistory.get(id).setIsDeleted(true);
 			trainingHistoryRepository.save(trainingHistory);
 			return true;
 		}

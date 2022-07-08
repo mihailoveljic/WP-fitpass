@@ -21,6 +21,7 @@ public class ManagerDAO implements IDAO<Manager> {
 
 	@Override
 	public Collection<Manager> getAll() {
+		managers.values().removeIf(m -> (m.getIsDeleted()));
 		return managers.values();
 	}
 
@@ -57,7 +58,8 @@ public class ManagerDAO implements IDAO<Manager> {
 
 	@Override
 	public boolean delete(String id) {
-		if(managers.remove(id) != null) {
+		if(managers.containsKey(id)) {
+			managers.get(id).setIsDeleted(true);
 			managerRepository.save(managers);
 			return true;
 		}

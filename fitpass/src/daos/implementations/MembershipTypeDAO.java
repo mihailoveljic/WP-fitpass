@@ -20,6 +20,7 @@ public class MembershipTypeDAO implements IDAO<MembershipType>{
 
 	@Override
 	public Collection<MembershipType> getAll() {
+		membershipTypes.values().removeIf(mt -> (mt.getIsDeleted()));
 		return membershipTypes.values();
 	}
 
@@ -56,7 +57,8 @@ public class MembershipTypeDAO implements IDAO<MembershipType>{
 
 	@Override
 	public boolean delete(String id) {
-		if(membershipTypes.remove(id) != null) {
+		if(membershipTypes.containsKey(id)) {
+			membershipTypes.get(id).setIsDeleted(true);
 			membershipTypeRepository.save(membershipTypes);
 			return true;
 		}

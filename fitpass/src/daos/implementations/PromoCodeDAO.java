@@ -20,6 +20,7 @@ public class PromoCodeDAO implements IDAO<PromoCode> {
 
 	@Override
 	public Collection<PromoCode> getAll() {
+		promoCodes.values().removeIf(p -> (p.getIsDeleted()));
 		return promoCodes.values();
 	}
 
@@ -56,7 +57,8 @@ public class PromoCodeDAO implements IDAO<PromoCode> {
 
 	@Override
 	public boolean delete(String id) {
-		if(promoCodes.remove(id) != null) {
+		if(promoCodes.containsKey(id)) {
+			promoCodes.get(id).setIsDeleted(true);
 			promoCodeRepository.save(promoCodes);
 			return true;
 		}

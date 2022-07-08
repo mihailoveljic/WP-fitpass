@@ -21,6 +21,7 @@ public class SportsFacilityTypeDAO implements IDAO<SportsFacilityType> {
 
 	@Override
 	public Collection<SportsFacilityType> getAll() {
+		sportsFacilityTypes.values().removeIf(sft -> (sft.getIsDeleted()));
 		return sportsFacilityTypes.values();
 	}
 
@@ -57,7 +58,8 @@ public class SportsFacilityTypeDAO implements IDAO<SportsFacilityType> {
 
 	@Override
 	public boolean delete(String id) {
-		if(sportsFacilityTypes.remove(id) != null) {
+		if(sportsFacilityTypes.containsKey(id)) {
+			sportsFacilityTypes.get(id).setIsDeleted(true);
 			sportsFacilityTypeRepository.save(sportsFacilityTypes);
 			return true;
 		}

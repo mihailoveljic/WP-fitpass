@@ -22,8 +22,8 @@
         "image": "teretana1.jpg",
         "averageRating": 3.9,
         "workingHours": {
-            "fromThe": "20:00",
-            "toThe": "21:00"
+            "fromThe": "07:30",
+            "toThe": "20:30"
         },
         "isDeleted" : false
     },

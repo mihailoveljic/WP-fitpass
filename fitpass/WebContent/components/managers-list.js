@@ -222,6 +222,19 @@ Vue.component("managers-list", {
     		axios.get('rest/managers')
               .then(response => {
 					this.managers = response.data;
+					this.userRegistrationDTO = {
+					username: "",
+					password:"",
+					name:"",
+					surname:"",
+					gender: null,
+					dateOfBirth : {
+						year: null,
+						month: null,
+						day: null
+						}
+					},
+					this.date = null
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

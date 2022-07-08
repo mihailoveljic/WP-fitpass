@@ -276,6 +276,19 @@ Vue.component("buyers-list", {
     		axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
+					this.userRegistrationDTO = {
+					username: "",
+					password:"",
+					name:"",
+					surname:"",
+					gender: null,
+					dateOfBirth : {
+						year: null,
+						month: null,
+						day: null
+						}
+					},
+					this.date = null;
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

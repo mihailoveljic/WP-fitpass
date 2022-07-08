@@ -219,6 +219,19 @@ Vue.component("coaches-list", {
     		axios.get('rest/coaches')
               .then(response => {
 					this.coaches = response.data;
+					this.userRegistrationDTO = {
+					username: "",
+					password:"",
+					name:"",
+					surname:"",
+					gender: null,
+					dateOfBirth : {
+						year: null,
+						month: null,
+						day: null
+						}
+					},
+					this.date = null
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

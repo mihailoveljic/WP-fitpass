@@ -206,26 +206,20 @@ Vue.component("sports-facilities", {
 		checkIfIsOpen: function(sportsFacility){
 				let from = sportsFacility.workingHours.fromThe.split(':');
 				let to = sportsFacility.workingHours.toThe.split(':');
-				let hour = new Date().getHours();
-				let minute = new Date().getMinutes();
-				if(from[0]<= hour && hour <=to[0]){
-					if(from[0]== hour){
-						if(from[1]>minute){
-							sportsFacility.openStatus = false;
-							return "Closed";
-						} 
-					}else if(to[0]==hour){
-						if(to[1]<minute){
-							sportsFacility.openStatus = false;
-							return "Closed";
-						} 
-					}else{
-						sportsFacility.openStatus = true;
-						return "Open";
-					}
+				
+				let now = new Date();
+			
+				let openTime = new Date(now.getYear() + 1900, now.getMonth(), now.getDate(), from[0], from[1]);
+				let closeTime = new Date(now.getYear() + 1900, now.getMonth(), now.getDate(), to[0], to[1]);
+				
+				if(openTime <= now && now <= closeTime){
+					sportsFacility.openStatus = true;
+					return "Open";
+				}else{
+					sportsFacility.openStatus = false;
+					return "Closed";
 				}
-				sportsFacility.openStatus = false;
-				return "Closed";
+				
 			}
 	},
 	computed: {

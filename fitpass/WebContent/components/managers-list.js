@@ -205,7 +205,9 @@ Vue.component("managers-list", {
                     });
 		},
 		deleteManager(manager){
-			axios.delete('rest/managers/' + manager.id)
+			let isExecuted = confirm("Are you sure to delete manager?");
+			if(isExecuted){
+				axios.delete('rest/managers/' + manager.id)
               .then(response => {
 					if(response.data == false){
 						alert("Failed to delete manager!");
@@ -217,6 +219,7 @@ Vue.component("managers-list", {
                     });
                     this.reloadPage();
                     return true;
+			}
 		},
 		reloadPage(){
     		axios.get('rest/managers')

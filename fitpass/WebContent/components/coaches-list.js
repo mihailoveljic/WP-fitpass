@@ -202,7 +202,10 @@ Vue.component("coaches-list", {
                     });
 		},
 		deleteCoach(coach){
-			axios.delete('rest/coaches/' + coach.id)
+			let isExecuted = confirm("Are you sure to delete coach?");
+
+			if(isExecuted){
+				axios.delete('rest/coaches/' + coach.id)
               .then(response => {
 					if(response.data == false){
 						alert("Failed to delete coach!");
@@ -214,6 +217,7 @@ Vue.component("coaches-list", {
                     });
                     this.reloadPage();
                     return true;
+			}
 		},
 		reloadPage(){
     		axios.get('rest/coaches')

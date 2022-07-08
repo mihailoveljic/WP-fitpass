@@ -259,7 +259,9 @@ Vue.component("buyers-list", {
                     });
 		},
 		deleteBuyer(buyer){
-			axios.delete('rest/buyers/' + buyer.id)
+			let isExecuted = confirm("Are you sure to delete buyer?");
+			if(isExecuted){
+				axios.delete('rest/buyers/' + buyer.id)
               .then(response => {
 					if(response.data == false){
 						alert("Failed to delete buyer!");
@@ -271,6 +273,7 @@ Vue.component("buyers-list", {
                     });
                     this.reloadPage();
                     return true;
+			}
 		},
 		reloadPage(){
     		axios.get('rest/buyers')

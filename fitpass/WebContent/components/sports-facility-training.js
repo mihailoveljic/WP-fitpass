@@ -182,7 +182,16 @@ Vue.component("sports-facility-training", {
 				this.$router.push('/membership-buyers');
 				return;
 			}
+			
+			if(this.date == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let date = this.date.split('-');
+			if(this.time == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let time = this.time.split(':');
 			let enrollRequestDTO ={
 				buyerId: this.userToken.id,

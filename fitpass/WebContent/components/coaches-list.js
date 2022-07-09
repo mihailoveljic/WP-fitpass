@@ -184,6 +184,10 @@ Vue.component("coaches-list", {
 			
 			if(this.registrationFormHasErrors) return;
 			
+			if(this.date == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let temp = this.date.split('-');
 			this.userRegistrationDTO.dateOfBirth.year = temp[0];
 			this.userRegistrationDTO.dateOfBirth.month = temp[1];
@@ -266,5 +270,15 @@ Vue.component("coaches-list", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-    }
+    },
+    created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	}
 });

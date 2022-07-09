@@ -72,14 +72,6 @@ var app = new Vue({
 			{
 				name:'Sport Facilities',
 				link: '/sports-facilities'
-			},
-			{
-				name:'Programs',
-				link: '/programs'
-			},
-			{
-				name:'Trainers',
-				link: '/coaches'
 			}
 		],
 		
@@ -164,7 +156,10 @@ var app = new Vue({
 			axios.post('rest/LoginController/login', this.userLoginDTO)
               .then(response => {
 				this.userToken = response.data;
-              	if(this.userToken == null || this.userToken=="") return;
+              	if(this.userToken == null || this.userToken==""){
+					alert("Neispravno korisnicko ime i/ili lozinka");
+					return;
+				}
 	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
 	            this.mode= this.userToken.role;
 	            this.refreshNavBar();
@@ -219,6 +214,10 @@ var app = new Vue({
 			
 			if(this.registrationFormHasErrors) return;
 			
+			if(this.date == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let temp = this.date.split('-');
 			this.userRegistrationDTO.dateOfBirth.year = temp[0];
 			this.userRegistrationDTO.dateOfBirth.month = temp[1];
@@ -263,14 +262,6 @@ var app = new Vue({
 					{
 						name:'Sport Facilities',
 						link: '/sports-facilities'
-					},
-					{
-						name:'Programs',
-						link: '/programs'
-					},
-					{
-						name:'Trainers',
-						link: '/trainers'
 					},
 					{
 						name:'My Trainings',
@@ -339,10 +330,6 @@ var app = new Vue({
 						link:'/manager-facility-buyers'
 					},
 					{
-						name:'Programs',
-						link:'/programs'
-					},
-					{
 							name:'My Account',
 							link:'/account'
 					},
@@ -384,14 +371,6 @@ var app = new Vue({
 					{
 						name:'Sport Facilities',
 						link: '/sports-facilities'
-					},
-					{
-						name:'Programs',
-						link: '/programs'
-					},
-					{
-						name:'Trainers',
-						link: '/trainers'
 					}
 				]
 			}

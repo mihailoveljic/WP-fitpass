@@ -16,12 +16,14 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import beans.models.FacilityContent;
+import beans.models.SportsFacility;
 import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.IFacilityContentService;
+import services.interfaces.ISportsFacilityService;
 
 @Path("/FacilityContentController")
-public class FacilityContentController implements ICRUDController<FacilityContent, FacilityContent> {
+public class FacilityContentController{
 
 	@Context
 	ServletContext ctx;
@@ -32,13 +34,13 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@PostConstruct
 	public void init() {
 		ContextInitService.initFacilityContentService(ctx);
+		ContextInitService.initSportsFacilityService(ctx);
 	}
 	
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<FacilityContent> getAll(){
 		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.getAll();
@@ -47,7 +49,6 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public FacilityContent get(@PathParam("id") long id) {
 		IFacilityContentService facilityContentService = (IFacilityContentService)ctx.getAttribute("FacilityContentService");
 		return facilityContentService.get(id);
@@ -57,7 +58,6 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public FacilityContent create(FacilityContent facilityContent) {
 		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.create(facilityContent);
@@ -67,7 +67,6 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean update(FacilityContent facilityContent) {
 		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		return facilityContentService.update(facilityContent);
@@ -76,11 +75,23 @@ public class FacilityContentController implements ICRUDController<FacilityConten
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public boolean delete(@PathParam("id") long id) {
+	public boolean delete(@PathParam("id") String name) {
 		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
-		return facilityContentService.delete(id);
+		
+		return facilityContentService.delete(facilityContentService.getByName(name).getId());
 	}
 	
+	@DELETE
+	@Path("/{contentName}/{facilityId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean delete(@PathParam("id") String contentName, @PathParam("facilityId") long facilityId) {
+		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+
+		Long contentId = facilityContentService.getByName(contentName).getId();
+		SportsFacility sportsFacility = sportsFacilityService.get(facilityId);
+		sportsFacility.getFacilityContentIds().removeIf(id->(id == contentId));
+		return sportsFacilityService.update(sportsFacility);
+	}
 
 }

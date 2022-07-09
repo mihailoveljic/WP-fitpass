@@ -33,7 +33,7 @@ Vue.component("new-facilityContent", {
 					          v-for="content in facilityContents"
 					          :key="content.id">
 					          <td>{{ content }}</td>
-					          <td><v-btn>delete</v-btn></td>
+					          <td><v-btn @click="deleteContent(content)">delete</v-btn></td>
 				        	</tr>
 						</tbody>
 			    	</template>
@@ -56,6 +56,25 @@ Vue.component("new-facilityContent", {
 `
 	,
 	methods : {
+		deleteContent(content){
+			let isExecuted = confirm("Are you sure to delete content?");
+			if(isExecuted){
+				axios.delete('rest/FacilityContentController/' + content)
+			              .then(() => {
+								axios.get('rest/SportsFacilityController/' + this.manager.sportsFacilityId)
+						              .then(response => {
+										this.sportFacility = response.data;
+										this.facilityContents = response.data.facilityContents;
+										})
+						              .catch(error => {
+						                    alert(error.message + " GRESKA");
+						              });
+							})
+			              .catch(error => {
+			                    alert(error.message + " GRESKA");
+			              });
+			}
+		},
 		goBack(){
 			this.$router.push('/manager-facility');
 		},
@@ -72,7 +91,10 @@ Vue.component("new-facilityContent", {
 				name : this.nameForNewContent,
 				isDeleted: false
 			}
-			
+			if(this.nameForNewContent == ""){
+				alert("Morate uneti naziv sadrzaja!");
+				return;
+			}
 			axios.post('rest/FacilityContentController/', facilityContent)
               .then(response => {
 					facilityContent = response.data;

@@ -59,5 +59,16 @@ private IDAO<FacilityContent> facilityContentDAO;
 		return facilityContenNames;
 	}
 
+	@Override
+	public FacilityContent getByName(String name) {
+		Collection<FacilityContent> facilityContents = facilityContentDAO.getAll();
+		for(FacilityContent fc : facilityContents) {
+			if(fc.getName().compareTo(name)==0) {
+				return fc;
+			}
+		}
+		return null;
+	}
+
 
 }

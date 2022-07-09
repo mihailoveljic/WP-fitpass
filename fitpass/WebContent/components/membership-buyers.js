@@ -141,14 +141,15 @@ Vue.component("membership-buyers", {
 						month : date2.getMonth() + 1, 
 						year : date2.getYear() + 1900
 					}
-					
-					axios.get('rest/MembershipTypeController/' + this.membership.membershipTypeId)
+					if(this.membership !== ""){
+						axios.get('rest/MembershipTypeController/' + this.membership.membershipTypeId)
 		              .then(response => {
 							this.membershipType = response.data;
 						})
 		              .catch(error => {
 		                    alert(error.message + " GRESKA");
 		                    });
+		                }
 				})
               .catch(error => {
                     alert(error.message + " GRESKA");

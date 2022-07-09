@@ -241,6 +241,10 @@ Vue.component("buyers-list", {
 			
 			if(this.registrationFormHasErrors) return;
 			
+			if(this.date == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let temp = this.date.split('-');
 			this.userRegistrationDTO.dateOfBirth.year = temp[0];
 			this.userRegistrationDTO.dateOfBirth.month = temp[1];
@@ -333,5 +337,15 @@ Vue.component("buyers-list", {
        Promise.all([promiseBuyers, promiseBuyerTypes]).then(() => {
 		this.buyersBackup = JSON.parse(JSON.stringify(this.buyers));
 	});
-    }
+    },
+    created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	}
 });

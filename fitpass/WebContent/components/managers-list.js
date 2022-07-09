@@ -183,7 +183,10 @@ Vue.component("managers-list", {
 	        })
 			
 			if(this.registrationFormHasErrors) return false;
-			
+			if(this.date == null){
+				alert("Morate uneti ispravan datum!");
+				return false;	
+			}
 			let temp = this.date.split('-');
 			this.userRegistrationDTO.dateOfBirth.year = temp[0];
 			this.userRegistrationDTO.dateOfBirth.month = temp[1];
@@ -268,5 +271,15 @@ Vue.component("managers-list", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-    }
+    },
+    created(){
+		if(this.mode !== 'ADMINISTRATOR'){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(this.mode !== 'ADMINISTRATOR'){
+			this.$router.push('/');
+			}
+	}
 });

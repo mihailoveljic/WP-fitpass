@@ -62,5 +62,15 @@ Vue.component("manager-facility-buyers", {
               .catch(error => {
                     alert(error.message + " GRESKA");
               });
+	},
+	created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
 	}
 });

@@ -21,7 +21,9 @@ Vue.component("new-training", {
 			inputStarted : false,
 			selectedCoach: null,
 			imagePreview: "",
-			image: null
+			image: null,
+			createErrorMessages : "",
+			registrationFormHasErrors : false
 		}
 	},
 	template:
@@ -33,18 +35,22 @@ Vue.component("new-training", {
 	<v-col cols="4">
 	<template>
 	    <form @submit.prevent="submit">
-	        <v-text-field class=""
+	        <v-text-field class="" ref='registrationName'
 		          v-model="trainingDTO.name"
 		          label="Name"
+		          :rules="[() => !!trainingDTO.name || 'This field is required!']" :error-messages="createErrorMessages"
 	          		required>
 	        </v-text-field>
-	        <v-text-field class=""
+	        <v-text-field class="" ref='registrationDuration'
 		          v-model="trainingDTO.duration"
+		          type = "number"
 		          label="Duration (in mins)"
+		          :rules="[() => !!trainingDTO.duration || 'This field is required!']" :error-messages="createErrorMessages"
 	          		required>
 	        </v-text-field>
-	        <v-text-field class=""
+	        <v-text-field class="" ref='registrationDescription'
 		          v-model="trainingDTO.description"
+		          :rules="[() => !!trainingDTO.description || 'This field is required!']" :error-messages="createErrorMessages"
 		          label="Description"
 	          		required>
 	        </v-text-field>
@@ -53,8 +59,14 @@ Vue.component("new-training", {
 		          label="Additional price"
 	          		required>
 	        </v-text-field>
-	 		<v-combobox v-model="enteredTrainingType" :items="trainingTypes" item-text="name" label="Training Type" clearable outlined small-chips class="my-4"></v-combobox>
-	        <v-combobox v-model="selectedCoach" label="Coach" item-text="fullName" :items="coaches" clearable outlined small-chips></v-combobox>
+	 		<v-combobox v-model="enteredTrainingType" :items="trainingTypes" item-text="name" label="Training Type" clearable outlined small-chips class="my-4"
+	 		ref='registrationTrainingType'
+	 		:rules="[() => !!enteredTrainingType || 'This field is required!']" :error-messages="createErrorMessages"
+	 		></v-combobox>
+	        <v-combobox v-model="selectedCoach" label="Coach" item-text="fullName" :items="coaches" clearable outlined small-chips
+	        ref='registrationCoach'
+	        :rules="[() => !!selectedCoach || 'This field is required!']" :error-messages="createErrorMessages"
+	        ></v-combobox>
 	        <v-row>
 				<v-img class="ma-4" v-if="imageAdded" :src="imagePreview" height="150" width="150" dark></v-img>
 				<v-progress-circular v-if="!imageAdded && inputStarted" :size="50" color="primary" indeterminate></v-progress-circular>
@@ -80,6 +92,20 @@ Vue.component("new-training", {
 	props:['userToken'],
 	methods: {
 		createNewTraining() {
+			this.registrationFormHasErrors = false
+			
+	        Object.keys(this.registrationForm).forEach(f => {
+	          if (!this.registrationForm[f]) this.registrationFormHasErrors = true
+	
+	          this.$refs[f].validate(true)
+	        })
+			
+			if(this.registrationFormHasErrors) return false;
+			if(!this.image)
+			{
+				alert("Niste dodali sliku!");
+				return;
+			}
 			this.trainingDTO.coach = {
 				id: this.selectedCoach.id,
 			}
@@ -160,5 +186,26 @@ Vue.component("new-training", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-	}
+	},
+	created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	computed: {
+		registrationForm () {
+	        return {
+	         	registrationName: this.trainingDTO.name,
+				registrationTrainingType:this.enteredTrainingType,
+				registrationDuration:this.trainingDTO.duration,
+				registrationDescription: this.trainingDTO.description,
+				registrationCoach: this.selectedCoach
+			}
+        }
+	},
 });

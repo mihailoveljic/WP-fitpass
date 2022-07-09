@@ -257,5 +257,15 @@ Vue.component("users-list", {
 	},
 	mounted () {
               
-    }
+    },
+    created(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	},
+	beforeUpdate(){
+		if(!this.userToken){
+			this.$router.push('/');
+			}
+	}
 });

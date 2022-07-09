@@ -133,8 +133,7 @@ Vue.component("my-trainings-buyers", {
 								</template>
 								<v-date-picker ref="fromDate" v-model="fromDate" required
 									:active-picker.sync="activePickerFromDate"
-									:max="(new Date(Date.now())).toISOString().substr(0, 10)"
-									min="1950-01-01" @change="saveFromDate(); filterTrainingHistory();"
+									@change="saveFromDate(); filterTrainingHistory();"
 									></v-date-picker>
 							</v-menu>
 						</div>
@@ -152,8 +151,7 @@ Vue.component("my-trainings-buyers", {
 								</template>
 								<v-date-picker ref="toDate" v-model="toDate" required
 									:active-picker.sync="activePickerToDate"
-									:max="(new Date(Date.now())).toISOString().substr(0, 10)"
-									min="1950-01-01" @change="saveToDate(); filterTrainingHistory();"
+									@change="saveToDate(); filterTrainingHistory();"
 									></v-date-picker>
 							</v-menu>
 						</div>
@@ -208,7 +206,7 @@ Vue.component("my-trainings-buyers", {
 		},
 		filterTrainingHistoryByDate(){
 			this.trainingHistory = this.trainingHistory.filter(th => {					
-				let date = new Date(th.year, th.month, th.day, th.hour, th.minute);
+				let date = new Date(th.year, th.month - 1, th.day, th.hour, th.minute);
 				date = Date.parse(date);
 				
 				if(!!this.fromDate){

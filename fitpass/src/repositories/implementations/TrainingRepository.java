@@ -33,7 +33,6 @@ private String contextPath;
 		    		Paths.get(contextPath + "data\\trainings.json").toFile(), Training[].class));
 		    
 		    for(Training element : list){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

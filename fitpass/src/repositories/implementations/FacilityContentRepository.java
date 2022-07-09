@@ -32,7 +32,6 @@ private String contextPath;
 		    		Paths.get(contextPath + "data\\facility-contents.json").toFile(), FacilityContent[].class));
 		    
 		    for(FacilityContent element : facilityContents){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

@@ -33,7 +33,6 @@ public class AdministratorRepository implements IRepository<Administrator> {
 		    		Paths.get(contextPath + "data\\administrators.json").toFile(), Administrator[].class));
 		    
 		    for(Administrator element : list){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

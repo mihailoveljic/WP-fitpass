@@ -33,7 +33,6 @@ public class PromoCodeRepository implements IRepository<PromoCode> {
 		    		Paths.get(contextPath + "data\\promoCodes.json").toFile(), PromoCode[].class));
 		    
 		    for(PromoCode element : list){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

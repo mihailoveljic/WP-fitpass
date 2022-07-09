@@ -33,7 +33,6 @@ public class MembershipTypeRepository implements IRepository<MembershipType> {
 		    		Paths.get(contextPath + "data\\membershipTypes.json").toFile(), MembershipType[].class));
 		    
 		    for(MembershipType element : list){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

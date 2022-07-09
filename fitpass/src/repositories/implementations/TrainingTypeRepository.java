@@ -33,7 +33,6 @@ public class TrainingTypeRepository implements IRepository<TrainingType> {
 		    		Paths.get(contextPath + "data\\trainingTypes.json").toFile(), TrainingType[].class));
 		    
 		    for(TrainingType element : list){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

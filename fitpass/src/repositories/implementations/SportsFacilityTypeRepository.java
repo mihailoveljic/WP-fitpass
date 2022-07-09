@@ -30,7 +30,6 @@ private String contextPath;
 		    ObjectMapper mapper = new ObjectMapper();
 		    List<SportsFacilityType> sportsFacilitiesType = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\sports-facilitiesType.json").toFile(), SportsFacilityType[].class));
 		    for(SportsFacilityType element : sportsFacilitiesType){
-		    	if(element.getIsDeleted()) continue;
 		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {

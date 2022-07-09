@@ -369,7 +369,7 @@ Vue.component("newSportFacility-page", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-             let s = new Promise(r => setTimeout(r, 5000));
+             let s = new Promise(r => setTimeout(r, 6000));
              Promise.all([promiseImageUploaded, s]).then(() =>{
 				this.imageAdded = true
 				this.inputStarted = false;
@@ -379,6 +379,10 @@ Vue.component("newSportFacility-page", {
 			//validacija
 		if(this.coords==null){
 			alert('Unesi lokaciju objekta na mapi!');
+			return;
+		}
+		if(this.sportFacilityDTO.fromThe > this.sportFacilityDTO.toThe){
+			alert("Morate uneti ispravno radno vreme");
 			return;
 		}
 	    let sportFacility = {

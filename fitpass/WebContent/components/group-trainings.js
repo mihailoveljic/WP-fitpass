@@ -79,12 +79,12 @@ Vue.component("group-trainings", {
 									let date = new Date(th.date);
 									th.date = date;
 									th.day = date.getDate();
-									th.month = date.getMonth();
+									th.month = date.getMonth() + 1;
 									th.year = date.getYear() + 1900;
 									let time = date.toTimeString().split(' ')[0];
 									time = time.split(':');
 									th.hour = time[0];
-									th.minute = time[0];
+									th.minute = time[1];
 								});
 							})
 				              .catch(error => {

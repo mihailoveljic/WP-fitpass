@@ -73,9 +73,13 @@ Vue.component("personal-trainings", {
 			let currentDate = new Date();
 			let dateOfTraining = new Date(th.date);
 			let currentDateInMilSec = currentDate.getTime();
-			if((dateOfTraining.getTime() - 59958208800000) < (currentDateInMilSec + 172800000))
+			if((dateOfTraining.getTime()) < (currentDateInMilSec + 172800000))
 			{
 				alert("Treninge mozete otkazati minimalno 2 dana ranije!");
+				return;
+			}
+			let isExecuted = confirm("Are you sure to cancel this training?");
+			if(!isExecuted){
 				return;
 			}
 			axios.delete('rest/TrainingHistoryController/cancelPersonalTraining/' + th.id)
@@ -87,12 +91,12 @@ Vue.component("personal-trainings", {
 											this.myPersonalTrainingsHistory.forEach(th =>{
 											let date = new Date(th.date);
 											th.day = date.getDate();
-											th.month = date.getMonth();
-											th.year = date.getYear();
+											th.month = date.getMonth() + 1;
+											th.year = date.getYear() + 1900;
 											let time = date.toTimeString().split(' ')[0];
 											time = time.split(':');
 											th.hour = time[0];
-											th.minute = time[0];
+											th.minute = time[1];
 											});
 									})
 				              		.catch(error => {
@@ -113,12 +117,12 @@ Vue.component("personal-trainings", {
 									this.myPersonalTrainingsHistory.forEach(th =>{
 									let date = new Date(th.date);
 									th.day = date.getDate();
-									th.month = date.getMonth();
-									th.year = date.getYear();
+									th.month = date.getMonth() + 1;
+									th.year = date.getYear() + 1900;
 									let time = date.toTimeString().split(' ')[0];
 									time = time.split(':');
 									th.hour = time[0];
-									th.minute = time[0];
+									th.minute = time[1];
 								});
 							})
 				              .catch(error => {

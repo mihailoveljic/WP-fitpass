@@ -271,13 +271,13 @@ Vue.component("coaches-list", {
                     alert(error.message + " GRESKA");
                     });
     },
-    created(){
-		if(!this.userToken){
+   created(){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.userToken){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	}

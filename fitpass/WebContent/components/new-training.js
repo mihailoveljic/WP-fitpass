@@ -54,7 +54,7 @@ Vue.component("new-training", {
 		          label="Description"
 	          		required>
 	        </v-text-field>
-	        <v-text-field class=""
+	        <v-text-field class="" type="number"
 		          v-model="trainingDTO.additionalPrice"
 		          label="Additional price"
 	          		required>

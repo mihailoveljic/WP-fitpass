@@ -127,7 +127,7 @@ public class Membership implements Serializable {
 		this.isDeleted = isDeleted;
 	}
 
-	public boolean isValid() {
+	public boolean checkIfValid() {
 		if(this.isDeleted == false) {
 			if(this.isActive == true) {
 				if(this.expirationDate.compareTo(new Date()) > 0) {

@@ -246,7 +246,7 @@ public class TrainingHistoryController {
 		
 		Membership membership = membershipService.getByBuyer(enrollRequestDTO.getBuyerId());
 		
-		if(membership == null || !membership.isValid()) return "";
+		if(membership == null || !membership.checkIfValid()) return "";
 		
 		membership.enroll();
 		membershipService.update(membership);

@@ -112,22 +112,21 @@ Vue.component("buy-membership", {
 				}
 				if(this.promoCodeMark == ""){
 					axios.post('rest/MembershipController/-1' , membership)
-		              .then(response => {
+		              .then(() => {
+						this.$router.push("/membership-buyers");
 						})
 		              .catch(error => {
 		                    alert(error.message + " GRESKA u pretrazi promokoda");
 		                    });
 				} else {
 					axios.post('rest/MembershipController/' + this.promoCodeMark , membership)
-		              .then(response => {
+		              .then(() => {
+						this.$router.push("/membership-buyers");
 						})
 		              .catch(error => {
 		                    alert(error.message + " GRESKA u pretrazi promokoda");
 		                    });
 				}
-				
-		       this.$router.push("/membership-buyers");
-	
 		},
 		checkIfPromoCodeExists(){
 			if(this.promoCodeMark == ""){

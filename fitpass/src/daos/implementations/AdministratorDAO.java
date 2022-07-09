@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class AdministratorDAO implements IDAO<Administrator> {
 
 	@Override
 	public Collection<Administrator> getAll() {
-		administrators.values().removeIf(a -> (a.getIsDeleted()));
-		return administrators.values();
+		Collection<Administrator> retVal = new ArrayList<Administrator>(administrators.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public Administrator get(String id) {
-		return administrators.containsKey(id) ? administrators.get(id) : null;
+		if(administrators.containsKey(id)) {
+			if(administrators.get(id).getIsDeleted() == false){
+				return administrators.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class SportsFacilityDAO implements IDAO<SportsFacility>{
 
 	@Override
 	public Collection<SportsFacility> getAll() {
-		sportsFacilities.values().removeIf(sf -> (sf.getIsDeleted()));
-		return sportsFacilities.values();
+		Collection<SportsFacility> retVal = new ArrayList<SportsFacility>(sportsFacilities.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public SportsFacility get(String id) {
-		return sportsFacilities.containsKey(id) ? sportsFacilities.get(id) : null;
+		if(sportsFacilities.containsKey(id)) {
+			if(sportsFacilities.get(id).getIsDeleted() == false){
+				return sportsFacilities.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

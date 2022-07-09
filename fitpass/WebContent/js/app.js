@@ -229,6 +229,7 @@ var app = new Vue({
 	            sessionStorage.setItem('userToken', JSON.stringify(this.userToken));
 	            this.mode= this.userToken.role;
 	            this.registerDialog = false;
+	            this.refreshNavBar();
               }
               )
               .catch(error => {

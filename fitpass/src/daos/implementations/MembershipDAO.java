@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class MembershipDAO implements IDAO<Membership> {
 
 	@Override
 	public Collection<Membership> getAll() {
-		memberships.values().removeIf(m -> (m.getIsDeleted()));
-		return memberships.values();
+		Collection<Membership> retVal = new ArrayList<Membership>(memberships.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public Membership get(String id) {
-		return memberships.containsKey(id) ? memberships.get(id) : null;
+		if(memberships.containsKey(id)) {
+			if(memberships.get(id).getIsDeleted() == false){
+				return memberships.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

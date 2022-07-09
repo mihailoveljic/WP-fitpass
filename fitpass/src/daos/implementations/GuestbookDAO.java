@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class GuestbookDAO implements IDAO<Guestbook> {
 
 	@Override
 	public Collection<Guestbook> getAll() {
-		guestbooks.values().removeIf(gb -> (gb.getIsDeleted()));
-		return guestbooks.values();
+		Collection<Guestbook> retVal = new ArrayList<Guestbook>(guestbooks.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public Guestbook get(String id) {
-		return guestbooks.containsKey(id) ? guestbooks.get(id) : null;
+		if(guestbooks.containsKey(id)) {
+			if(guestbooks.get(id).getIsDeleted() == false){
+				return guestbooks.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

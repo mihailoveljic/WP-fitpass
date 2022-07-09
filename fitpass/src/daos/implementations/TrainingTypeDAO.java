@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class TrainingTypeDAO implements IDAO<TrainingType> {
 
 	@Override
 	public Collection<TrainingType> getAll() {
-		trainingTypes.values().removeIf(tt -> (tt.getIsDeleted()));
-		return trainingTypes.values();
+		Collection<TrainingType> retVal = new ArrayList<TrainingType>(trainingTypes.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public TrainingType get(String id) {
-		return trainingTypes.containsKey(id) ? trainingTypes.get(id) : null;
+		if(trainingTypes.containsKey(id)) {
+			if(trainingTypes.get(id).getIsDeleted() == false){
+				return trainingTypes.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

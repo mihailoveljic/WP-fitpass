@@ -80,7 +80,7 @@ Vue.component("group-trainings", {
 									th.date = date;
 									th.day = date.getDate();
 									th.month = date.getMonth();
-									th.year = date.getYear();
+									th.year = date.getYear() + 1900;
 									let time = date.toTimeString().split(' ')[0];
 									time = time.split(':');
 									th.hour = time[0];

@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,13 +21,19 @@ public class PromoCodeDAO implements IDAO<PromoCode> {
 
 	@Override
 	public Collection<PromoCode> getAll() {
-		promoCodes.values().removeIf(p -> (p.getIsDeleted()));
-		return promoCodes.values();
+		Collection<PromoCode> retVal = new ArrayList<PromoCode>(promoCodes.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public PromoCode get(String id) {
-		return promoCodes.containsKey(id) ? promoCodes.get(id) : null;
+		if(promoCodes.containsKey(id)) {
+			if(promoCodes.get(id).getIsDeleted() == false){
+				return promoCodes.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

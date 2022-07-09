@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,19 @@ public class BuyerDAO implements IDAO<Buyer> {
 
 	@Override
 	public Collection<Buyer> getAll() {
-		buyers.values().removeIf(buyer -> (buyer.getIsDeleted()));
-		return buyers.values();
+		Collection<Buyer> retVal = new ArrayList<Buyer>(buyers.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public Buyer get(String id) {
-		return buyers.containsKey(id) ? buyers.get(id) : null;
+		if(buyers.containsKey(id)) {
+			if(buyers.get(id).getIsDeleted() == false){
+				return buyers.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override

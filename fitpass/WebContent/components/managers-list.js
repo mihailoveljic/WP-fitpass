@@ -21,7 +21,9 @@ Vue.component("managers-list", {
 				menu: false,
 		        radios: null,
 		        registrationErrorMessages : "",
-		        registrationFormHasErrors : false
+		        registrationFormHasErrors : false,
+		        sortManagersByNameAsc: false,
+		        sortManagersBySurnameAsc: false,
 			}
 	},
 	props:
@@ -130,11 +132,11 @@ Vue.component("managers-list", {
 	    <template v-slot:default>
 	      <thead>
 	        <tr>
-	          <th class="text-left">
-	            Name
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Name<v-btn class="mx-4"  @click="sortManagersByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
-	          <th class="text-left">
-	            Surname
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Surname<v-btn class="mx-4" @click="sortManagersBySurname" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
 	        </tr>
 	      </thead>
@@ -158,6 +160,24 @@ Vue.component("managers-list", {
 `
 , 
 	methods : {
+		sortManagersBySurname(){
+			if(this.sortManagersBySurnameAsc){
+				this.managers.sort((a, b) => a.surname.localeCompare(b.surname));
+			}else{				
+				this.managers.sort((a, b) => a.surname.localeCompare(b.surname));
+				this.managers.reverse();
+			}
+			this.sortManagersBySurnameAsc = !this.sortManagersBySurnameAsc;
+		},
+		sortManagersByName(){
+			if(this.sortManagersByNameAsc){
+				this.managers.sort((a, b) => a.name.localeCompare(b.name));
+			}else{				
+				this.managers.sort((a, b) => a.name.localeCompare(b.name));
+				this.managers.reverse();
+			}
+			this.sortManagersByNameAsc = !this.sortManagersByNameAsc;
+		},
 		save(date) {
 				this.$refs.menu.save(date);
 		},
@@ -210,6 +230,10 @@ Vue.component("managers-list", {
 		deleteManager(manager){
 			let isExecuted = confirm("Are you sure to delete manager?");
 			if(isExecuted){
+				if(manager.sportsFacilityId != "-1"){
+					alert("Manager has assigned sports facility, remove assignment first!");
+					return false;
+				}
 				axios.delete('rest/managers/' + manager.id)
               .then(response => {
 					if(response.data == false){
@@ -272,13 +296,13 @@ Vue.component("managers-list", {
                     alert(error.message + " GRESKA");
                     });
     },
-    created(){
-		if(this.mode !== 'ADMINISTRATOR'){
+  	created(){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(this.mode !== 'ADMINISTRATOR'){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	}

@@ -338,13 +338,13 @@ Vue.component("buyers-list", {
 		this.buyersBackup = JSON.parse(JSON.stringify(this.buyers));
 	});
     },
-    created(){
-		if(!this.userToken){
+   	created(){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.userToken){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	}

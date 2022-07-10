@@ -112,6 +112,7 @@ public class ManagerController{
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean delete(@PathParam("id") long id) {
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		if(managerService.get(id).getSportsFacilityId() != -1) return false;
 		return managerService.delete(id);
 	}
 }

@@ -110,6 +110,33 @@ public class TrainingController {
 		}
 		
 		@GET
+		@Path("/getAllTrainingsForCoach/{id}")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Collection<TrainingDTO> getAllTrainingsForCoach(@PathParam("id") long id) {
+			ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			ICRUDService<TrainingType> trainingTypeService = (ICRUDService<TrainingType>) ctx.getAttribute("TrainingTypeService");
+			
+			Collection<Training> trainings = trainingService.getAllTrainingsForCoach(id);
+			Collection<TrainingDTO> trainingDTOs = new ArrayList<TrainingDTO>();
+			
+			for(Training t : trainings) {
+				TrainingDTO trainingDTO = new TrainingDTO();
+				trainingDTO.setId(t.getId());
+				trainingDTO.setName(t.getName());
+				trainingDTO.setTrainingType(trainingTypeService.get(t.getTrainingTypeId()));
+				trainingDTO.setSportsFacilityId(t.getSportsFacilityId());
+				trainingDTO.setDuration(t.getDuration());
+				trainingDTO.setCoach(coachService.get(t.getCoachId()));
+				trainingDTO.setDescription(t.getDescription());
+				trainingDTO.setImage(ctx.getContextPath() + "\\data\\img\\trainings\\" + t.getImage());
+				trainingDTO.setAdditionalPrice(t.getAdditionalPrice());
+				trainingDTOs.add(trainingDTO);
+			}
+			return trainingDTOs;
+		}
+		
+		@GET
 		@Path("/getAllCoachesInCertainSportFacility/{id}")
 		@Produces(MediaType.APPLICATION_JSON)
 		public Collection<Coach> getAllCoachesInCertainSportFacility(@PathParam("id") long id) {
@@ -238,6 +265,8 @@ public class TrainingController {
 		@Produces(MediaType.APPLICATION_JSON)
 		public boolean delete(@PathParam("id") long id) {
 			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+			Collection<Training> trainings = trainingService.getAllTrainingsForCoach(id);
+			if(!trainings.isEmpty()) return false;
 			return trainingService.delete(id);
 		}
 }

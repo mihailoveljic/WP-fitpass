@@ -51,4 +51,12 @@ public class TrainingService implements ITrainingService {
 		return trainings;
 	}
 
+	@Override
+	public Collection<Training> getAllTrainingsForCoach(long id) {
+		Collection<Training> trainings = new ArrayList<Training>(trainingDAO.getAll());
+		trainings.removeIf(t -> (t.getCoachId() != id));
+		
+		return trainings;
+	}
+
 }

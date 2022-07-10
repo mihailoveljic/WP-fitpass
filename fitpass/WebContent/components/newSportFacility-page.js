@@ -369,7 +369,7 @@ Vue.component("newSportFacility-page", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-             let s = new Promise(r => setTimeout(r, 5000));
+             let s = new Promise(r => setTimeout(r, 8000));
              Promise.all([promiseImageUploaded, s]).then(() =>{
 				this.imageAdded = true
 				this.inputStarted = false;

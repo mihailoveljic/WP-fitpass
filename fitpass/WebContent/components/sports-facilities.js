@@ -59,6 +59,9 @@ Vue.component("sports-facilities", {
 			</v-col>
 			<v-col cols="2">
 				<v-card width="300" class="mx-auto pa-4 mt-8 text-center" outlined  rounded="8">
+					<v-card flat transparent class="justify-center align-center text-center d-flex">
+						<v-btn class="mb-4" @click="clearFilters()">Clear</v-btn>
+					</v-card>
 					<v-card class="justify-center align-center text-center d-flex">
 						<v-text-field @keyup.enter="filterSportsFacility" v-model="sportsFacilityNameSearched" label="Sport facility name" outlined clearable></v-text-field>
 						<v-btn class="mx-4"  @click="sortByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
@@ -94,6 +97,16 @@ Vue.component("sports-facilities", {
 `
 	, 
 	methods : {
+		clearFilters(){
+				this.sportsFacilityNameSearched = "";
+				this.sportsFacilityTypesSearched = new Array();
+				this.facilityContentsSearched = new Array();
+				this.requiredRating = 0.0,
+				this.sportsFacilityCountrySearched = "",
+				this.sportsFacilityCitySearched = "",
+				this.isOpenCheckbox = false,
+		        this.filterSportsFacility();
+		},
 		openSportFacility(sportsFacility){
 			this.$router.push('/sports-facility/' + sportsFacility.id);
 		},

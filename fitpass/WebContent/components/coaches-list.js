@@ -21,7 +21,9 @@ Vue.component("coaches-list", {
 				menu: false,
 		        radios: null,
 		        registrationErrorMessages : "",
-		        registrationFormHasErrors : false
+		        registrationFormHasErrors : false,
+		        sortCoachesBySurnameAsc: false,
+		        sortCoachesByNameAsc: false,
 			}
 	},
 	props:
@@ -130,11 +132,11 @@ Vue.component("coaches-list", {
 	    <template v-slot:default>
 	      <thead>
 	        <tr>
-	          <th class="text-left">
-	            Name
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Name<v-btn class="mx-4"  @click="sortCoachesByName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
-	          <th class="text-left">
-	            Surname
+	          <th class="text-left text-h6 flex-row-reverse">
+	            Surname<v-btn class="mx-4" @click="sortCoachesBySurname" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 	          </th>
 	        </tr>
 	      </thead>
@@ -158,6 +160,24 @@ Vue.component("coaches-list", {
 `
 , 
 	methods : {
+		sortCoachesBySurname(){
+			if(this.sortCoachesBySurnameAsc){
+				this.coaches.sort((a, b) => a.surname.localeCompare(b.surname));
+			}else{				
+				this.coaches.sort((a, b) => a.surname.localeCompare(b.surname));
+				this.coaches.reverse();
+			}
+			this.sortCoachesBySurnameAsc = !this.sortCoachesBySurnameAsc;
+		},
+		sortCoachesByName(){
+			if(this.sortCoachesByNameAsc){
+				this.coaches.sort((a, b) => a.name.localeCompare(b.name));
+			}else{				
+				this.coaches.sort((a, b) => a.name.localeCompare(b.name));
+				this.coaches.reverse();
+			}
+			this.sortCoachesByNameAsc = !this.sortCoachesByNameAsc;
+		},
 		save(date) {
 				this.$refs.menu.save(date);
 		},
@@ -209,19 +229,29 @@ Vue.component("coaches-list", {
 			let isExecuted = confirm("Are you sure to delete coach?");
 
 			if(isExecuted){
-				axios.delete('rest/coaches/' + coach.id)
+				axios.get('rest/TrainingController/getAllTrainingsForCoach/' + coach.id)
               .then(response => {
-					if(response.data == false){
-						alert("Failed to delete coach!");
+					if(response.data != ""){
+						alert("Coach has assigned trainings, remove assignment first!");
 						return false;
 					} 
+					axios.delete('rest/coaches/' + coach.id)
+		              .then(response => {
+							if(response.data == false){
+								alert("Failed to delete coach!");
+								return false;
+							}
+		                    this.reloadPage();
+		                    return true;
+		              })
+		              .catch(error => {
+		                    alert(error.message + " GRESKA");
+		                    });
               })
               .catch(error => {
                     alert(error.message + " GRESKA");
-                    });
-                    this.reloadPage();
-                    return true;
-			}
+                    });		
+           }
 		},
 		reloadPage(){
     		axios.get('rest/coaches')
@@ -272,12 +302,12 @@ Vue.component("coaches-list", {
                     });
     },
     created(){
-		if(!this.userToken){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.userToken){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	}

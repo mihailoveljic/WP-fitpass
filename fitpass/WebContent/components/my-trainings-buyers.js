@@ -88,6 +88,9 @@ Vue.component("my-trainings-buyers", {
 		<v-col cols="3">
 			<v-card width="300" class="mx-auto pa-4 mt-4 text-center" outlined  rounded="8">
 				<v-card flat transparent class="justify-center align-center text-center d-flex">
+					<v-btn class="mb-4" @click="clearFilters()">Clear</v-btn>
+				</v-card>
+				<v-card flat transparent class="justify-center align-center text-center d-flex">
 					<v-text-field @keyup.enter="filterTrainingHistory" v-model="sportsFacilityNameSearched" label="Sport facility" outlined clearable></v-text-field>
 					<v-btn class="mx-4" @click="sortTrainingHistoryBySportsFacilityName" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 				</v-card>
@@ -177,6 +180,16 @@ Vue.component("my-trainings-buyers", {
 		}
 	},
 	methods : {
+		clearFilters(){
+		        this.sportsFacilityNameSearched = "";
+		        this.toDate = null;
+		        this.fromDate = null;
+		        this.sportsFacilityTypesSearched = "";
+		        this.trainingTypesSearched = "";
+		        this.range[0] = this.min;
+		        this.range[1] = this.max;
+		        this.filterTrainingHistory();
+		},
 		saveToDate(date) {
 			this.$refs.menuToDate.save(date);
 		},
@@ -269,12 +282,12 @@ Vue.component("my-trainings-buyers", {
 						th.year = date.getYear() + 1900;
 						th.hour = date.getHours();
 						th.minute = date.getMinutes();
-						
+							
 						if(th.training.additionalPrice > this.max) {							
 							this.max = th.training.additionalPrice;
 							}
-					this.trainingHistoryBackup = this.trainingHistory;
 					});
+					this.trainingHistoryBackup = this.trainingHistory;
 					this.range[1] = this.max;
 				})
               .catch(error => {

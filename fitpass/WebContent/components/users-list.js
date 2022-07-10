@@ -2,21 +2,21 @@ Vue.component("users-list", {
 	name: "users-list",
 	data: function () {
 		    return {
-				users : [],
-				usersBackup : [],
-				buyers : [],
-				coaches : [],
-				managers : [],
-				administrators : [],
+				users : null,
+				usersBackup : null,
+				buyers : null,
+				coaches : null,
+				managers : null,
+				administrators : null,
 				userNameSearched : "",
 				userSurnameSearched : "",
 				usernameSearched : "",
 				userRoles : ['KUPAC', 'TRENER', 'MENADZER', 'ADMINISTRATOR'],
-				userRoleSearched : [],
+				userRoleSearched : null,
 				sortUsersBySurnameAsc : false,
 				sortUsersByNameAsc : false,
-				sortUsersByUsernameAsc : false
-				
+				sortUsersByUsernameAsc : false,
+				sortUsersByRoleAsc: false				
 			}
 	},
 	props:
@@ -42,6 +42,9 @@ Vue.component("users-list", {
 						        <th class="text-left text-h6 flex-row-reverse">
 						            Username<v-btn class="mx-4" @click="sortUsersByUsername" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
 						    	</th>
+						        <th class="text-left text-h6 flex-row-reverse">
+						            Role<v-btn class="mx-4" @click="sortUsersByRole" icon><v-icon size="18px">mdi-sort</v-icon></v-btn>
+						    	</th>
 					        </tr>
 				      	</thead>
 				      	<tbody>
@@ -51,7 +54,8 @@ Vue.component("users-list", {
 					          <td>{{ user.name }}</td>
 					          <td>{{ user.surname }}</td>
 					          <td>{{ user.username }}</td>
-					          <td><v-btn @click="deleteUser(user)">delete</v-btn></td>
+					          <td>{{ user.role }}</td>
+					          <td><v-btn v-if="user.role != 'ADMINISTRATOR'" @click="deleteUser(user)">delete</v-btn></td>
 				        	</tr>
 						</tbody>
 			    	</template>
@@ -80,6 +84,15 @@ Vue.component("users-list", {
 				this.users.reverse();
 			}
 			this.sortUsersBySurnameAsc = !this.sortUsersBySurnameAsc;
+		},
+		sortUsersByRole(){
+			if(this.sortUsersByRoleAsc){
+				this.users.sort((a, b) => a.role.localeCompare(b.role));
+			}else{				
+				this.users.sort((a, b) => a.role.localeCompare(b.role));
+				this.users.reverse();
+			}
+			this.sortUsersByRoleAsc = !this.sortUsersByRoleAsc;
 		},
 		sortUsersByName(){
 			if(this.sortUsersByNameAsc){
@@ -152,18 +165,32 @@ Vue.component("users-list", {
 	                    this.reloadPage();
 	                    return true;
 			} else if(user.role == "TRENER"){
-				axios.delete('rest/coaches/' + user.id)
+				let isExecuted = confirm("Are you sure to delete coach?");
+
+				if(isExecuted){
+					axios.get('rest/TrainingController/getAllTrainingsForCoach/' + user.id)
 	              .then(response => {
-						if(response.data == false){
-							alert("Failed to delete coach!");
+						if(response.data != ""){
+							alert("Coach has assigned trainings, remove assignment first!");
 							return false;
 						} 
+						axios.delete('rest/coaches/' + user.id)
+			              .then(response => {
+								if(response.data == false){
+									alert("Failed to delete coach!");
+									return false;
+								}
+			                    this.reloadPage();
+			                    return true;
+			              })
+			              .catch(error => {
+			                    alert(error.message + " GRESKA");
+			                    });
 	              })
 	              .catch(error => {
 	                    alert(error.message + " GRESKA");
-	                    });
-	                    this.reloadPage();
-	                    return true;
+	                    });		
+	           	}
 			} else {
 				axios.delete('rest/managers/' + user.id)
 	              .then(response => {
@@ -221,7 +248,11 @@ Vue.component("users-list", {
 	computed: {
 	},
 	created() {
-		let promiseBuyers = axios.get('rest/buyers')
+		
+       
+	},
+	mounted () {
+            let promiseBuyers = axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
 				})
@@ -252,19 +283,15 @@ Vue.component("users-list", {
 	       Promise.all([promiseBuyers, promiseCoaches, promiseManagers, promiseAdministrators]).then(() => {
 			  this.users = this.managers.concat(this.coaches).concat(this.buyers).concat(this.administrators);
 			  this.usersBackup=JSON.parse(JSON.stringify(this.users));
-			});
-       
-	},
-	mounted () {
-              
+			});  
     },
     created(){
-		if(!this.userToken){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.userToken){
+		if(!this.mode == "ADMINISTRATOR"){
 			this.$router.push('/');
 			}
 	}

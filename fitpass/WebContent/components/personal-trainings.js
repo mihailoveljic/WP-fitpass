@@ -270,9 +270,13 @@ Vue.component("personal-trainings", {
 			let currentDate = new Date();
 			let dateOfTraining = new Date(th.date);
 			let currentDateInMilSec = currentDate.getTime();
-			if((dateOfTraining.getTime() - 59958208800000) < (currentDateInMilSec + 172800000))
+			if((dateOfTraining.getTime()) < (currentDateInMilSec + 172800000))
 			{
 				alert("Treninge mozete otkazati minimalno 2 dana ranije!");
+				return;
+			}
+			let isExecuted = confirm("Are you sure to cancel this training?");
+			if(!isExecuted){
 				return;
 			}
 			axios.delete('rest/TrainingHistoryController/cancelPersonalTraining/' + th.id)

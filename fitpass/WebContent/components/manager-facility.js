@@ -81,7 +81,7 @@ Vue.component("manager-facility", {
 									<v-btn @click="openEditTrainingFormPage(training)" color="primary" class="ma-4" centered width="100" height="50">
 										edit
 									</v-btn>
-								<v-btn class="ma-4" @click="" width="100" height="50">delete</v-btn>
+								<v-btn class="ma-4" @click="deleteTraining(training.id)" width="100" height="50">delete</v-btn>
 							</v-col>
 						</v-row>
 					</v-card>
@@ -130,6 +130,30 @@ Vue.component("manager-facility", {
 	, 
 	props:['userToken'],
 	methods : {
+			deleteTraining(id){
+				let isExecuted = confirm("Are you sure to delete training?");
+				if(!isExecuted){
+					return;
+				}
+				axios.delete('rest/TrainingController/' + id)
+	              .then(response => {
+						if(response.data == false){
+							alert("Failed to delete training!");
+							return false;
+						}
+						axios.get('rest/TrainingController/getAllTrainingsInCertainSportFacility/' + this.manager.sportsFacilityId)
+				              .then(response => {
+									this.trainings = response.data;
+								})
+				              .catch(error => {
+				                    alert(error.message + " GRESKA");
+				                    }); 
+	              })
+	              .catch(error => {
+	                    alert(error.message + " GRESKA");
+	                    });
+	                    return true;
+			},
 			openEditTrainingFormPage(training) {
 				this.$router.push('manager-facility/edit-training/' + training.id);
 			},

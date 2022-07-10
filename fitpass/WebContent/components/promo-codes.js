@@ -76,6 +76,7 @@ Vue.component("promo-codes", {
 											<v-text-field v-model="promoCodeDTO.howManyTimeCanBeUsed" ref="codeHowManyTimesCanBeUsed"
 												:rules="[() => !isNaN(promoCodeDTO.howManyTimeCanBeUsed) || 'This field is required!']"
 												:error-messages="createErrorMessages" hide-details single-line
+												label='Time for usage:'
 												type="number" />
 										</v-col>
 										<v-col cols="12" sm="8" md="12">
@@ -163,6 +164,10 @@ Vue.component("promo-codes", {
 				this.$refs.menu.save(date);
 		},
 		deletePromoCode(promoCode){
+			let isExecuted = confirm("Are you sure to delete promo code?");
+			if(!isExecuted){
+				return;
+			}
 			axios.delete('rest/PromoCodeController/' + promoCode.id)
               .then(response => {
 					if(response.data == false){

@@ -301,13 +301,13 @@ Vue.component("coaches-list", {
                     alert(error.message + " GRESKA");
                     });
     },
-    created(){
-		if(!this.mode == "ADMINISTRATOR"){
+   created(){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.mode == "ADMINISTRATOR"){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	}

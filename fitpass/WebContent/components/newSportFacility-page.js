@@ -381,6 +381,10 @@ Vue.component("newSportFacility-page", {
 			alert('Unesi lokaciju objekta na mapi!');
 			return;
 		}
+		if(this.sportFacilityDTO.fromThe > this.sportFacilityDTO.toThe){
+			alert("Morate uneti ispravno radno vreme");
+			return;
+		}
 	    let sportFacility = {
 					id: -1,
 					name:  this.sportFacilityDTO.name,

@@ -247,12 +247,8 @@ Vue.component("users-list", {
 	},
 	computed: {
 	},
-	created() {
-		
-       
-	},
 	mounted () {
-            let promiseBuyers = axios.get('rest/buyers')
+           let promiseBuyers = axios.get('rest/buyers')
               .then(response => {
 					this.buyers = response.data;
 				})
@@ -283,15 +279,15 @@ Vue.component("users-list", {
 	       Promise.all([promiseBuyers, promiseCoaches, promiseManagers, promiseAdministrators]).then(() => {
 			  this.users = this.managers.concat(this.coaches).concat(this.buyers).concat(this.administrators);
 			  this.usersBackup=JSON.parse(JSON.stringify(this.users));
-			});  
+			}); 
     },
     created(){
-		if(!this.mode == "ADMINISTRATOR"){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	},
 	beforeUpdate(){
-		if(!this.mode == "ADMINISTRATOR"){
+		if(this.mode !== 'ADMINISTRATOR'){
 			this.$router.push('/');
 			}
 	}

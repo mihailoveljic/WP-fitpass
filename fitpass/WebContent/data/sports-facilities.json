@@ -20,7 +20,7 @@
             }
         },
         "image": "teretana1.jpg",
-        "averageRating": 3.9,
+        "averageRating": 4.33,
         "workingHours": {
             "fromThe": "07:30",
             "toThe": "20:30"
@@ -48,7 +48,7 @@
             }
         },
         "image": "teretana2.jpg",
-        "averageRating": 3.3,
+        "averageRating": 2,
         "workingHours": {
             "fromThe": "09:00",
             "toThe": "21:00"
@@ -77,7 +77,7 @@
             }
         },
         "image": "spens.jpg",
-        "averageRating": 4.0,
+        "averageRating": 0,
         "workingHours": {
             "fromThe": "20:00",
             "toThe": "22:00"

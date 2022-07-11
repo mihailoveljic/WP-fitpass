@@ -13,13 +13,13 @@ public class Guestbook implements Serializable {
 	private long buyerId;
 	private long sportsFacilityId;
 	private String comment;
-	private int rating;
+	private double rating;
 	private ApprovalStatus approvalStatus;
 	private boolean isDeleted;
 	
 	public Guestbook() {}
 
-	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating, ApprovalStatus approvalStatus, boolean isDeleted) {
+	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, double rating, ApprovalStatus approvalStatus, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
@@ -70,11 +70,11 @@ public class Guestbook implements Serializable {
 		this.comment = comment;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 

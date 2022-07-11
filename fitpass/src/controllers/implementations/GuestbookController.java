@@ -251,8 +251,12 @@ public class GuestbookController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean update(Guestbook guestbook) {
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
-		
-		return guestbookService.update(guestbook);
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+
+		boolean retVal = guestbookService.update(guestbook);
+		Collection<Guestbook> sportsFacilityGuestbooks = guestbookService.getAllApprovedForSportsFacilityId(guestbook.getSportsFacilityId());
+		sportsFacilityService.updateRating(guestbook.getSportsFacilityId(), sportsFacilityGuestbooks);
+		return retVal;
 	}
 	
 	@PUT
@@ -260,7 +264,8 @@ public class GuestbookController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean approve(@Context HttpServletRequest request, @PathParam("id") long id) {
 		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
-		
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+
 		UserToken userToken = (UserToken) request.getSession().getAttribute("userToken");
 		
 		if(!userIsAdministrator(userToken)) return false;
@@ -269,7 +274,10 @@ public class GuestbookController {
 		
 		guestbook.setApprovalStatus(ApprovalStatus.APPROVED);
 		
-		return guestbookService.update(guestbook);
+		boolean retVal = guestbookService.update(guestbook);
+		Collection<Guestbook> sportsFacilityGuestbooks = guestbookService.getAllApprovedForSportsFacilityId(guestbook.getSportsFacilityId());
+		sportsFacilityService.updateRating(guestbook.getSportsFacilityId(), sportsFacilityGuestbooks);
+		return retVal;
 	}
 	
 	@PUT
@@ -293,8 +301,15 @@ public class GuestbookController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean delete(@PathParam("id") long id) {
-		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");
+		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");	
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+
+		Guestbook guestbook = guestbookService.get(id);
+		if(guestbook == null) return false;
 		
-		return guestbookService.delete(id);
+		boolean retVal = guestbookService.delete(guestbook.getId());
+		Collection<Guestbook> sportsFacilityGuestbooks = guestbookService.getAllApprovedForSportsFacilityId(guestbook.getSportsFacilityId());
+		sportsFacilityService.updateRating(guestbook.getSportsFacilityId(), sportsFacilityGuestbooks);
+		return retVal;
 	}
 }

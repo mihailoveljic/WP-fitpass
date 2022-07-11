@@ -1,10 +1,18 @@
 [
-	{
-		"id" : 1,
-		"mark" : "velja",
-		"expirationDate" : 1665352800000,
-		"howManyTimeCanBeUsed" : 10,
-		"discount" : 10,
-		"isDeleted" : false
-	}
+    {
+        "id": 1,
+        "mark": "velja",
+        "expirationDate": 1665352800000,
+        "howManyTimeCanBeUsed": 10,
+        "discount": 10.0,
+        "isDeleted": false
+    },
+    {
+        "id": 2,
+        "mark": "zelja",
+        "expirationDate": 1549411200000,
+        "howManyTimeCanBeUsed": 0,
+        "discount": 30.0,
+        "isDeleted": false
+    }
 ]

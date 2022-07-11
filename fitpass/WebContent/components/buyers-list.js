@@ -271,12 +271,12 @@ Vue.component("buyers-list", {
 						alert("Failed to delete buyer!");
 						return false;
 					} 
+                this.reloadPage();
+                return true;
               })
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-                    this.reloadPage();
-                    return true;
 			}
 		},
 		reloadPage(){

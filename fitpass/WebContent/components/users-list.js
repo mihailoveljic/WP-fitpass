@@ -152,18 +152,22 @@ Vue.component("users-list", {
 		
 		deleteUser(user){
 			if(user.role == "KUPAC") {
+				let isExecuted = confirm("Are you sure to buyer coach?");
+
+				if(isExecuted){
 				axios.delete('rest/buyers/' + user.id)
 	              .then(response => {
 						if(response.data == false){
 							alert("Failed to delete buyer!");
 							return false;
-						} 
+						}
+	                    this.reloadPage();
+	                    return true;
 	              })
 	              .catch(error => {
 	                    alert(error.message + " GRESKA");
 	                    });
-	                    this.reloadPage();
-	                    return true;
+                }
 			} else if(user.role == "TRENER"){
 				let isExecuted = confirm("Are you sure to delete coach?");
 
@@ -192,21 +196,23 @@ Vue.component("users-list", {
 	                    });		
 	           	}
 			} else {
+				let isExecuted = confirm("Are you sure to buyer coach?");
+
+				if(isExecuted){
 				axios.delete('rest/managers/' + user.id)
 	              .then(response => {
 						if(response.data == false){
 							alert("Failed to delete manager!");
 							return false;
-						} 
+						}
+	                    this.reloadPage();
+	                    return true;
 	              })
 	              .catch(error => {
 	                    alert(error.message + " GRESKA");
 	                    });
-	                    this.reloadPage();
-	                    return true;
+				}	
 			}
-			
-			
 		},
 		reloadPage(){
     		let promiseBuyers = axios.get('rest/buyers')

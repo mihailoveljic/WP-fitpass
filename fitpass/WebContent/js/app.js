@@ -21,7 +21,7 @@ const PromoCodes = {template : '<promo-codes :userToken="$attrs.usertoken"></pro
 const CommentsAdministrator = {template : '<comments-administrator :userToken="$attrs.usertoken"></comments-administrator>'}
 const MembershipBuyer = {template : '<membership-buyers :userToken="$attrs.usertoken"></membership-buyers>'}
 const BuyMembership = {template : '<buy-membership :userToken="$attrs.usertoken"></buy-membership>'}
-
+const Home = {template : '<home></home>'}
 
 
 
@@ -32,6 +32,7 @@ const BuyMembership = {template : '<buy-membership :userToken="$attrs.usertoken"
 const router = new VueRouter({
 	mode: 'hash',
 	  routes: [
+		{path: '/', name: 'shome', component: Home},
 		{path: '/sports-facilities', name: 'sports-facilities', component: SportsFacilities},
 		{path: '/buyers', name: 'buyers-list', component: BuyersList},
 		{path: '/managers', name:'managers-list', component: ManagersList},
@@ -152,7 +153,11 @@ var app = new Vue({
 	        })
 			
 			if(this.loginFormHasErrors) return;
-			if(this.userToken != null || this.userToken == "") return;
+			if(this.userToken != null){
+				if(this.userToken != ""){
+					return;
+				}
+			}
 			axios.post('rest/LoginController/login', this.userLoginDTO)
               .then(response => {
 				this.userToken = response.data;
@@ -169,7 +174,7 @@ var app = new Vue({
               )
               .catch(error => {
                     alert(error.message + " GRESKA");
-                    });
+              });
 		},
 		logout(){
 			axios.get('rest/LoginController/logout')

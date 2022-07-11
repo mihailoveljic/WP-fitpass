@@ -59,7 +59,7 @@ Vue.component("new-facilityContent", {
 		deleteContent(content){
 			let isExecuted = confirm("Are you sure to delete content?");
 			if(isExecuted){
-				axios.delete('rest/FacilityContentController/' + content)
+				axios.delete('rest/FacilityContentController/' + content + "/" + this.manager.sportsFacilityId)
 			              .then(() => {
 								axios.get('rest/SportsFacilityController/' + this.manager.sportsFacilityId)
 						              .then(response => {

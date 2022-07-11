@@ -15,5 +15,7 @@ public interface IGuestbookService extends ICRUDService<Guestbook> {
 
 	Collection<Guestbook> getAllApprovedForSportsFacilityId(long sportsFacilityId);
 
+	void deleteForBuyer(long id);
+
 	
 }

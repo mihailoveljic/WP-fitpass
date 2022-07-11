@@ -77,7 +77,7 @@ Vue.component("sports-facility", {
 								</div>
 							</v-col>
 							<v-col cols="2" class="ma-auto">
-									<v-btn @click="enrollTraining(training)" v-if="!!userToken" color="primary"  centered width="100" height="50">
+									<v-btn @click="enrollTraining(training)" v-if="!!userToken && userToken.role == 'KUPAC'" color="primary"  centered width="100" height="50">
 										Enroll
 									</v-btn>
 							</v-col>

@@ -10,4 +10,6 @@ public interface ITrainingHistoryService extends ICRUDService<TrainingHistory> {
 	Collection<TrainingHistory> getAllTrainingsHistoryByCertainCoach(long id);
 	Collection<TrainingHistory> getAllPersonalTrainingsHistoryByCertainCoach(long id, ITrainingService trainingService);
 	Collection<TrainingHistory> getAllGroupTrainingsHistoryByCertainCoach(long id, ITrainingService trainingService);
+	Collection<TrainingHistory> getAllByTrainingId(long id);
+	Collection<TrainingHistory> getAllByBuyer(long id);
 }

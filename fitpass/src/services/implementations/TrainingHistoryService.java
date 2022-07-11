@@ -88,5 +88,19 @@ public class TrainingHistoryService implements ITrainingHistoryService {
 		}
 		return groupTrainingHistory;
 	}
+
+	@Override
+	public Collection<TrainingHistory> getAllByTrainingId(long id) {
+		Collection<TrainingHistory> trainingHistory = new ArrayList<TrainingHistory>(trainingHistoryDAO.getAll());
+		trainingHistory.removeIf(t -> (t.getTrainingId() != id));
+		return trainingHistory;
+	}
+
+	@Override
+	public Collection<TrainingHistory> getAllByBuyer(long id) {
+		Collection<TrainingHistory> trainingHistory = new ArrayList<TrainingHistory>(trainingHistoryDAO.getAll());
+		trainingHistory.removeIf(t -> (t.getBuyerId() != id));
+		return trainingHistory;
+	}
 	
 }

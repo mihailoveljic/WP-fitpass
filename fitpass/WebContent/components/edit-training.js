@@ -35,6 +35,7 @@ Vue.component("edit-training", {
 	        <v-text-field class=""
 		          v-model="trainingDTO.duration"
 		          label="Duration (in mins)"
+		          type = "number"
 	          		required>
 	        </v-text-field>
 	        <v-text-field class=""
@@ -45,6 +46,7 @@ Vue.component("edit-training", {
 	        <v-text-field class=""
 		          v-model="trainingDTO.additionalPrice"
 		          label="Additional price"
+		          type = "number"
 	          		required>
 	        </v-text-field>
 	 		<v-combobox v-model="enteredTrainingType" :items="trainingTypes" item-text="name" label="Training Type" clearable outlined small-chips class="my-4"></v-combobox>
@@ -127,7 +129,7 @@ Vue.component("edit-training", {
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-             let s = new Promise(r => setTimeout(r, 7000));
+             let s = new Promise(r => setTimeout(r, 8000));
              Promise.all([promiseImageUploaded, s]).then(() =>{
 				this.imageAdded = true
 				this.inputStarted = false;

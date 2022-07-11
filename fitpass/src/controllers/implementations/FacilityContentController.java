@@ -17,7 +17,6 @@ import javax.ws.rs.core.MediaType;
 
 import beans.models.FacilityContent;
 import beans.models.SportsFacility;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.IFacilityContentService;
 import services.interfaces.ISportsFacilityService;
@@ -84,7 +83,7 @@ public class FacilityContentController{
 	@DELETE
 	@Path("/{contentName}/{facilityId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public boolean delete(@PathParam("id") String contentName, @PathParam("facilityId") long facilityId) {
+	public boolean delete(@PathParam("contentName") String contentName, @PathParam("facilityId") long facilityId) {
 		IFacilityContentService facilityContentService = (IFacilityContentService) ctx.getAttribute("FacilityContentService");
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 

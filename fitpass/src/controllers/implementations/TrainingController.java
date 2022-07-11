@@ -30,10 +30,12 @@ import javax.ws.rs.core.Response.Status;
 import beans.dtos.TrainingDTO;
 import beans.models.Coach;
 import beans.models.Training;
+import beans.models.TrainingHistory;
 import beans.models.TrainingType;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 import services.interfaces.ICoachService;
+import services.interfaces.ITrainingHistoryService;
 import services.interfaces.ITrainingService;
 
 @Path("/TrainingController")
@@ -48,12 +50,11 @@ public class TrainingController {
 
 		@PostConstruct
 		public void init() {
-			//ContextInitService.initBuyerService(ctx);
-			//ContextInitService.initBuyerTypeService(ctx);
-			//ContextInitService.initSportsFacilityService(ctx);
 			ContextInitService.initTrainingService(ctx);
 			ContextInitService.initTrainingTypeService(ctx);
-			ContextInitService.initCoachService(ctx);
+			ContextInitService.initCoachService(ctx);		
+			ContextInitService.initTrainingHistoryService(ctx);
+
 		}
 		
 		@GET
@@ -265,8 +266,21 @@ public class TrainingController {
 		@Produces(MediaType.APPLICATION_JSON)
 		public boolean delete(@PathParam("id") long id) {
 			ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
-			Collection<Training> trainings = trainingService.getAllTrainingsForCoach(id);
-			if(!trainings.isEmpty()) return false;
+			ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+			ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+			
+			Training training = trainingService.get(id);
+			if(training == null) return false;
+			
+			Collection<TrainingHistory> trainingHistory = trainingHistoryService.getAllByTrainingId(training.getId());
+			
+			trainingHistory.forEach(th -> {
+				Coach coach = coachService.get(th.getCoachId());
+				coach.getTrainingHistoryIds().remove(th.getId());
+				coachService.update(coach);
+				trainingHistoryService.delete(th.getId());
+			});
+			
 			return trainingService.delete(id);
 		}
 }

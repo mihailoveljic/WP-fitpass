@@ -14,34 +14,46 @@ Vue.component("membership-buyers", {
 	template: 
 ` 
 <div>
+	<v-row>
+		<v-col cols="1">
+		</v-col>
+		<v-col cols="5">
+			<div class=" d-flex justify-center mx-auto text-h2 my-8">Active membership</div>
+		</v-col>
+		<v-col cols="5">
+			<div class=" d-flex justify-center mx-auto text-h2 my-8">Buyer status</div>
+		</v-col>
+		<v-col cols="1">
+		</v-col>
+	</v-row>
 	<v-row class = "my-8">
 		<v-col cols="1">
 		
 		</v-col>
 		
 		<v-col cols="5" v-if="membership!=null && !!membershipType && membership.isActive">
-			<div class=" d-flex justify-center mx-auto text-h2 my-8">Active membership</div>
-			<v-card class = "pa-4">
+			
+			<v-card class="pa-4">
 	
 					<v-row class = "mx-auto text-center text-h4 blue--text mt-4" justify='center'>
 						
 						Membership Type: {{ membershipType.name }}
 						
 					</v-row>
-					<v-row class = " mb-4 mx-auto text-center text-caption" justify='center'>
+					<v-row class = " mb-5 mx-auto text-center text-caption" justify='center'>
 						Order id: {{ membership.membershipNumber }}
 					</v-row>
-					<v-row class = " my-4 mx-auto text-center text-h6" justify='center'>
+					<v-row class = " my-1 mx-auto text-center text-h6" justify='center'>
 						
 						Remaining daily trainings: {{ membership.numberOfRemainingTrainings }}
 						
 					</v-row>
-					<v-row class = " my-4 mx-auto text-center text-subtitle-1" justify='center'>
+					<v-row class = "my-1 mx-auto text-center text-subtitle-1" justify='center'>
 						
 						Payment date: {{ membership.paymentDate.day }}-{{ membership.paymentDate.month }}-{{ membership.paymentDate.year }} 
 						
 					</v-row>
-					<v-row class = " my-4 mx- text-center text-subtitle-1" justify='center'>
+					<v-row class = "my-1 mx- text-center text-subtitle-1" justify='center'>
 						
 						Expiration date: {{ membership.expirationDate.day }}-{{ membership.expirationDate.month }}-{{ membership.expirationDate.year }}
 						

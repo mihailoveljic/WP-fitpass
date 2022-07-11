@@ -18,18 +18,17 @@ Vue.component("buyer-info", {
 		</v-col>
 		
 		<v-col cols="10">
-			<v-card v-if="!!buyer && !!buyerType" class = "mx-auto">
-					
-					<v-row class = "text-center text-h5" justify='center'>
+			<v-card v-if="!!buyer && !!buyerType" class = "mx-auto pa-4">
+					<v-row class = "text-center text-h5 mt-4" justify='center'>
 						{{ buyer.name }} - {{ buyerType.typeName }} kupac
 					</v-row>
-					<v-row class = "text-center text-h6" justify='center'>
+					<v-row class = "text-center text-h6 mt-3 mb-11" justify='center'>
 						Discount: {{ buyerType.discount }}%
 					</v-row>
 					<v-row class = "text-center text-subtitle-1" justify='center'>
 						Collected points: {{ buyer.numberOfCollectedPoints }}
 					</v-row>
-					<v-row class = "text-center text-subtitle-1" justify='center'>
+					<v-row class = "text-center text-subtitle-1 mb-4" justify='center'>
 						Points for upgrade: {{ buyerType.requiredPointsForUpgrade }}
 					</v-row>
 				</v-card>

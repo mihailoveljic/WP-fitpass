@@ -18,8 +18,10 @@ import javax.ws.rs.core.MediaType;
 
 import beans.dtos.UserUpdateDTO;
 import beans.models.Coach;
+import beans.models.Training;
 import services.implementations.ContextInitService;
 import services.interfaces.ICoachService;
+import services.interfaces.ITrainingService;
 
 @Path("/coaches")
 public class CoachController {
@@ -92,6 +94,11 @@ public class CoachController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean delete(@PathParam("id") long id) {
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		ITrainingService trainingService = (ITrainingService) ctx.getAttribute("TrainingService");
+		
+		Collection<Training> trainings = trainingService.getAllTrainingsForCoach(id);
+		if(!trainings.isEmpty()) return false;
+		
 		return coachService.delete(id);
 	}
 }

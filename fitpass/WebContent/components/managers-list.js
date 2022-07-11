@@ -240,12 +240,12 @@ Vue.component("managers-list", {
 						alert("Failed to delete manager!");
 						return false;
 					} 
+                    this.reloadPage();
+                    return true;
               })
               .catch(error => {
                     alert(error.message + " GRESKA");
                     });
-                    this.reloadPage();
-                    return true;
 			}
 		},
 		reloadPage(){

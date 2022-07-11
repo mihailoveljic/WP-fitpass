@@ -64,4 +64,14 @@ public class GuestbookService implements IGuestbookService {
 		return guestbooks;
 	}
 
+	@Override
+	public void deleteForBuyer(long id) {
+		Collection<Guestbook> guestbooks = new ArrayList<>(guestbookDAO.getAll());
+		guestbooks.forEach(comment -> {
+			if(comment.getBuyerId() == id) {
+				guestbookDAO.delete(String.valueOf(comment.getId()));
+			}
+		});
+	}
+
 }

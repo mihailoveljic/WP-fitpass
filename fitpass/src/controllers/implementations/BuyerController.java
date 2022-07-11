@@ -22,11 +22,16 @@ import beans.dtos.DateDTO;
 import beans.dtos.UserUpdateDTO;
 import beans.models.Buyer;
 import beans.models.BuyerType;
+import beans.models.Coach;
+import beans.models.TrainingHistory;
 import controllers.interfaces.IBuyerController;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
 import services.interfaces.ICRUDService;
+import services.interfaces.ICoachService;
+import services.interfaces.IGuestbookService;
 import services.interfaces.ISportsFacilityService;
+import services.interfaces.ITrainingHistoryService;
 
 @Path("/buyers")
 public class BuyerController implements IBuyerController {
@@ -41,7 +46,11 @@ public class BuyerController implements IBuyerController {
 	public void init() {
 		ContextInitService.initBuyerService(ctx);
 		ContextInitService.initBuyerTypeService(ctx);
-		ContextInitService.initSportsFacilityService(ctx);
+		ContextInitService.initSportsFacilityService(ctx);		
+		ContextInitService.initGuesbookService(ctx);	
+		ContextInitService.initCoachService(ctx);	
+		ContextInitService.initTrainingHistoryService(ctx);
+
 	}
 	
 	@GET
@@ -164,6 +173,24 @@ public class BuyerController implements IBuyerController {
 	@Override
 	public boolean delete(@PathParam("id") long id) {
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");	
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+
+
+		if(buyerService.get(id) == null) return false;
+		guestbookService.deleteForBuyer(id);
+		
+		Collection<TrainingHistory> trainingHistory = trainingHistoryService.getAllByBuyer(id);
+		
+		trainingHistory.forEach(th -> {
+			Coach coach = coachService.get(th.getCoachId());
+			coach.getTrainingHistoryIds().remove(th.getId());
+			coachService.update(coach);
+			trainingHistoryService.delete(th.getId());
+		});
+		
+		
 		return buyerService.delete(id);
 	}
 }

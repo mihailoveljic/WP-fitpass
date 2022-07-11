@@ -36,7 +36,7 @@
 		"buyerId": 1,
 		"sportsFacilityId": 2,
 		"comment": "Smorio sam se na treningu, dosadna teretana",
-		"rating": 2,
+		"rating": 3,
 		"approvalStatus": "WAITING_FOR_APPROVAL"
 	},
 	{
@@ -44,7 +44,7 @@
 		"buyerId": 2,
 		"sportsFacilityId": 2,
 		"comment": "Smorio sam se na treningu, dosadna teretana",
-		"rating": 2,
+		"rating": 0.5,
 		"approvalStatus": "WAITING_FOR_APPROVAL"
 	},
 	{
@@ -53,14 +53,14 @@
 		"sportsFacilityId": 2,
 		"comment": "Smorio sam se na treningu, dosadna teretana",
 		"rating": 2,
-		"approvalStatus": "WAITING_FOR_APPROVAL"
+		"approvalStatus": "APPROVED"
 	},
 	{
 		"id": 8,
 		"buyerId": 4,
 		"sportsFacilityId": 2,
 		"comment": "Smorio sam se na treningu, dosadna teretana",
-		"rating": 2,
+		"rating": 1,
 		"approvalStatus": "WAITING_FOR_APPROVAL"
 	}
 ]

@@ -7,7 +7,7 @@ public class GuestbookDTO {
 	private BuyerDTO buyer;
 	private SportsFacilityDTO sportsFacility;
 	private String comment;
-	private int rating;
+	private double rating;
 	private ApprovalStatus approvalStatus;
 	
 	public GuestbookDTO() {}
@@ -36,10 +36,10 @@ public class GuestbookDTO {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 	public ApprovalStatus getApprovalStatus() {

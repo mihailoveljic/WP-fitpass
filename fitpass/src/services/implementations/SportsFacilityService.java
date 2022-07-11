@@ -3,6 +3,7 @@ package services.implementations;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import beans.models.Guestbook;
 import beans.models.SportsFacility;
 import daos.interfaces.IDAO;
 import services.interfaces.ISportsFacilityService;
@@ -50,5 +51,19 @@ private IDAO<SportsFacility> sportsFacilityDAO;
 		}
 		return sportsFacilities;
 	}
+
+	@Override
+	public void updateRating(long sportsFacilityId, Collection<Guestbook> sportsFacilityGuestbooks) {
+		SportsFacility sportsFacility = sportsFacilityDAO.get(String.valueOf(sportsFacilityId));
+		
+		double rating = 0.0;		
+		for(Guestbook g : sportsFacilityGuestbooks) {
+			rating += g.getRating();
+		}
+		rating /= sportsFacilityGuestbooks.size();
+		sportsFacility.setAverageRating(rating);
+		update(sportsFacility);
+	}
+
 
 }

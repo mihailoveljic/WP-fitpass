@@ -57,7 +57,7 @@ public class PromoCodeService implements IPromoCodeService {
 	@Override
 	public boolean isPromoCodeValid(PromoCode promocode) {
 		if(promocode == null) return false;
-		if(checkIfPromoCodeExists(promocode.getMark()) != null) return false;
+		if(checkIfPromoCodeExists(promocode.getMark()) == null) return false;
 		Date currentDate = new Date();
 		if(promocode != null) {
 			if(promocode.getExpirationDate().compareTo(currentDate) > 0) {

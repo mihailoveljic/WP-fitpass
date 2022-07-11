@@ -7,8 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -46,6 +48,23 @@ public class RegisterController implements IRegisterController {
 		ContextInitService.initRegisterService(ctx);
 	}
 
+	@GET
+	@Path("/checkIfUsernameIsUnique/{username}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean checkIfUsernameIsUnique(@Context HttpServletRequest request, @PathParam("username") String username) {
+		//IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
+		
+		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		//ILoginService loginService = (ILoginService)ctx.getAttribute("LoginService");
+		
+		if(IsUsernameTaken(username, buyerService, coachService, managerService, administratorService)) return false;
+		return true;
+	}
+
 	@POST
 	@Path("/registerBuyer")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -59,7 +78,7 @@ public class RegisterController implements IRegisterController {
 		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		ILoginService loginService = (ILoginService)ctx.getAttribute("LoginService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
+		if(IsUsernameTaken(userRegistrationDTO.getUsername(), buyerService, coachService, managerService, administratorService)) return null;
 		
 		Buyer buyer = registerService.registerBuyer(userRegistrationDTO, buyerService);
 		
@@ -91,12 +110,12 @@ public class RegisterController implements IRegisterController {
 	public UserToken registerCoach(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
-		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		//IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
 		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
-		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
-		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		//IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
+		//IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
+//		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
 		
 		Coach coach = registerService.registerCoach(userRegistrationDTO, coachService);
 		
@@ -113,12 +132,12 @@ public class RegisterController implements IRegisterController {
 	public UserToken registerManager(@Context HttpServletRequest request, UserRegistrationDTO userRegistrationDTO) {
 		IRegisterService registerService = (IRegisterService) ctx.getAttribute("RegisterService");
 		
-		IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
-		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		//IBuyerService buyerService = (IBuyerService)ctx.getAttribute("BuyerService");
+		//ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
 		IManagerService managerService = (IManagerService)ctx.getAttribute("ManagerService");
-		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
+		//IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		
-		if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
+		//if(IsUsernameTaken(userRegistrationDTO, buyerService, coachService, managerService, administratorService)) return null;
 		
 		Manager manager = registerService.registerManager(userRegistrationDTO, managerService);
 		if(manager == null) {
@@ -126,13 +145,13 @@ public class RegisterController implements IRegisterController {
 		} else return null;
 	}
 
-	private boolean IsUsernameTaken(UserRegistrationDTO userRegistrationDTO, IBuyerService buyerService,
+	private boolean IsUsernameTaken(String username, IBuyerService buyerService,
 			ICoachService coachService, IManagerService managerService, IAdministratorService administratorService) {
 		
-		if(buyerService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
-		if(coachService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
-		if(managerService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
-		if(administratorService.getByUsername(userRegistrationDTO.getUsername()) != null) return true;
+		if(buyerService.getByUsername(username) != null) return true;
+		if(coachService.getByUsername(username) != null) return true;
+		if(managerService.getByUsername(username) != null) return true;
+		if(administratorService.getByUsername(username) != null) return true;
 		return false;
 	}
 

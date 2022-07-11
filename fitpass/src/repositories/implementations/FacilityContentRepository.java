@@ -31,8 +31,8 @@ private String contextPath;
 		    List<FacilityContent> facilityContents = Arrays.asList(mapper.readValue(
 		    		Paths.get(contextPath + "data\\facility-contents.json").toFile(), FacilityContent[].class));
 		    
-		    for(FacilityContent cotf : facilityContents){
-		    	map.put(String.valueOf(cotf.getId()), cotf);
+		    for(FacilityContent element : facilityContents){
+		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
 		    ex.printStackTrace();

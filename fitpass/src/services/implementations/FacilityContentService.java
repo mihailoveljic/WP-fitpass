@@ -1,6 +1,7 @@
 package services.implementations;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 
 import beans.models.FacilityContent;
@@ -30,6 +31,12 @@ private IDAO<FacilityContent> facilityContentDAO;
 
 	@Override
 	public FacilityContent create(FacilityContent facilityContent) {
+		Collection<FacilityContent> facilityContents = facilityContentDAO.getAll();
+		for(FacilityContent fc : facilityContents) {
+			if(fc.getName().equals(facilityContent.getName())) {
+				return fc;
+			}
+		}
 		return facilityContentDAO.create(facilityContent);
 	}
 
@@ -50,6 +57,17 @@ private IDAO<FacilityContent> facilityContentDAO;
 			facilityContenNames.add(this.get(fci).getName());
 		}
 		return facilityContenNames;
+	}
+
+	@Override
+	public FacilityContent getByName(String name) {
+		Collection<FacilityContent> facilityContents = facilityContentDAO.getAll();
+		for(FacilityContent fc : facilityContents) {
+			if(fc.getName().compareTo(name)==0) {
+				return fc;
+			}
+		}
+		return null;
 	}
 
 

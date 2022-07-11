@@ -1,6 +1,8 @@
 package controllers.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -15,13 +17,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.BuyerDTO;
+import beans.dtos.DateDTO;
+import beans.dtos.UserUpdateDTO;
 import beans.models.Buyer;
-import controllers.interfaces.ICRUDController;
+import beans.models.BuyerType;
+import beans.models.Coach;
+import beans.models.TrainingHistory;
+import controllers.interfaces.IBuyerController;
 import services.implementations.ContextInitService;
 import services.interfaces.IBuyerService;
+import services.interfaces.ICRUDService;
+import services.interfaces.ICoachService;
+import services.interfaces.IGuestbookService;
+import services.interfaces.ISportsFacilityService;
+import services.interfaces.ITrainingHistoryService;
 
 @Path("/buyers")
-public class BuyerController implements ICRUDController<Buyer, Buyer> {
+public class BuyerController implements IBuyerController {
 
 
 	@Context
@@ -32,15 +45,81 @@ public class BuyerController implements ICRUDController<Buyer, Buyer> {
 	@PostConstruct
 	public void init() {
 		ContextInitService.initBuyerService(ctx);
+		ContextInitService.initBuyerTypeService(ctx);
+		ContextInitService.initSportsFacilityService(ctx);		
+		ContextInitService.initGuesbookService(ctx);	
+		ContextInitService.initCoachService(ctx);	
+		ContextInitService.initTrainingHistoryService(ctx);
+
 	}
 	
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Collection<Buyer> getAll(){
+	public Collection<BuyerDTO> getAll(){
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
-		return buyerService.getAll();
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		ICRUDService<BuyerType> buyerTypesService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		Collection<Buyer> buyers = buyerService.getAll();
+		Collection<BuyerDTO> buyersDTOs = new ArrayList<BuyerDTO>();
+		
+		for(Buyer b : buyers) {
+			BuyerDTO buyerDTO = new BuyerDTO();
+			buyerDTO.setId(b.getId());
+			buyerDTO.setUsername(b.getUsername());
+			buyerDTO.setPassword(b.getPassword());
+			buyerDTO.setName(b.getName());
+			buyerDTO.setSurname(b.getSurname());
+			buyerDTO.setGender(b.getGender());
+			try {
+				buyerDTO.setDateOfBirth(new DateDTO(
+						b.getDateOfBirth().getYear() - 1900,
+						b.getDateOfBirth().getMonth() + 1,
+						b.getDateOfBirth().getDate()));
+			} catch (Exception e) {return null;}
+			buyerDTO.setRole(b.getRole());
+			buyerDTO.setMembership(null);
+			buyerDTO.setVisitedSportsFacilities(sportsFacilityService.getByIds(b.getVisitedSportsFacilitiesIds()));
+			buyerDTO.setNumberOfCollectedPoints(b.getNumberOfCollectedPoints());
+			buyerDTO.setBuyerType(buyerTypesService.get(b.getBuyerTypeId()));
+			buyersDTOs.add(buyerDTO);
+		}
+		return buyersDTOs;
+	}
+	
+	@GET
+	@Path("/getBuyersWhoVisitedCertainSportFacility/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<BuyerDTO> getBuyersWhoVisitedCertainSportFacility(@PathParam("id") long id) {
+		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		ICRUDService<BuyerType> buyerTypesService = (ICRUDService<BuyerType>) ctx.getAttribute("BuyerTypeService");
+		Collection<Buyer> buyers = buyerService.getBuyersWhoVisitedCertainSportFacility(id);
+		Collection<BuyerDTO> buyersDTOs = new ArrayList<BuyerDTO>();
+		
+		for(Buyer b : buyers) {
+			BuyerDTO buyerDTO = new BuyerDTO();
+			buyerDTO.setId(b.getId());
+			buyerDTO.setUsername(b.getUsername());
+			buyerDTO.setPassword(b.getPassword());
+			buyerDTO.setName(b.getName());
+			buyerDTO.setSurname(b.getSurname());
+			buyerDTO.setGender(b.getGender());
+			try {
+				buyerDTO.setDateOfBirth(new DateDTO(
+						b.getDateOfBirth().getYear() - 1900,
+						b.getDateOfBirth().getMonth() + 1,
+						b.getDateOfBirth().getDate()));
+			} catch (Exception e) {return null;}
+			buyerDTO.setRole(b.getRole());
+			buyerDTO.setMembership(null);
+			buyerDTO.setVisitedSportsFacilities(sportsFacilityService.getByIds(b.getVisitedSportsFacilitiesIds()));
+			buyerDTO.setNumberOfCollectedPoints(b.getNumberOfCollectedPoints());
+			buyerDTO.setBuyerType(buyerTypesService.get(b.getBuyerTypeId()));
+			buyersDTOs.add(buyerDTO);
+		}
+		return buyersDTOs;
 	}
 	
 	@GET
@@ -67,8 +146,24 @@ public class BuyerController implements ICRUDController<Buyer, Buyer> {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public boolean update(Buyer buyer) {
+	public boolean update(UserUpdateDTO userUpdateDTO) {
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		Buyer buyer = buyerService.get(userUpdateDTO.getId());
+		if(!userUpdateDTO.getOldPassword().equals(buyer.getPassword())) return false;
+		
+		if(userUpdateDTO.isChangePassword()) {
+			buyer.setPassword(userUpdateDTO.getNewPassword());
+		}
+		buyer.setName(userUpdateDTO.getName());
+		buyer.setSurname(userUpdateDTO.getSurname());
+		buyer.setGender(userUpdateDTO.getGender());
+		try {
+			buyer.setDateOfBirth(new Date(
+					userUpdateDTO.getDateOfBirth().getYear(),
+					userUpdateDTO.getDateOfBirth().getMonth(),
+					userUpdateDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return false;}
+		
 		return buyerService.update(buyer);
 	}
 	
@@ -78,6 +173,24 @@ public class BuyerController implements ICRUDController<Buyer, Buyer> {
 	@Override
 	public boolean delete(@PathParam("id") long id) {
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		IGuestbookService guestbookService = (IGuestbookService) ctx.getAttribute("GuestbookService");	
+		ITrainingHistoryService trainingHistoryService = (ITrainingHistoryService) ctx.getAttribute("TrainingHistoryService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+
+
+		if(buyerService.get(id) == null) return false;
+		guestbookService.deleteForBuyer(id);
+		
+		Collection<TrainingHistory> trainingHistory = trainingHistoryService.getAllByBuyer(id);
+		
+		trainingHistory.forEach(th -> {
+			Coach coach = coachService.get(th.getCoachId());
+			coach.getTrainingHistoryIds().remove(th.getId());
+			coachService.update(coach);
+			trainingHistoryService.delete(th.getId());
+		});
+		
+		
 		return buyerService.delete(id);
 	}
 }

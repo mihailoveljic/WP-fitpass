@@ -1,0 +1,29 @@
+[
+	{
+		"id" : 1,
+		"name" : "Classic",
+		"numberOfDailyTrainings" : 20,
+		"image" : "mesecnaClanarina.jpg",
+		"durationInDays" : "30",
+		"price" : "2000",
+		"isDeleted" : false
+	},
+	{
+		"id" : 2,
+		"name" : "Vip",
+		"numberOfDailyTrainings" : 150,
+		"image" : "polugodisnjaClanarina.jpg",
+		"durationInDays" : "180",
+		"price" : "10000",
+		"isDeleted" : false
+	},
+	{
+		"id" : 3,
+		"name" : "Premium",
+		"numberOfDailyTrainings" : 300,
+		"image" : "godisnjaClanarina.jpg",
+		"durationInDays" : "360",
+		"price" : "20000",
+		"isDeleted" : false
+	}
+]

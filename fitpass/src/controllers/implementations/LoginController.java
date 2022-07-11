@@ -14,14 +14,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.models.Administrator;
 import beans.models.Buyer;
+import beans.models.Coach;
+import beans.models.Manager;
 import beans.models.User;
 import beans.dtos.UserLoginDTO;
 import beans.dtos.UserToken;
 import controllers.interfaces.ILoginController;
 import services.implementations.ContextInitService;
+import services.interfaces.IAdministratorService;
 import services.interfaces.IBuyerService;
+import services.interfaces.ICoachService;
 import services.interfaces.ILoginService;
+import services.interfaces.IManagerService;
 
 @Path("/LoginController")
 public class LoginController implements ILoginController {
@@ -34,6 +40,9 @@ public class LoginController implements ILoginController {
 	@PostConstruct
 	public void init() {
 		ContextInitService.initBuyerService(ctx);
+		ContextInitService.initCoachService(ctx);
+		ContextInitService.initManagerService(ctx);
+		ContextInitService.initAdministratorService(ctx);
 		ContextInitService.initLoginService(ctx);
 	}
 	
@@ -55,15 +64,31 @@ public class LoginController implements ILoginController {
 	public UserToken login(@Context HttpServletRequest request, UserLoginDTO userLoginDTO) {
 		UserToken retVal = null;
 		IBuyerService buyerService = (IBuyerService) ctx.getAttribute("BuyerService");
+		ICoachService coachService = (ICoachService) ctx.getAttribute("CoachService");
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		IAdministratorService administratorService = (IAdministratorService) ctx.getAttribute("AdministratorService");
 		ILoginService loginService = (ILoginService) ctx.getAttribute("LoginService");
 		retVal = (UserToken)request.getSession().getAttribute("userToken");
 		if (retVal == null) {
 			Collection<Buyer> buyers = buyerService.getAll();
+			Collection<Coach> coaches = coachService.getAll();
+			Collection<Manager> managers = managerService.getAll();
+			Collection<Administrator> administrators = administratorService.getAll();
 			Collection<User> users = new ArrayList<User>();
 			for(Buyer b: buyers) {
 				users.add(b);
 			}
+			for(Coach c: coaches) {
+				users.add(c);
+			}
+			for(Manager m: managers) {
+				users.add(m);
+			}
+			for(Administrator a: administrators) {
+				users.add(a);
+			}
 			User user = loginService.login(userLoginDTO, users);
+			if(user == null) return null;
 			UserToken userToken = new UserToken();
 			userToken.setId(user.getId());
 			userToken.setUsername(user.getUsername());

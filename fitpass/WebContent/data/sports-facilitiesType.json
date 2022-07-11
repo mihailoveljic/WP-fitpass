@@ -1,18 +1,22 @@
 [
     {
         "id": 1,
-        "name": "Gym"
+        "name": "Gym",
+        "isDeleted" : false
     },
     {
         "id": 2,
-        "name": "Sport facility"
+        "name": "Sport facility",
+        "isDeleted" : false
     },
     {
         "id": 3,
-        "name": "Spa centar"
+        "name": "Spa centar",
+        "isDeleted" : false
     },
     {
         "id": 4,
-        "name": "Pool"
+        "name": "Pool",
+        "isDeleted" : false
     }
 ]

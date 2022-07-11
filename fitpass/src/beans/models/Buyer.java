@@ -11,12 +11,12 @@ public class Buyer extends User implements Serializable {
 	
 	private long membershipId;
 	private ArrayList<Long> visitedSportsFacilitiesIds;
-	private int numberOfCollectedPoints;
+	private double numberOfCollectedPoints;
 	private long buyerTypeId;
 	
 	public Buyer() {}
 
-	public Buyer(long membershipId, ArrayList<Long> visitedSportsFacilitiesIds, int numberOfCollectedPoints,
+	public Buyer(long membershipId, ArrayList<Long> visitedSportsFacilitiesIds, double numberOfCollectedPoints,
 			long buyerTypeId) {
 		super();
 		this.membershipId = membershipId;
@@ -41,11 +41,11 @@ public class Buyer extends User implements Serializable {
 		this.visitedSportsFacilitiesIds = visitedSportsFacilitiesIds;
 	}
 
-	public int getNumberOfCollectedPoints() {
+	public double getNumberOfCollectedPoints() {
 		return numberOfCollectedPoints;
 	}
 
-	public void setNumberOfCollectedPoints(int numberOfCollectedPoints) {
+	public void setNumberOfCollectedPoints(double numberOfCollectedPoints) {
 		this.numberOfCollectedPoints = numberOfCollectedPoints;
 	}
 

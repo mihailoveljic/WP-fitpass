@@ -1,6 +1,7 @@
 package controllers.implementations;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -15,13 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import beans.dtos.ManagerFacilityUpdateDTO;
+import beans.dtos.UserUpdateDTO;
 import beans.models.Manager;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.IManagerService;
 
 @Path("/managers")
-public class ManagerController implements ICRUDController<Manager, Manager> {
+public class ManagerController{
 
 
 	@Context
@@ -38,16 +40,22 @@ public class ManagerController implements ICRUDController<Manager, Manager> {
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<Manager> getAll(){
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.getAll();
 	}
 	
 	@GET
+	@Path("/free")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Manager> getFree(){
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		return managerService.getFree();
+	}
+	
+	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Manager get(@PathParam("id") long id) {
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.get(id);
@@ -57,7 +65,6 @@ public class ManagerController implements ICRUDController<Manager, Manager> {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Manager create(Manager manager) {
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
 		return managerService.create(manager);
@@ -67,18 +74,45 @@ public class ManagerController implements ICRUDController<Manager, Manager> {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public boolean update(Manager manager) {
+	public boolean update(UserUpdateDTO userUpdateDTO) {
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		Manager manager = managerService.get(userUpdateDTO.getId());
+		if(!userUpdateDTO.getOldPassword().equals(manager.getPassword())) return false;
+		
+		if(userUpdateDTO.isChangePassword()) {
+			manager.setPassword(userUpdateDTO.getNewPassword());
+		}
+		manager.setName(userUpdateDTO.getName());
+		manager.setSurname(userUpdateDTO.getSurname());
+		manager.setGender(userUpdateDTO.getGender());
+		try {
+			manager.setDateOfBirth(new Date(
+					userUpdateDTO.getDateOfBirth().getYear(),
+					userUpdateDTO.getDateOfBirth().getMonth(),
+					userUpdateDTO.getDateOfBirth().getDay()));
+		} catch (Exception e) {return false;}
+		
+		return managerService.update(manager);
+	}
+	@PUT
+	@Path("/updateFacility")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateFacility(ManagerFacilityUpdateDTO newManager) {
+		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		Manager manager = managerService.get(newManager.getManagerId());
+		
+		manager.setSportsFacilityId(newManager.getFacilityId());
+
 		return managerService.update(manager);
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean delete(@PathParam("id") long id) {
 		IManagerService managerService = (IManagerService) ctx.getAttribute("ManagerService");
+		if(managerService.get(id).getSportsFacilityId() != -1) return false;
 		return managerService.delete(id);
 	}
 }

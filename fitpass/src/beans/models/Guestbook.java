@@ -2,6 +2,8 @@ package beans.models;
 
 import java.io.Serializable;
 
+import beans.enums.ApprovalStatus;
+
 public class Guestbook implements Serializable {
 	/**
 	 * 
@@ -12,16 +14,28 @@ public class Guestbook implements Serializable {
 	private long sportsFacilityId;
 	private String comment;
 	private int rating;
+	private ApprovalStatus approvalStatus;
+	private boolean isDeleted;
 	
 	public Guestbook() {}
 
-	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating) {
+	public Guestbook(long id, long buyerId, long sportsFacilityId, String comment, int rating, ApprovalStatus approvalStatus, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.buyerId = buyerId;
 		this.sportsFacilityId = sportsFacilityId;
 		this.comment = comment;
 		this.rating = rating;
+		this.approvalStatus = approvalStatus;
+		this.isDeleted = isDeleted;
+	}
+
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -63,6 +77,16 @@ public class Guestbook implements Serializable {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	public ApprovalStatus getApprovalStatus() {
+		return approvalStatus;
+	}
+
+	public void setApprovalStatus(ApprovalStatus approvalStatus) {
+		this.approvalStatus = approvalStatus;
+	}
+
+	
 
 	
 }

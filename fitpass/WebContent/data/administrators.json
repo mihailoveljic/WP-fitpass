@@ -1,0 +1,13 @@
+[
+	{
+		"id": 1,
+		"username": "minja",
+		"password": "minja",
+		"name": "Milan",
+		"surname": "Vidakovic",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "ADMINISTRATOR",
+		"isDeleted" : false
+	}
+]

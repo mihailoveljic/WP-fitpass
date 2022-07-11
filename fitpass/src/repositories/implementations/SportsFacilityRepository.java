@@ -29,8 +29,8 @@ private String contextPath;
 		try {
 		    ObjectMapper mapper = new ObjectMapper();
 		    List<SportsFacility> sportsFacilities = Arrays.asList(mapper.readValue(Paths.get(contextPath + "data\\sports-facilities.json").toFile(), SportsFacility[].class));
-		    for(SportsFacility sf : sportsFacilities){
-		    	map.put(String.valueOf(sf.getId()), sf);
+		    for(SportsFacility element : sportsFacilities){
+		    	map.put(String.valueOf(element.getId()), element);
 		    }
 		} catch (Exception ex) {
 		    ex.printStackTrace();

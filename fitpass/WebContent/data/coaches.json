@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"username": "velja",
+		"password": "velja",
+		"name": "Mihailo",
+		"surname": "Veljic",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistoryIds": [1, 2],
+		"isDeleted" : false
+	},
+	{
+		"id": 2,
+		"username": "nidza",
+		"password": "nidza",
+		"name": "Nikola",
+		"surname": "Arsenijevic",
+		"gender": "FEMALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistoryIds": [3],
+		"isDeleted" : false
+	},
+	{
+		"id": 3,
+		"username": "mirke",
+		"password": "mirke",
+		"name": "Miroljub",
+		"surname": "Savic",
+		"gender": "FEMALE",
+		"dateOfBirth": 60908454000000,
+		"role": "TRENER",
+		"trainingHistoryIds": [],
+		"isDeleted" : false
+	}
+]

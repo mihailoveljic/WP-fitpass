@@ -1,0 +1,38 @@
+[
+	{
+		"id": 1,
+		"username": "holja",
+		"password": "holja",
+		"name": "Nikola",
+		"surname": "Holjevac",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": 1,
+		"isDeleted" : false
+	},
+	{
+		"id": 2,
+		"username": "pera",
+		"password": "pera",
+		"name": "Petar",
+		"surname": "Ratkov",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": -1,
+		"isDeleted" : false
+	},
+	{
+		"id": 3,
+		"username": "steva",
+		"password": "steva",
+		"name": "Stevan",
+		"surname": "Markovic",
+		"gender": "MALE",
+		"dateOfBirth": 60908454000000,
+		"role": "MENADZER",
+		"sportsFacilityId": -1,
+		"isDeleted" : false
+	}
+]

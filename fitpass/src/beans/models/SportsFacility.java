@@ -18,12 +18,13 @@ public class SportsFacility implements Serializable {
 	private String image;
 	private double averageRating;
 	private WorkingHours workingHours;
+	private boolean isDeleted;
 	
 	public SportsFacility() {}
 
 	public SportsFacility(long id ,String name, long sportsFacilityTypeId, ArrayList<Long> facilityContentIds,
 			boolean openStatus, Location location, String image, double averageRating,
-			WorkingHours workingHours) {
+			WorkingHours workingHours, boolean isDeleted) {
 		super();
 		this.name = name;
 		this.sportsFacilityTypeId = sportsFacilityTypeId;
@@ -34,6 +35,7 @@ public class SportsFacility implements Serializable {
 		this.averageRating = averageRating;
 		this.workingHours = workingHours;
 		this.id = id;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -112,5 +114,10 @@ public class SportsFacility implements Serializable {
 	public void setWorkingHours(WorkingHours workingHours) {
 		this.workingHours = workingHours;
 	}
-	
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

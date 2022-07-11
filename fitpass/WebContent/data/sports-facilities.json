@@ -7,7 +7,7 @@
             1,
             2
         ],
-        "openStatus": true,
+        "openStatus": false,
         "location": {
             "latitude": 45.2483289,
             "longitude": 19.8444608,
@@ -20,11 +20,12 @@
             }
         },
         "image": "teretana1.jpg",
-        "averageRating": 4.6,
+        "averageRating": 3.9,
         "workingHours": {
-            "fromThe": "08:00",
-            "toThe": "21:00"
-        }
+            "fromThe": "07:30",
+            "toThe": "20:30"
+        },
+        "isDeleted" : false
     },
     {
         "id": 2,
@@ -51,7 +52,8 @@
         "workingHours": {
             "fromThe": "09:00",
             "toThe": "21:00"
-        }
+        },
+        "isDeleted" : false
     },
     {
         "id": 3,
@@ -79,6 +81,7 @@
         "workingHours": {
             "fromThe": "20:00",
             "toThe": "22:00"
-        }
+        },
+        "isDeleted" : false
     }
 ]

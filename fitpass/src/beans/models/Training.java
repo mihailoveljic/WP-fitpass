@@ -16,21 +16,10 @@ public class Training implements Serializable {
 	private long coachId;
 	private String description;
 	private String image;
-	
+	private double additionalPrice;
+	private boolean isDeleted;
+  
 	public Training() {}
-
-	public Training(long id, String name, long trainingTypeId, long sportsFacilityId, int duration, long coachId, String image,
-			String description) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.trainingTypeId = trainingTypeId;
-		this.sportsFacilityId = sportsFacilityId;
-		this.duration = duration;
-		this.coachId = coachId;
-		this.description = description;
-		this.image = image;
-	}
 
 	public long getId() {
 		return id;
@@ -95,6 +84,19 @@ public class Training implements Serializable {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
+	public double getAdditionalPrice() {
+		return additionalPrice;
+	}
+
+	public void setAdditionalPrice(double additionalPrice) {
+		this.additionalPrice = additionalPrice;
+	}
 	
 }

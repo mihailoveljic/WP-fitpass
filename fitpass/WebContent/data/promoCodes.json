@@ -1,0 +1,10 @@
+[
+	{
+		"id" : 1,
+		"mark" : "velja",
+		"expirationDate" : 1665352800000,
+		"howManyTimeCanBeUsed" : 10,
+		"discount" : 10,
+		"isDeleted" : false
+	}
+]

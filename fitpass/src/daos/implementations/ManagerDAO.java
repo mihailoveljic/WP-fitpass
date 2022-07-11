@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,19 @@ public class ManagerDAO implements IDAO<Manager> {
 
 	@Override
 	public Collection<Manager> getAll() {
-		return managers.values();
+		Collection<Manager> retVal = new ArrayList<Manager>(managers.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public Manager get(String id) {
-		return managers.containsKey(id) ? managers.get(id) : null;
+		if(managers.containsKey(id)) {
+			if(managers.get(id).getIsDeleted() == false){
+				return managers.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override
@@ -57,7 +65,8 @@ public class ManagerDAO implements IDAO<Manager> {
 
 	@Override
 	public boolean delete(String id) {
-		if(managers.remove(id) != null) {
+		if(managers.containsKey(id)) {
+			managers.get(id).setIsDeleted(true);
 			managerRepository.save(managers);
 			return true;
 		}

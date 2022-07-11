@@ -19,11 +19,12 @@ public abstract class User implements Serializable {
 	private Gender gender;
 	private Date dateOfBirth; 
 	private Role role;
+	private boolean isDeleted;
 	
 	public User() {}
 
 	public User(long id, String korisnickoIme, String password, String name, String surname, Gender gender, Date dateOfBirth,
-			Role role) {
+			Role role, boolean isDeleted) {
 		super();
 		this.id = id;
 		this.username = korisnickoIme;
@@ -33,6 +34,7 @@ public abstract class User implements Serializable {
 		this.gender = gender;
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
+		this.isDeleted = isDeleted;
 	}
 
 	public long getId() {
@@ -98,6 +100,10 @@ public abstract class User implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
+	public boolean getIsDeleted() {
+		return isDeleted;
+	}
+	public void setIsDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

@@ -1,5 +1,6 @@
 package services.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import beans.models.SportsFacility;
@@ -41,4 +42,13 @@ private IDAO<SportsFacility> sportsFacilityDAO;
 	public boolean delete(long id) {
 		return sportsFacilityDAO.delete(String.valueOf(id));
 	}
+	@Override
+	public ArrayList<SportsFacility> getByIds(ArrayList<Long> sportsFacilityIds) {
+		ArrayList<SportsFacility> sportsFacilities = new ArrayList<SportsFacility>();
+		for(long sfi : sportsFacilityIds) {
+			sportsFacilities.add(this.get(sfi));
+		}
+		return sportsFacilities;
+	}
+
 }

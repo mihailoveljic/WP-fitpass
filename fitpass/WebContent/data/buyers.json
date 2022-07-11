@@ -1,17 +1,18 @@
 [
     {
         "id": 1,
-        "username": "velja",
-        "password": "velja",
-        "name": "Mihailo",
-        "surname": "Veljic",
-        "gender": "MALE",
+        "username": "milena",
+        "password": "milena",
+        "name": "Milena",
+        "surname": "Jelic",
+        "gender": "FEMALE",
         "dateOfBirth": 60908454000000,
         "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [],
-        "numberOfCollectedPoints": 0,
-        "buyerTypeId": 1
+        "visitedSportsFacilitiesIds": [1, 2],
+        "numberOfCollectedPoints": 90,
+        "buyerTypeId": 3,
+        "isDeleted" : false
     },
     {
         "id": 2,
@@ -22,9 +23,55 @@
         "gender": "MALE",
         "dateOfBirth": 60920373600000,
         "role": "KUPAC",
+        "membershipId": 1,
+        "visitedSportsFacilitiesIds": [1],
+        "numberOfCollectedPoints": 995,
+        "buyerTypeId": 2,
+        "isDeleted" : false
+    },
+    {
+        "id": 3,
+        "username": "dragan",
+        "password": "dragan",
+        "name": "Dragan",
+        "surname": "Martinovic",
+        "gender": "MALE",
+        "dateOfBirth": 60920373600000,
+        "role": "KUPAC",
         "membershipId": -1,
-        "visitedSportsFacilitiesIds": [],
-        "numberOfCollectedPoints": 0,
-        "buyerTypeId": 1
+        "visitedSportsFacilitiesIds": [1, 2],
+        "numberOfCollectedPoints": 5,
+        "buyerTypeId": 1,
+        "isDeleted" : false
+    },
+    {
+        "id": 4,
+        "username": "dalibor",
+        "password": "dalibor",
+        "name": "Dalibor",
+        "surname": "Jovanovic",
+        "gender": "MALE",
+        "dateOfBirth": 60920373600000,
+        "role": "KUPAC",
+        "membershipId": -1,
+        "visitedSportsFacilitiesIds": [1, 2],
+        "numberOfCollectedPoints": 5,
+        "buyerTypeId": 1,
+        "isDeleted" : false
+    },
+    {
+        "id": 5,
+        "username": "miki",
+        "password": "miki",
+        "name": "Miroslav",
+        "surname": "Dragoljevic",
+        "gender": "MALE",
+        "dateOfBirth": 60920373600000,
+        "role": "KUPAC",
+        "membershipId": -1,
+        "visitedSportsFacilitiesIds": [1],
+        "numberOfCollectedPoints": 5,
+        "buyerTypeId": 1,
+        "isDeleted" : false
     }
 ]

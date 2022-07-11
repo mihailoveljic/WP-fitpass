@@ -1,5 +1,12 @@
 package controllers.implementations;
 
+import java.io.File;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -8,26 +15,32 @@ import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import beans.dtos.SportsFacilityDTO;
+import beans.models.FacilityContent;
 import beans.models.SportsFacility;
 import beans.models.SportsFacilityType;
-import controllers.interfaces.ICRUDController;
 import services.implementations.ContextInitService;
 import services.interfaces.ICRUDService;
 import services.interfaces.IFacilityContentService;
 import services.interfaces.ISportsFacilityService;
 
 @Path("/SportsFacilityController")
-public class SportsFacilityController implements ICRUDController<SportsFacility, SportsFacilityDTO> {
+public class SportsFacilityController {
 
+	public static int MAX_SIZE_IN_MB = 5;
+	 
 	@Context
 	ServletContext ctx;
 	
@@ -45,7 +58,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@GET
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public Collection<SportsFacilityDTO> getAll(){
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
@@ -74,7 +86,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public SportsFacilityDTO get(@PathParam("id") long id) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService)ctx.getAttribute("SportsFacilityService");
 		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
@@ -102,7 +113,6 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public SportsFacilityDTO create(SportsFacility sportsFacility) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		ICRUDService<SportsFacilityType> sportsFacilityTypeService = (ICRUDService<SportsFacilityType>)ctx.getAttribute("SportsFacilityTypeService");
@@ -125,10 +135,26 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	}
 	
 	@PUT
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean updateContentForCertainSportsFacility(@PathParam("id") long id, FacilityContent facilityContent) {
+		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
+		SportsFacility sportFacility = sportsFacilityService.get(id);
+		ArrayList<Long> sportFacilityContentsIds = new ArrayList<Long>();
+		for(long id1 : sportFacility.getFacilityContentIds()) {
+			sportFacilityContentsIds.add(id1);
+		}
+		if(sportFacilityContentsIds.contains(facilityContent.getId())) return true;
+		sportFacilityContentsIds.add(facilityContent.getId());
+		sportFacility.setFacilityContentIds(sportFacilityContentsIds);
+		return sportsFacilityService.update(sportFacility);
+	}
+	
+	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean update(SportsFacility sportsFacility) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.update(sportsFacility);
@@ -137,11 +163,40 @@ public class SportsFacilityController implements ICRUDController<SportsFacility,
 	@DELETE
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Override
 	public boolean delete(@PathParam("id") long id) {
 		ISportsFacilityService sportsFacilityService = (ISportsFacilityService) ctx.getAttribute("SportsFacilityService");
 		return sportsFacilityService.delete(id);
 	}
 	
+ 	@POST
+	@Path("/uploadImage")
+    @Consumes({"image/jpeg", "image/png"})
+    public Response uploadImage(InputStream in, @HeaderParam("Content-Type") String fileType, @HeaderParam("Content-Length") long fileSize) throws IOException {
+        
+        // Make sure the file is not larger than the maximum allowed size.
+        if (fileSize > 1024 * 1024 * MAX_SIZE_IN_MB) {
+            throw new WebApplicationException(Response.status(Status.BAD_REQUEST).entity("Image is larger than " + MAX_SIZE_IN_MB + "MB").build());
+        }
+        
+        // Generate a random file name based on the current time.
+        // This probably isn't 100% safe but works fine for this example.
+        String fileName = "" + System.currentTimeMillis();
+
+        if (fileType.equals("image/jpeg")) {
+            fileName += ".jpg";
+        } else {
+            fileName += ".png";
+        }
+        
+        File f = new File(ctx.getRealPath("data\\img\\sports-facilities\\" + fileName));
+        System.out.println(f.getAbsolutePath());
+
+        // Copy the file to its location.
+        Files.copy(in, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        in.close();
+        
+        // Return a 201 Created response with the appropriate Location header.
+        return Response.status(Status.CREATED).location(URI.create("/" + fileName)).build();
+    }
 
 }

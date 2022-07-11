@@ -1,5 +1,6 @@
 package daos.implementations;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,19 @@ public class FacilityContentDAO implements IDAO<FacilityContent>{
 
 	@Override
 	public Collection<FacilityContent> getAll() {
-		return facilityContents.values();
+		Collection<FacilityContent> retVal = new ArrayList<FacilityContent>(facilityContents.values());
+		retVal.removeIf(x -> (x.getIsDeleted()));
+		return retVal;
 	}
 
 	@Override
 	public FacilityContent get(String id) {
-		return facilityContents.containsKey(id) ? facilityContents.get(id) : null;
+		if(facilityContents.containsKey(id)) {
+			if(facilityContents.get(id).getIsDeleted() == false){
+				return facilityContents.get(id);
+			}
+		}
+		return null;	
 	}
 
 	@Override
@@ -57,7 +65,8 @@ public class FacilityContentDAO implements IDAO<FacilityContent>{
 
 	@Override
 	public boolean delete(String id) {
-		if(facilityContents.remove(id) != null) {
+		if(facilityContents.containsKey(id)) {
+			facilityContents.get(id).setIsDeleted(true);
 			facilityContentRepository.save(facilityContents);
 			return true;
 		}
